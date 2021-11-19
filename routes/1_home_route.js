@@ -4,7 +4,8 @@ var router = express.Router();
 /**
  * GET Router für Homepage 
  */
-router.get('/', function(req, res, next) {
+router.get('/', function(req, res, next) 
+{
   res.render('1_home', { title: 'Homepage' });
 });
 
