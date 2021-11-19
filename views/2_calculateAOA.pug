@@ -1,5 +1,6 @@
 extends 0_layout
 block content
+
   //- HEADING
   br
   h3.text-center Landuse classification
@@ -17,10 +18,7 @@ block content
           button#dropdownMenuButton1.btn.btn-outline-success.dropdown-toggle(type='button' data-bs-toggle='dropdown' aria-expanded='false' style='background-color:black;')
             | Tour w&auml;hlen
           ul.dropdown-menu(aria-labelledby='dropdownMenuButton1')
-            each tour in tours
-              a.dropdown-item(href='/tour/' + tour._id)
-                li= tour.features[0].properties.Name
-
+           
       //- ÖPNV TEXT AREA //
       #textfeld
         p.text-left Umweltbewusst unterwegs?
@@ -39,7 +37,6 @@ block content
 
   block scripts
   //- JAVASCIPTS
-  script(src='/javascripts/1_tour.js', defer)
-  script(src='/javascripts/openWeatherAPIKey.js', defer)
-  script(src='/javascripts/1_4_oepnv.js', defer)
+  script(src='/javascripts/2_calculateAOA.js', defer)
+
 

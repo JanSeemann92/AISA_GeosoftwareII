@@ -21,45 +21,59 @@ head
 //- HEADER
 header
     //- NAVIGATION BAR
-    nav.navbar.navbar-expand-lg.navbar-light(style='background-color: black;')
+    nav.navbar.navbar-expand-lg.navbar-dark(style='background-color: black;')
         .container-fluid
-        a.navbar-brand
-            img(src='/stylesheets/Logo.jpg' width='48' height='36')
-        button.navbar-toggler(type='button' data-bs-toggle='collapse' data-bs-target='#navbarSupportedContent' aria-controls='navbarSupportedContent' aria-expanded='false' aria-label='Toggle navigation')
-            span.navbar-toggler-icon
-        #navbarSupportedContent.collapse.navbar-collapse
-            ul.navbar-nav.me-auto.mb-2.mb-lg-0
-            li.nav-item
-                a.nav-link.active(aria-current='page' style='color: rgb(69, 167, 212);' href='/home') Home
-            li.nav-item
-                a.nav-link(style='color: rgb(69, 167, 212);' href='/calculateAOA') Calculate AOA
-            li.nav-item
-                a.nav-link(style='color: rgb(69, 167, 212);' href='/demo') Demo
-            li.nav-item
-                a.nav-link(style='color: rgb(69, 167, 212);' href='/download') Download
-            li.nav-item
-                a.nav-link(style='color: rgb(69, 167, 212);' href='/imprint') Imprint
+            a.navbar-brand
+                img(src='/stylesheets/Logo.jpg' width='70' height='30')
+            button.navbar-toggler.ms-auto(type='button' data-bs-toggle='collapse' data-bs-target='#navbarSupportedContent' aria-controls='navbarSupportedContent' aria-expanded='false' aria-label='Toggle navigation')
+                span.navbar-toggler-icon
+            #navbarSupportedContent.collapse.navbar-collapse
+                ul.navbar-nav.me-auto.mb-2.mb-lg-0.w-100.order-1
+                    li.nav-item
+                        a.nav-link.active(aria-current='page' style='color: rgb(69, 167, 212);' href='/home') Home
+                    li.nav-item
+                        a.nav-link(style='color: rgb(69, 167, 212);' href='/AOA') Calculate AOA
+                    li.nav-item
+                        a.nav-link(style='color: rgb(69, 167, 212);' href='/demo') Demo
+                    li.nav-item
+                        a.nav-link(style='color: rgb(69, 167, 212);' href='/download') Download
+                    li.nav-item
+                        a.nav-link(style='color: rgb(69, 167, 212);' href='/imprint') About
 
-    //- MAIN PART
-    main
-        block content 
 
-    //- FOOTER    
-    footer.bg-light.text-center.text-lg-start
+//- MAIN PART
+main
+    block content 
+
+//- FOOTER    
+footer.bg-light.text-center.text-lg-start
     .container.p-4
         .row
-        .col-lg-6.col-md-12.mb-4.mb-md-0
-            h5.text-uppercase IMPRINT 
-            p
-            | aisa 
-            br
-            |  Liliana Gitschel, Jan Seeman, Niklas Daute, Katharina Kaufmann &amp; Antonia Jost 
-            br
-            |  Studierende der WWU M&uuml;nster im B.Sc. Geoinformatik &amp; B.Sc. Geographie 
-            br
-            |  Heisenbergstr. 2, 48149 M&uuml;nster 
-            br
-            |  Deutschland
+            .col-lg-6.col-md-12.mb-4.mb-md-0
+                h5.text-uppercase IMPRINT 
+                p
+                    | aisa 
+                    br
+                    |  Studierende der WWU M&uuml;nster
+                    br
+                    | B.Sc. Geoinformatik & B.Sc. Geographie
+                    br
+                    |  Heisenbergstr. 2, 48149 M&uuml;nster 
+                    br
+                    |  Deutschland
+            .col-lg-6.col-md-12.mb-4.mb-md-0
+                h5.text-uppercase
+                br
+                p
+                    |  Liliana Gitschel
+                    br
+                    |  Jan Seemann
+                    br
+                    | Niklas Daute
+                    br
+                    | Katharina Kaufmann
+                    br
+                    | Antonia Anna Jost
     .text-center.p-3(style='background-color: rgb(0, 0, 0); color: rgb(69, 167, 212);') &copy; 2021 Copyright: aisa 
     
     block scripts

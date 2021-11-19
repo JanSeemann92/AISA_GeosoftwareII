@@ -6,16 +6,25 @@ block content
     .image-container.fade1
       img(src='/stylesheets/Background.jpg' width='80' height='80')
       p(style='margin:10px;')
+        a
+        | Background picture:
         | &copy;
-        a.link-sucess(href='https://commons.wikimedia.org/w/index.php?curid=35094633')
-          | Microsoft PowerPoint als Quelle nennen
+        a
+          | Microsoft PowerPoint 
+        br
+        a
+        | Satellite:
+        | &copy;
+        a.link-sucess(href='https://upload.wikimedia.org/wikipedia/commons/3/3d/Sentinel_2-IMG_5873-white_%28crop%29.jpg')
+          | Rama, CC BY-SA 2.0 FR 
+  br
   br
   br
   //- START BUTTON
   .d-grid.gap-2.col-6.mx-auto
-    a.btn.btn-outline-success(style='background-color:black;' href='/tour' role='button') Get started!
+    a.btn.btn-outline-light(style='background-color:black;' href='/AOA' role='button') Get started!
   br
   br
   block scripts
       //- JAVASCRIPTS
-      script(src=' /javascripts/1_1_tour_add.js', defer='')
+      script(src=' /javascripts/2_calculateAOA.js', defer='')
