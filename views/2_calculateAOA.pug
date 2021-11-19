@@ -1,0 +1,45 @@
+extends layout
+block content
+  //- HEADING
+  br
+  h3.text-center Landuse classification
+  br
+  //- MAP DISPLAY (in einem Flex Container mit Text & Drowpdown)
+  .row
+    .col-md
+      #map
+    //- "CHOOSE TOUR" TEXT AREA
+    #column.col-md
+      #textfeld
+        p.text-left W&auml;hle eine Tour!
+        //- DROWPDOWN BAR
+        .dropdown
+          button#dropdownMenuButton1.btn.btn-outline-success.dropdown-toggle(type='button' data-bs-toggle='dropdown' aria-expanded='false' style='background-color:black;')
+            | Tour w&auml;hlen
+          ul.dropdown-menu(aria-labelledby='dropdownMenuButton1')
+            each tour in tours
+              a.dropdown-item(href='/tour/' + tour._id)
+                li= tour.features[0].properties.Name
+
+      //- ÖPNV TEXT AREA //
+      #textfeld
+        p.text-left Umweltbewusst unterwegs?
+        //- ÖPNV ANZEIGEN BUTTON
+        input.btn.btn-outline-success(type='button' value='ÖPNV anzeigen' onclick='oepnv()' style='background-color:black; margin: 10px;')
+      //- "ADD SOMETHING?" TEXT AREA
+      #textfeld
+        p.text-left Deinen Lieblingsspot erg&auml;nzen?
+        //- SECOND BUTTON
+        a.btn.btn-outline-success(href='/tour/add/add' style='background-color:black;') Erg&auml;nzen
+
+
+  script.     
+    var geojson = !{JSON.stringify(meineTour)}
+    console.log(geojson)
+
+  block scripts
+  //- JAVASCIPTS
+  script(src='/javascripts/1_tour.js', defer)
+  script(src='/javascripts/openWeatherAPIKey.js', defer)
+  script(src='/javascripts/1_4_oepnv.js', defer)
+
