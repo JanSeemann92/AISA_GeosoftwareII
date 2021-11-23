@@ -1,8 +1,8 @@
 // Mitte der Karte
-var center = [51.961237, 7.625187];
+var center = [50.943144, 10.388001];
 
 // Erstellung einer Variablen, die die Karte enthält, initial settings
-var map = L.map('map').setView(center, 15); 
+var map = L.map('map').setView(center, 6); 
 
 //initialiation of the attributes
 let marker = ""; 
