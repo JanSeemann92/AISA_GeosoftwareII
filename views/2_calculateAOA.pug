@@ -3,33 +3,24 @@ block content
 
   //- HEADING
   br
-  h3.text-center Landuse classification
+  h2.text-center Landuse classification
   br
   //- MAP DISPLAY (in einem Flex Container mit Text & Drowpdown)
   .row
     .col-md
       #map
-    //- "CHOOSE TOUR" TEXT AREA
+    //- AREA SELECTION & UPLOAD
     #column.col-md
       #textfeld
-        p.text-left W&auml;hle eine Tour!
+        //- AREA SELECTION
+        h4.text-left Area Selection
         //- DROWPDOWN BAR
-        .dropdown
-          button#dropdownMenuButton1.btn.btn-outline-success.dropdown-toggle(type='button' data-bs-toggle='dropdown' aria-expanded='false' style='background-color:black;')
-            | Tour w&auml;hlen
-          ul.dropdown-menu(aria-labelledby='dropdownMenuButton1')
-           
-      //- ÖPNV TEXT AREA //
-      #textfeld
-        p.text-left Umweltbewusst unterwegs?
-        //- ÖPNV ANZEIGEN BUTTON
-        input.btn.btn-outline-success(type='button' value='ÖPNV anzeigen' onclick='oepnv()' style='background-color:black; margin: 10px;')
-      //- "ADD SOMETHING?" TEXT AREA
-      #textfeld
-        p.text-left Deinen Lieblingsspot erg&auml;nzen?
-        //- SECOND BUTTON
-        a.btn.btn-outline-success(href='/tour/add/add' style='background-color:black;') Erg&auml;nzen
-
+        
+        //- UPLOAD  
+        h4.text-left Upload
+        
+        
+  
 
   script.     
     var geojson = !{JSON.stringify(meineTour)}

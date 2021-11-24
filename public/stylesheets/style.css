@@ -63,12 +63,13 @@ main {
 
 /*Map Layout - Seite 1_tour*/
 #map {
-    height: 85vh;;
+    height: 85vh;
     max-width: 100%;
-    margin: 10px;
+    margin: 5px;
 }
 
 /*Textfeld Layout - Seite 1_tour*/
+
 #textfeld{
     margin-right: 10px;
     margin-left: 10px;
@@ -86,6 +87,10 @@ main {
     margin-left: 5%;
     margin-right: 5%;
     margin-bottom: 5%;
+}
+
+h4{
+    color: rgb(69, 167, 212);
 }
 
 /*Limiting space of right column*/
