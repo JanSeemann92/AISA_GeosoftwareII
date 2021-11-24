@@ -1,0 +1,33 @@
+extends 0_layout
+block content
+
+  //- HEADING
+  br
+  h2.text-center Landuse classification
+  br
+  //- MAP DISPLAY (in einem Flex Container mit Text & Drowpdown)
+  .row
+    .col-md
+      #map
+    //- AREA SELECTION & UPLOAD
+    #column.col-md
+      #textfeld
+        //- AREA SELECTION
+        h4.text-left Area Selection
+        //- DROWPDOWN BAR
+        
+        //- UPLOAD  
+        h4.text-left Upload
+        
+        
+  
+
+  script.     
+    var geojson = !{JSON.stringify(meineTour)}
+    console.log(geojson)
+
+  block scripts
+  //- JAVASCIPTS
+  script(src='/javascripts/2_calculateAOA.js', defer)
+
+

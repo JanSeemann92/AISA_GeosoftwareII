@@ -1,0 +1,82 @@
+doctype html
+head
+  meta(charset='utf-8')
+  meta(name='viewport' content='width=device-width, initial-scale=1.0')
+  title aisa
+  style.
+  //- BOOTSTRAP
+  link(href='https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css' rel='stylesheet' integrity='sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC' crossorigin='anonymous')
+  script(src='https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js' integrity='sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM' crossorigin='anonymous')
+  //- STYLESHEET
+  link(type='text/css' rel='stylesheet' href='/stylesheets/style.css')
+  //- JQUERY & JQUERY UI
+  script(src='https://code.jquery.com/jquery-3.6.0.min.js' integrity='sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=' crossorigin='anonymous')
+  script(src='https://code.jquery.com/ui/1.12.1/jquery-ui.min.js' integrity='sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=' crossorigin='anonymous')
+  //- LEAFLET & LEAFLET DRAW
+  link(rel='stylesheet' href='https://unpkg.com/leaflet@1.7.1/dist/leaflet.css')
+  script(src='https://unpkg.com/leaflet@1.7.1/dist/leaflet.js')
+  link(rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.css')
+  script(src='https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.js')
+
+//- HEADER
+header
+    //- NAVIGATION BAR
+    nav.navbar.navbar-expand-lg.navbar-dark(style='background-color: black;')
+        .container-fluid
+            a.navbar-brand
+                img(src='/stylesheets/Logo.jpg' width='70' height='30')
+            button.navbar-toggler.ms-auto(type='button' data-bs-toggle='collapse' data-bs-target='#navbarSupportedContent' aria-controls='navbarSupportedContent' aria-expanded='false' aria-label='Toggle navigation')
+                span.navbar-toggler-icon
+            #navbarSupportedContent.collapse.navbar-collapse
+                ul.navbar-nav.me-auto.mb-2.mb-lg-0.w-100.order-1
+                    li.nav-item
+                        a.nav-link.active(aria-current='page' style='color: rgb(69, 167, 212);' href='/home') Home
+                    li.nav-item
+                        a.nav-link(style='color: rgb(69, 167, 212);' href='/AOA') Calculate AOA
+                    li.nav-item
+                        a.nav-link(style='color: rgb(69, 167, 212);' href='/demo') Demo
+                    li.nav-item
+                        a.nav-link(style='color: rgb(69, 167, 212);' href='/download') Download
+                    li.nav-item
+                        a.nav-link(style='color: rgb(69, 167, 212);' href='/imprint') About
+
+
+//- MAIN PART
+main
+    block content 
+
+//- FOOTER    
+footer.bg-light.text-center.text-lg-start
+    .container.p-4
+        .row
+            .col-lg-6.col-md-12.mb-4.mb-md-0
+                h5.text-uppercase IMPRINT 
+                p
+                    | aisa 
+                    br
+                    |  Studierende der WWU M&uuml;nster
+                    br
+                    | B.Sc. Geoinformatik & B.Sc. Geographie
+                    br
+                    |  Heisenbergstr. 2, 48149 M&uuml;nster 
+                    br
+                    |  Deutschland
+            .col-lg-6.col-md-12.mb-4.mb-md-0
+                h5.text-uppercase
+                br
+                p
+                    |  Liliana Gitschel
+                    br
+                    |  Jan Seemann
+                    br
+                    | Niklas Daute
+                    br
+                    | Katharina Kaufmann
+                    br
+                    | Antonia Anna Jost
+    .text-left.p-3(style='background-color: rgb(0, 0, 0); color: rgb(69, 167, 212);') &copy; 2021 Copyright: aisa 
+    
+    block scripts
+    //- JAVASCRIPTS
+    script(src='/javascripts/3_search.js' defer='')
+    script(src='/javascripts/1_3_tour_edit.js')
