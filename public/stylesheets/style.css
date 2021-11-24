@@ -29,7 +29,7 @@
 }
 
 .fade1::after {
-    content: "Herzlich Willkommen!";
+    content: "Welcome!";
     color: rgb(212, 145, 69);
     background: black;
     display: flex;
@@ -69,7 +69,7 @@ main {
 }
 
 /*Textfeld Layout - Seite 1_tour*/
-#textfeld {
+#textfeld{
     margin-right: 10px;
     margin-left: 10px;
     margin-bottom: 100px;
@@ -83,7 +83,8 @@ main {
 
 /*Test - Seite 1_tour Wikipedia*/
 #textarea{
-    margin-left: 3%;
+    margin-left: 5%;
+    margin-right: 5%;
     margin-bottom: 5%;
 }
 
