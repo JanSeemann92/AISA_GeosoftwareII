@@ -28,7 +28,7 @@
  
  server.listen(port, () => 
  {
-  console.log(`App listening at http://localhost:${port}`)
+  console.log(`App listening at http://localhost:${port} or http://44.234.41.163:${port}`)
  })
  server.on('error', onError);
  server.on('listening', onListening);
