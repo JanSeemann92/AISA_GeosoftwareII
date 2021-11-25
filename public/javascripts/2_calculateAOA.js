@@ -61,3 +61,25 @@ map.on('draw:edited', function (e) {
     layers.eachLayer(function (layer) {
     });
 });
+
+// Event Handler for Area-Selection-Input-form -> disabel/ enable form field depending on selected option
+$(document).ready(function(){
+    $("select[name='choose']").on('change',function(){
+      if($(this).val()==1){
+        $("input[name='coordinates']").prop("disabled",false);
+      }else{
+        $("input[name='coordinates']").prop("disabled",true);
+      }
+    });
+  });
+
+$(document).ready(function(){
+    $("select[name='choose']").on('change',function(){
+      if($(this).val()==0){
+        $("input[name='bbox']").prop("disabled",false)
+      }else{
+        $("input[name='bbox']").prop("disabled",true);
+      }
+    });
+  });
+

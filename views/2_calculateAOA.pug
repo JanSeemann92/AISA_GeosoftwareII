@@ -5,22 +5,55 @@ block content
   br
   h2.text-center Landuse classification
   br
-  //- MAP DISPLAY (in einem Flex Container mit Text & Drowpdown)
+  //- MAP DISPLAY (in einem Flex Container mit Text & Drowpdown) -> evtl. Selection & Upload untereinander anordnen, damit Karte größer
   .row
-    .col-md
+    .col-lg
       #map
-    //- AREA SELECTION & UPLOAD
-    #column.col-md
+    //- AREA SELECTION
+    .col-lg
       #textfeld
-        //- AREA SELECTION
-        h4.text-left Area Selection
-        //- DROWPDOWN BAR
+        h5.text-left AREA SELECTION
+        p.text-left
+          | Please choose if you want to draw a bounding box directly on the map or if you want to enter the coordinates manually.
+        //- FORM SELECT TO CHOOSE OPTION
+        select#choose2.form-select.form-select-lg.mb-3(name='choose' aria-label='form-select1' style='background-color: black; color: rgb(69, 167, 212); font-size: 16px;')
+          option(selected='') Please choose
+          option(value='0') Draw Bounding Box
+          option(value='1') Enter Coordinates
+        //- UPLOAD FORM
+        form#input-form(name='input-form' action='/AOA/result' method="post")      
+          .mb-3
+            label.form-label(for='coordinates') Coordinates
+            input#input3.form-control(type='text' name='coordinates' class='input-box' placeholder='Lower Left Longitude' disabled='')
+            br
+            input#input2.form-control(type='text' name='coordinates' class='input-box' placeholder='Lower Left Latitude' disabled='')
+            br
+            input#input3.form-control(type='text' name='coordinates' class='input-box' placeholder='Upper Right Longitude' disabled='')
+            br
+            input#input3.form-control(type='text' name='coordinates' class='input-box' placeholder='Upper Left Latitude' disabled='')
+          .mb-3.form-check
+            input#exampleCheck1.form-check-input(type='checkbox')
+            label.form-check-label(for='checkbox') Everything correct?
+          a.btn.btn-outline-success(style='background-color: black; color: rgb(69, 167, 212)' type='submit' form='input-form' onclick="document.getElementById('input-form').submit()") Submit
+    //- UPLOAD
+    .col-lg
+      #textfeld
+        h5.text-left UPLOAD
+        p.text-left
+          | Please choose if you want to use a already trained model or if you want to upload your own training data.
+        //- FORM SELECT TO CHOOSE OPTION
+        select#choose2.form-select.form-select-lg.mb-3(name='choose1' aria-label='form-select1' style='background-color: black; color: rgb(69, 167, 212); font-size: 16px;')
+          option(selected='') Please choose
+          option(value='0') Use already trained model
+          option(value='1') Upload own training model
+        //- UPLOAD FORM
+        form#inputModel(action='/AOA/upload' method='get')
+          .form-group
+            input#upload-button.form-control-file(type='file')
+            br
+            br
+            button.btn.btn-outline-success( style='background-color: black; color: rgb(69, 167, 212)' type='submit') Submit
         
-        //- UPLOAD  
-        h4.text-left Upload
-        
-        
-  
 
   script.     
     var geojson = !{JSON.stringify(meineTour)}
