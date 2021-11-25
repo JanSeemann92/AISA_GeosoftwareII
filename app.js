@@ -29,7 +29,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 //adding routes
 app.use('/', homeRouter); 
 app.use('/home', homeRouter);
-app.use('/AOA', calculateAOARouter); 
+app.use('/AOA', calculateAOARouter);
 app.use('/demo', demoRouter);
 app.use('/download', downloadRouter);
 app.use('/imprint', imprintRouter);
