@@ -7,14 +7,4 @@ services:
     ports:
       - "3000:5000" # forward webserver on standard-http port
     depends_on:
-      - mongoservice
-  mongoservice:
-    container_name: mongo
-    restart: always
-    image: mongo # to be retrieved from dockerhub
-    ports:
-      - "27017:27017" # forward mongod port
-  mongoexpressservice: 
-    image: mongo-express
-    ports: 
-      - '8081:8081'
+      

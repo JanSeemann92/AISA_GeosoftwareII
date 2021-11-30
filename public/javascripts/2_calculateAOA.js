@@ -50,8 +50,6 @@ map.on(L.Draw.Event.CREATED, function (e) {
       rectangle = e; 
         console.log(rectangle.layer._latlngs);
     }
-    //fetch('/tour/add')
-    //    .then(res => drawEvent)
     drawnGeojson = drawnItems.toGeoJSON(); 
     drawnItems.addLayer(layer);
  });

@@ -1,8 +1,26 @@
 extends 0_layout
-block content 
+block content
 
-    //- hier Ergebnisseite ergänzen
+  //- HEADING
+  br
+  h2.text-center Result AOA
+  br
+  //- MAP DISPLAY (in einem Flex Container mit Text & Drowpdown) 
+  .row
+    .col-8
+      #resultmap
+    //- legend
+    .col-4 
+      #textfeld
+        h5.text-left LEGEND
+        .card(style='width: 80%; margin-top: 30px; margin-bottom: 30px;')
+          img.card-img-top(src='/stylesheets/Liliana.jpg')
+        //- Redirection to download
+        p.text-left
+          | You want to download the results of the calculation? Click here!
+        a.btn.btn-outline-light(style='background-color:black; color: rgb(69, 167, 212)' href='/download' role='button') Go to download
 
   block scripts
       //- JAVASCRIPTS
-      script(src=' /javascripts/2_calculateAOA.js', defer='')
+  script(src='/javascripts/2_calculateAOA.js', defer='')
+  script(src='/javascripts/2_1_resultAOA.js', defer='')  
