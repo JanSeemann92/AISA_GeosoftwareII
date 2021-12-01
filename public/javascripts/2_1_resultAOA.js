@@ -2,14 +2,7 @@
 var center = [50.943144, 10.388001];
 
 // Erstellung einer Variablen, die die Karte enthält, initial settings
-var resultmap = L.map('map').setView(center, 6); 
-
-//initialiation of the attributes
-let marker = ""; 
-let rectangle = ""; 
-let drawEvent = false; 
-var route2 = null; 
-var drawnGeojson; 
+var resultmap = L.map('resultmap').setView(center, 6); 
 
 // MapTiler hinuzfügen
 L.tileLayer('https://api.maptiler.com/maps/streets/{z}/{x}/{y}.png?key=86IucIQ0W7mo5uspiDDB', 

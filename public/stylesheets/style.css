@@ -61,11 +61,18 @@ main {
     flex:1;
 }
 
-/*Map Layout - Seite 1_tour*/
+/*Map Layout*/
 #map {
-    height: 85vh;
+    height: 95vh;
     max-width: 100%;
     margin: 5px;
+}
+
+/*Resultmap Layout*/
+#resultmap {
+    height: 70vh;
+    max-width: 100%;
+    margin:5px;
 }
 
 /*Textfeld Layout - Seite 1_tour*/

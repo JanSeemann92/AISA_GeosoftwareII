@@ -9,6 +9,9 @@ router.get('/', function(req, res, next)
     res.render('2_calculateAOA', {title: 'AOA'})
 }); 
 
+
+/** ---- VORLÄUFIG AUßER GEFECHT! ---- */
+
 /**
  * POST Router for AOA Results
  * isn´t working so far...

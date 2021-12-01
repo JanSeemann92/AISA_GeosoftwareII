@@ -8,6 +8,7 @@ const bodyParses = require('body-parser');
 // adding routers
 var homeRouter = require('./routes/1_home_route.js');
 var calculateAOARouter = require('./routes/2_calculateAOA_route.js'); 
+var resultAOARouter = require('./routes/2_1_resultAOA_route.js')
 var demoRouter = require('./routes/3_demo_route.js');
 var downloadRouter = require('./routes/4_download_route');
 var imprintRouter = require('./routes/5_imprint_route');
@@ -30,6 +31,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', homeRouter); 
 app.use('/home', homeRouter);
 app.use('/AOA', calculateAOARouter);
+app.use('/resultAOA', resultAOARouter);
 app.use('/demo', demoRouter);
 app.use('/download', downloadRouter);
 app.use('/imprint', imprintRouter);
