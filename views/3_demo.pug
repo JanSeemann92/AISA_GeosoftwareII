@@ -6,6 +6,96 @@ block content
   h2.text-center Demo
   br
   
+  //- ROW1
+  .row
+    #introduction 
+      p Step-by-Step Tutorial 
+      br
+    .col-1 
+      #heading 
+        p Step 1
+    .col-2
+      #textarea
+        p  
+          | First of all, you need to select the area you're interested in.
+          | Therefore, we offer you 2 different options you can see in the dropdown bar. 
+          | Once you've selected your prefered option, you'll be able to either draw a bounding 
+          | box directly on the map ot to enter the coordinates manually.
+    .col-4
+      img.img-fluid(src='/stylesheets/step1_1.jpg') 
+        
+    .col-4
+      img.img-fluid(src='/stylesheets/step1_2.jpg')
+      br
+      br
+      br
+      br
+
+  //- ROW2
+  .row
+    .col-1 
+      #heading 
+        p Step 2
+    .col-2
+      #textarea
+        p
+          | Next you need to choose whether you want to upload an already trained model 
+          | or some training data. Afterwards you need to use the direct file upload to 
+          | upload your model/data.
+    .col-6
+      img.img-fluid(src='/stylesheets/step2.jpg') 
+      br
+      br
+      br
+      br
+      br
+
+  //- ROW3
+  .row
+    .col-1 
+      #heading 
+        p Step 3
+    .col-2
+      #textarea
+        p
+          | Great! Now you can have a look at the results of the calculation.
+    .col-6
+      img.img-fluid(src='/stylesheets/step3.jpg') 
+      br
+      br
+      br
+      br
+      br
+
+  //- ROW4
+  .row
+    .col-1 
+      #heading 
+        p Step 4
+    .col-2
+      #textarea
+        p
+          | To download the results you just need to select the kind of data 
+          | you want to download.
+    .col-6
+      img.img-fluid(src='/stylesheets/step4.jpg') 
+      br
+      br
+      br
+      br
+      br
+
+  .a
+    #introduction 
+      p Are you curious now?
+    #textcenter 
+      p Try out our one-click-demo! With just one click a demoversion will start and calculate an example AOA.
+      br
+
+
+  .d-grid.gap-2.col-4.mx-auto
+    a.btn.btn-outline-light(style='background-color:black; color: rgb(69, 167, 212)' href='' role='button') Start the demo!
+  br
 
   block scripts
   //- JAVASCIPTS
