@@ -40,12 +40,12 @@ block content
         br
         h5.text-left UPLOAD
         p.text-left
-          | Please choose if you want to use a already trained model or if you want to upload your own training data.
+          | Please choose if you want to upload an trained model or training data.
         //- FORM SELECT TO CHOOSE OPTION
         select#choose2.form-select.form-select-lg.mb-3(name='choose1' aria-label='form-select1' style='background-color: black; color: rgb(69, 167, 212); font-size: 16px;')
           option(selected='') Please choose...
-          option(value='0') Use already trained model
-          option(value='1') Upload own training model
+          option(value='0') Trained model
+          option(value='1') Training data
         //- UPLOAD FORM
         form#inputModel(action='/resultAOA')
           .form-group

@@ -28,7 +28,7 @@ var drawControl = new L.Control.Draw ({
         polygon:false,
         marker:false,
         polyline: false,
-        circle: false
+        circle: false,
     }
 });
 map.addControl(drawControl);
@@ -42,10 +42,6 @@ map.on(L.Draw.Event.CREATED, function (e) {
     console.log(element); 
     console.log(e.layer) //--> toGeoJson  --> drawnIten
     drawEvent = true; 
-    if (type === 'marker') {
-        marker = e;
-        console.log(marker.layer._latlng);
-    } 
     if (type == 'rectangle') {
       rectangle = e; 
         console.log(rectangle.layer._latlngs);
@@ -60,7 +56,7 @@ map.on('draw:edited', function (e) {
     });
 });
 
-// Event Handler for Area-Selection-Input-form -> disabel/ enable form field depending on selected option
+// Event Handler for Area-Selection-Input-form -> disable/ enable form field depending on selected option
 $(document).ready(function(){
     $("select[name='choose']").on('change',function(){
       if($(this).val()==1){
@@ -71,13 +67,16 @@ $(document).ready(function(){
     });
   });
 
-$(document).ready(function(){
+//evtl. EventHandler für Boundingbox einfügen
+/**$(document).ready(function(){
     $("select[name='choose']").on('change',function(){
       if($(this).val()==0){
-        $("input[name='bbox']").prop("disabled",false)
+        $("input[name='bbox']").prop("disable",true)
       }else{
-        $("input[name='bbox']").prop("disabled",true);
+        $("input[name='bbox']").prop("disable",false);
       }
     });
   });
+ */
 
+  
