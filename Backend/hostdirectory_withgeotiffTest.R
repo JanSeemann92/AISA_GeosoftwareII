@@ -49,4 +49,4 @@ serveStaticFiles("/test", hostDir, verbose = TRUE) %>%
 # POINT YOUR BROWSER AT:
 # * http://127.0.0.1:25118/test/artwork.tif
 
-
+#code should be added to the output generating parts of the other r-scripts
