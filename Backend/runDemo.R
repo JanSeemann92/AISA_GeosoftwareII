@@ -54,9 +54,9 @@ setwd("D:/Studium/Geosoftware1/AISA_GeosoftwareII/Backend/demodata")
 TrainModel <- function (trainingsites, sentinel_resampled) {
   
   # Create raster stack object
-  sentinel_resampled <- stack(sentinel_resampled)
+  #sentinel_resampled <- stack(sentinel_resampled)
   # Read features from trainingsites
-  trainingsites <- st_read(trainingsites)
+  #trainingsites <- st_read(trainingsites)
   
   # Extract only those pixels from the combined sentinel data, that are within the training polygons
   extr <- extract(sentinel_resampled, trainingsites, df=TRUE)
@@ -64,7 +64,8 @@ TrainModel <- function (trainingsites, sentinel_resampled) {
   
   # Add information of labels of polygons to data
   trainingsites$PolyID <- 1:nrow(trainingsites)
-  extr <- merge(extr, trainingsites, by.x="ID", by.y="PolyID")
+  extr <- merge(extr, trainingsites, by.x="ID", by.y
+                ="PolyID")
   ## head(extr)
   
   # Save/export the training data -> not required
@@ -96,7 +97,7 @@ TrainModel <- function (trainingsites, sentinel_resampled) {
   
   # Save/export model
   # saveRDS(model,file="createdbyAISAtool/RFModel.RDS")
-  
+  print("model trained")
   return(model)
 }
 
@@ -127,7 +128,7 @@ TrainModel <- function (trainingsites, sentinel_resampled) {
 Prediction <- function (sentinel_resampled, model) {
   
   # Create raster stack object
-  sentinel_resampled <- stack(sentinel_resampled)
+  #sentinel_resampled <- stack(sentinel_resampled)
   # Read model - necessary??
   # model <- readRDS(model)
   
@@ -137,7 +138,7 @@ Prediction <- function (sentinel_resampled, model) {
   
   # Save/export predictions as Geotiff
   # writeRaster(prediction, "createdbyAISAtool/prediction.tif", overwrite=T)
-  
+  print("LULC predicted")
   return (prediction)
 }
 
@@ -179,20 +180,20 @@ Prediction <- function (sentinel_resampled, model) {
 AOA <- function (sentinel_resampled, model) {
   
   # Create raster stack object
-  sentinel_resampled <- stack(sentinel_resampled)
+  #sentinel_resampled <- stack(sentinel_resampled)
   # Read model - necessary??
   # model <- readRDS(model)
   
   # Estimate AOA
   cl <- makeCluster(4) # devide data into 4 clusters (could be more in final version)
   registerDoParallel(cl)  # calculate clusters in parallel to speed up the process
-  AOA <- aoa(sentinel_combined,model,cl=cl)  # estimate AOA
+  AOA <- aoa(sentinel_resampled,model,cl=cl)  # estimate AOA
   
   # plot(AOA)  #plot AOA
   
   # Save/export AOA as Geotiff
   # writeRaster(AOA, "createdbyAISAtool/AOA.tif", overwrite=T)
-  
+  print("AOA calculated")
   return(AOA)
 }
 
@@ -231,8 +232,11 @@ runDemo <- function (){
   
   #writing output files
   saveRDS(model,file="createdbyAISAtool/modelOutput.RDS")
-  writeRaster(prediction, "createdbyAISAtool/predictionOutput.tif", overwrite=T)
-  writeRaster(AOA, "createdbyAISAtool/aoaOutput.tif", overwrite=T)
+  print("model output file written")
+  writeRaster(predictionLULC, "createdbyAISAtool/predictionOutput.tif", overwrite=T)
+  print("LULC output file written")
+  writeRaster(areaOA, "createdbyAISAtool/aoaOutput.tif", overwrite=T)
+  print("AOA output file written")
   
   
   return("JobDone")
@@ -249,10 +253,4 @@ newBeakr() %>%
 # URL GET API Call for local testing: http://127.0.0.1:25118/runDemo
 
 
-#error occuring wile reading the sentinel data
-#Error in CPL_read_ogr(dsn, layer, query, as.character(options), quiet,  : 
-#                        Expecting a single value: [extent=4].
-#                      In addition: Warning message:
-#                        In if (nchar(dsn) < 1) { :
-#                            the condition has length > 1 and only the first element will be used
 
