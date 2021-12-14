@@ -199,7 +199,7 @@ AOA <- function (sentinel_resampled, model) {
 
 #######################################################################
 # Title: runDemo
-# Author: Liliana Gitschel
+# Author: Jan Seemann
 # Latest Update: 14.12.2021
 # 
 # Purpose:
@@ -220,9 +220,11 @@ runDemo <- function (){
 }
   
   
-# Create and start a default beakr instance
+# Create and start the beakr instance
 newBeakr() %>%
   httpGET(path = '/runDemo', decorate(runDemo)) %>%
-  listen(host = "127.0.0.1", port = 25118) #for local testing
+ 
+  
+   listen(host = "127.0.0.1", port = 25118) #for local testing
 
 # URL GET API Call for local testing: http://127.0.0.1:25118/runDemo
