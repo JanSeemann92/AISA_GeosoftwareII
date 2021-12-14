@@ -27,7 +27,7 @@ library(beakr)
 
 # set working directory: directory which includes needed data
 #### needs to be changed later on to the hosting server
-#setwd("C:/Users/lgits/sciebo/Uni_Geoinfo/GI7_GeosoftwareII/Projekt_AISA/AISA_GeosoftwareII/demodata")
+setwd("D:/Studium/Geosoftware1/AISA_GeosoftwareII/Backend/demodata")
 
 
 
