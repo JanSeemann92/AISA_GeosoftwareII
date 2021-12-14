@@ -171,10 +171,10 @@ Prediction <- function (sentinel_resampled, model) {
 # The data either comes form AWS and is preprocessed internally first or the demodata is used.
 # load and build stack with data of predictor variables (=sentinel-2 images)
 ### yet only running with demodata!
-sentinel_combined <- stack("demodata_rheine_sentinel_combined.grd")
+#sentinel_combined <- stack("demodata_rheine_sentinel_combined.grd")
 # load model (either created with separate script "Script_TrainModel.R" or user input)
 ### directory containing model needs adjustment later on
-model <- readRDS("createdbyAISAtool/RFModel.RDS")
+#model <- readRDS("createdbyAISAtool/RFModel.RDS")
 
 AOA <- function (sentinel_resampled, model) {
   
