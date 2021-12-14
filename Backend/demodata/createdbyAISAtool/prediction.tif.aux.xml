@@ -1,0 +1,21 @@
+<PAMDataset>
+  <PAMRasterBand band="1">
+    <CategoryNames>
+      <Category></Category>
+      <Category>Acker_bepflanzt</Category>
+      <Category>Acker_unbepflanzt</Category>
+      <Category>Dorf</Category>
+      <Category>Fliessgewaesser</Category>
+      <Category>Gleis</Category>
+      <Category>Gruenland</Category>
+      <Category>Industrie</Category>
+      <Category>Laubwald</Category>
+      <Category>Mischwald</Category>
+      <Category>Nadelwald</Category>
+      <Category>See</Category>
+      <Category>Stadt</Category>
+      <Category>Steinbruch</Category>
+      <Category>Strasse</Category>
+    </CategoryNames>
+  </PAMRasterBand>
+</PAMDataset>

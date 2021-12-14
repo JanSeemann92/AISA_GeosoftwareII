@@ -215,6 +215,19 @@ AOA <- function (sentinel_resampled, model) {
 
 runDemo <- function (){
   
+  # load input data
+  # As predictor variables a raster data set with sentinel-2 data is used.
+  # The data either comes form AWS and is preprocessed internally first or the demodata is used.
+  # load and build stack with data of predictor variables (=sentinel-2 images)
+  ### yet only running with demodata!
+  sentinel_combined <- stack("demodata_rheine_sentinel_combined.grd")
+  # load training polygons
+  ### option for GeoJSON needs to be added!
+  trainingsites <- st_read("demodata_rheine_tainingspolygone.gpkg")
+  model <-TrainModel(trainingsites, sentinel_combined)
+  predictionLULC <- Prediction(sentinel_combined,model)
+  areaOA <- AOA (sentinel_combined,model)
+  
   
   return("JobDone")
 }
