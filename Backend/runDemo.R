@@ -247,3 +247,12 @@ newBeakr() %>%
    listen(host = "127.0.0.1", port = 25118) #for local testing
 
 # URL GET API Call for local testing: http://127.0.0.1:25118/runDemo
+
+
+#error occuring wile reading the sentinel data
+#Error in CPL_read_ogr(dsn, layer, query, as.character(options), quiet,  : 
+#                        Expecting a single value: [extent=4].
+#                      In addition: Warning message:
+#                        In if (nchar(dsn) < 1) { :
+#                            the condition has length > 1 and only the first element will be used
+
