@@ -229,6 +229,12 @@ runDemo <- function (){
   areaOA <- AOA (sentinel_combined,model)
   
   
+  #writing output files
+  saveRDS(model,file="createdbyAISAtool/modelOutput.RDS")
+  writeRaster(prediction, "createdbyAISAtool/predictionOutput.tif", overwrite=T)
+  writeRaster(AOA, "createdbyAISAtool/aoaOutput.tif", overwrite=T)
+  
+  
   return("JobDone")
 }
   
