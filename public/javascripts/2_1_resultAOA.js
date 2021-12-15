@@ -32,31 +32,10 @@ function samplingAreas(){
     anfrage();
 }
 
-/** 
-function anfrage(){
-    jQuery.ajax({
-        url: "https://rest.busradar.conterra.de/prod/haltestellen",
-        method: "GET",
-    })
-    .done(function (response) {
-        console.log("Hello3")
-        console.dir(response)
-        displaySamplingAreas(response) 
-    })
-    .fail(function (xhr, status, errorThrown) {
-        alert( "error" )
-        console.dir(xhr)
-        console.log(status)
-        console.log(errorThrown)        
-    })
-    .always(function(xhr, status){
-        console.log(xhr, status);
-})}
-*/
 function anfrage(){
     console.log("Hello4")
     $.ajax({
-        url: "https://rest.busradar.conterra.de/prod/fahrzeuge",
+        url: "https://rest.busradar.conterra.de/prod/haltestellen",
         type: 'GET',
         dataType: 'json', // added data type
         success: function(res) {
