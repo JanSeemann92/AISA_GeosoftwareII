@@ -34,7 +34,7 @@ block content
           .mb-3.form-check
             input#exampleCheck1.form-check-input(type='checkbox')
             label.form-check-label(for='checkbox') Everything correct?
-          a.btn.btn-outline-success(style='background-color: black; color: rgb(69, 167, 212)' type='submit' form='input-form' href='/resultAOA' onclick="document.getElementById('input-form').submit()") Submit
+          a.btn.btn-outline-success(style='background-color: black; color: rgb(69, 167, 212)' type='submit' form='input-form' onclick="document.getElementById('input-form').submit()") Submit
         //- UPLOAD
         br
         br
@@ -54,6 +54,7 @@ block content
             br
             button.btn.btn-outline-success(style='background-color: black; color: rgb(69, 167, 212)' type='submit') Submit
         
+          button(id='startCalculation') Start calculation
 
   script.     
     var geojson = !{JSON.stringify(meineTour)}
@@ -62,5 +63,5 @@ block content
   block scripts
   //- JAVASCIPTS
   script(src='/javascripts/2_calculateAOA.js', defer)
-
+  script(src='/javascripts/2_1_resultAOA.js', defer)
 

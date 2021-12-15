@@ -1,3 +1,5 @@
+"use strict" 
+
 // Mitte der Karte
 var center = [50.943144, 10.388001];
 
