@@ -5,6 +5,7 @@ block content
   br
   h2.text-center Landuse classification
   br
+  
   //- MAP DISPLAY (in einem Flex Container mit Text & Drowpdown) -> evtl. Selection & Upload untereinander anordnen, damit Karte größer
   .row
     .col-8
@@ -47,18 +48,14 @@ block content
           option(value='0') Trained model
           option(value='1') Training data
         //- UPLOAD FORM
-        form#inputModel(action='/resultAOA')
+        form#inputModel
           .form-group
             input#upload-button.form-control-file(type='file')
             br
             br
             button.btn.btn-outline-success(style='background-color: black; color: rgb(69, 167, 212)' type='submit') Submit
-        
-          button(id='startCalculation') Start calculation
-
-  script.     
-    var geojson = !{JSON.stringify(meineTour)}
-    console.log(geojson)
+        br
+        button.btn.btn-outline(style='background-color: black; color: rgb(69, 167, 212)' onclick= 'startCalculation()') Start Calculation
 
   block scripts
   //- JAVASCIPTS

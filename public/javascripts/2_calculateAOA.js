@@ -1,10 +1,7 @@
 "use strict" 
 
-// Mitte der Karte
-var center = [50.943144, 10.388001];
-
-// Erstellung einer Variablen, die die Karte enthält, initial settings
-var map = L.map('map').setView(center, 6); 
+//Generate map
+var map = L.map('map').setView([50.943144, 10.388001], 6);
 
 //initialiation of the attributes
 let marker = ""; 
