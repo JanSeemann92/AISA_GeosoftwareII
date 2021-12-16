@@ -35,7 +35,7 @@ function samplingAreas(){
 function anfrage(){
     console.log("Hello4")
     $.ajax({
-        url: "https://rest.busradar.conterra.de/prod/haltestellen",
+        url: "https://rest.busradar.conterra.de/prod/fahrzeuge",
         type: 'GET',
         dataType: 'json', // added data type
         success: function(res) {
