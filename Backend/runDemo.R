@@ -200,7 +200,7 @@ AOA <- function (sentinel_resampled, model) {
 
 #######################################################################
 # Title: runDemo
-# Author: Jan Seemann
+# Author: Jan Seemann, Liliana Gitschel
 # Latest Update: 16.12.2021
 # 
 # Purpose:
@@ -237,7 +237,8 @@ runDemo <- function (){
   print("LULC output file written")
   writeRaster(areaOA, "createdbyAISAtool/aoaOutput.tif", overwrite=T)
   print("AOA output file written")
-  
+  st_write(trainingsites, "createdbyAISAtool/demodata_rheine_trainingspolygone.geojson")
+  print("trainingsites geojson outout written")
   
   return("JobDone")
 }
