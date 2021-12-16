@@ -1,6 +1,6 @@
 # Title: Script_MainCalculations
 # Author: Liliana Gitschel, Jan Seemann
-# Latest Update: 14.12.2021
+# Latest Update: 16.12.2021
 # 
 # Purpose:
 #   Includes functions for necessary calculations within the AISA tool:
@@ -201,7 +201,7 @@ AOA <- function (sentinel_resampled, model) {
 #######################################################################
 # Title: runDemo
 # Author: Jan Seemann
-# Latest Update: 14.12.2021
+# Latest Update: 16.12.2021
 # 
 # Purpose:
 #   Run the Demo.
@@ -248,9 +248,12 @@ newBeakr() %>%
   httpGET(path = '/runDemo', decorate(runDemo)) %>%
  
   
-   listen(host = "127.0.0.1", port = 25118) #for local testing
+  listen(host = "127.0.0.1", port = 25118) #for local testing
+  #listen(host = "44.234.41.163", port =  8780) #for AWS
+
 
 # URL GET API Call for local testing: http://127.0.0.1:25118/runDemo
+# URL GET API Call for AWS: http://44.234.41.163:8780/runDemo
 
 
 
