@@ -24,7 +24,7 @@ library(doParallel) # loads dependencies too
 
 # set working directory: directory which includes needed data
 #### needs to be changed later on to the hosting server
-setwd("C:/Users/lgits/sciebo/Uni_Geoinfo/GI7_GeosoftwareII/Projekt_AISA/AISA_GeosoftwareII/demodata")
+setwd("C:/Users/lgits/sciebo/Uni_Geoinfo/GI7_GeosoftwareII/ProjectAISA/AISA_GeosoftwareII/BackendDevelopmentLiliana/demodata")
 
 
 
@@ -51,9 +51,9 @@ setwd("C:/Users/lgits/sciebo/Uni_Geoinfo/GI7_GeosoftwareII/Projekt_AISA/AISA_Geo
 TrainModel <- function (trainingsites, sentinel_resampled) {
       
     # Create raster stack object
-    sentinel_resampled <- stack(sentinel_resampled)
+    # sentinel_resampled <- stack(sentinel_resampled)
     # Read features from trainingsites
-    trainingsites <- st_read(trainingsites)
+    # trainingsites <- st_read(trainingsites)
   
     # Extract only those pixels from the combined sentinel data, that are within the training polygons
     extr <- extract(sentinel_resampled, trainingsites, df=TRUE)
@@ -124,7 +124,7 @@ TrainModel <- function (trainingsites, sentinel_resampled) {
 Prediction <- function (sentinel_resampled, model) {
   
     # Create raster stack object
-    sentinel_resampled <- stack(sentinel_resampled)
+    # sentinel_resampled <- stack(sentinel_resampled)
     # Read model - necessary??
     # model <- readRDS(model)
     
@@ -176,7 +176,7 @@ model <- readRDS("createdbyAISAtool/RFModel.RDS")
 AOA <- function (sentinel_resampled, model) {
   
     # Create raster stack object
-    sentinel_resampled <- stack(sentinel_resampled)
+    # sentinel_resampled <- stack(sentinel_resampled)
     # Read model - necessary??
     # model <- readRDS(model)
     

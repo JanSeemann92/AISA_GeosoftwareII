@@ -28,7 +28,7 @@ library(caret)
 
 # set working directory: directory which includes needed data
 #### needs to be changed later on to the hosting server
-setwd("C:/Users/lgits/sciebo/Uni_Geoinfo/GI7_GeosoftwareII/Projekt_AISA/AISA_GeosoftwareII/demodata")
+setwd("C:/Users/lgits/sciebo/Uni_Geoinfo/GI7_GeosoftwareII/ProjectAISA/AISA_GeosoftwareII/BackendDevelopmentLiliana/demodata")
 
 # load input data
 # As predictor variables a raster data set with sentinel-2 data is used.
@@ -39,6 +39,16 @@ sentinel_combined <- stack("demodata_rheine_sentinel_combined.grd")
 # load training polygons
 ### option for GeoJSON needs to be added!
 trainingsites <- st_read("demodata_rheine_tainingspolygone.gpkg")
+
+# reproject crs of input data to EPSG 900913
+# ensures that data has same crs and that it can be displayed by leaflet
+# for reference see: https://spatialreference.org/ref/sr-org/6627/
+trainingsites <- st_transform(trainingsites,crs= "+proj=merc +lon_0=0 +k=1 +x_0=0 +y_0=0 +ellps=WGS84 +datum=WGS84 +units=m +no_defs")
+sentinel_combined <- projectRaster(sentinel_combined,crs=crs(trainingsites))
+
+# write input data in EPSG 900913
+st_write(trainingsites, "createdbyAISAtool/demodata_rheine_trainingspolygone_EPSG900913.geojson")
+writeRaster(sentinel_combined, "createdbyAISAtool/demodata_rheine_sentinel_combined_EPSG900913.grd")
 
 # Extract only those pixels from the combined sentinel data, that are within the training polygons
 extr <- extract(sentinel_combined, trainingsites, df=TRUE)
@@ -77,4 +87,4 @@ model
 ## plot(varImp(model)) # variable weight
 
 # Save/export model
-saveRDS(model,file="createdbyAISAtool/RFModel.RDS")
+saveRDS(model,file="createdbyAISAtool/RFModel_EPSG900913.RDS")

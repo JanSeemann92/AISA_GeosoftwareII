@@ -27,21 +27,22 @@ library(doParallel) # loads dependencies too
 
 # set working directory: directory which includes needed data
 #### needs to be changed later on to the hosting server
-setwd("C:/Users/lgits/sciebo/Uni_Geoinfo/GI7_GeosoftwareII/Projekt_AISA/AISA_GeosoftwareII/demodata")
+setwd("C:/Users/lgits/sciebo/Uni_Geoinfo/GI7_GeosoftwareII/ProjectAISA/AISA_GeosoftwareII/BackendDevelopmentLiliana/demodata")
 
 # load input data
 # As predictor variables a raster data set with sentinel-2 data is used.
 # The data either comes form AWS and is preprocessed internally first or the demodata is used.
 # load and build stack with data of predictor variables (=sentinel-2 images)
 ### yet only running with demodata!
-sentinel_combined <- stack("demodata_rheine_sentinel_combined.grd")
+sentinel_combined <- stack("createdbyAISAtool/demodata_rheine_sentinel_combined_EPSG900913.grd")
 # load model (either created with separate script "Script_TrainModel.R" or user input)
 ### directory containing model needs adjustment later on
-model <- readRDS("createdbyAISAtool/RFModel.RDS")
+model <- readRDS("createdbyAISAtool/RFModel_EPSG900913.RDS")
+
 
 # Make predictions
 prediction <- predict(sentinel_combined,model)
 ## spplot(deratify(prediction)) # visualize
 
 # Save/export predictions as Geotiff
-writeRaster(prediction, "createdbyAISAtool/prediction.tif", overwrite=T)
+writeRaster(prediction, "createdbyAISAtool/prediction_EPSG900913.tif", overwrite=T)

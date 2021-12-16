@@ -225,6 +225,14 @@ runDemo <- function (){
   # load training polygons
   ### option for GeoJSON needs to be added!
   trainingsites <- st_read("demodata_rheine_tainingspolygone.gpkg")
+  
+  # reproject crs of input data to EPSG 900913
+  # ensures that data has same crs and that it can be displayed by leaflet
+  # for reference see: https://spatialreference.org/ref/sr-org/6627/
+  trainingsites <- st_transform(trainingsites,crs= "+proj=merc +lon_0=0 +k=1 +x_0=0 +y_0=0 +ellps=WGS84 +datum=WGS84 +units=m +no_defs")
+  sentinel_combined <- projectRaster(sentinel_combined,crs=crs(trainingsites))
+  
+  # do calculations
   model <-TrainModel(trainingsites, sentinel_combined)
   predictionLULC <- Prediction(sentinel_combined,model)
   areaOA <- AOA (sentinel_combined,model)
@@ -238,7 +246,7 @@ runDemo <- function (){
   writeRaster(areaOA, "createdbyAISAtool/aoaOutput.tif", overwrite=T)
   print("AOA output file written")
   st_write(trainingsites, "createdbyAISAtool/demodata_rheine_trainingspolygone.geojson")
-  print("trainingsites geojson outout written")
+  print("trainingsites geojson output written")
   
   
   return("JobDone")
