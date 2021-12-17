@@ -1,6 +1,6 @@
 # Title: Prediction
 # Author: Liliana Gitschel
-# Latest Update: 13.12.2021
+# Latest Update: 17.12.2021
 # 
 # Purpose:
 #   Make LULC predictions.

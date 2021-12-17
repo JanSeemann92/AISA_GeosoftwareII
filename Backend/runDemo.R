@@ -1,6 +1,6 @@
 # Title: Script_MainCalculations
 # Author: Liliana Gitschel, Jan Seemann
-# Latest Update: 16.12.2021
+# Latest Update: 17.12.2021
 # 
 # Purpose:
 #   Includes functions for necessary calculations within the AISA tool:

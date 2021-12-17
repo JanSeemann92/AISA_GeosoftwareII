@@ -1,6 +1,6 @@
 # Title: TrainModel
 # Author: Liliana Gitschel
-# Latest Update: 08.12.2021
+# Latest Update: 17.12.2021
 # 
 # Purpose:
 #   Train a model when no model is given by the user.
