@@ -38,7 +38,7 @@ $.ajax({
     });
 
 var xhr = new XMLHttpRequest();
-xhr.open('GET', '/stylesheets/test.geojson');
+xhr.open('GET', '/stylesheets/demodata_rheine_trainingspolygone_EPSG4326.geojson');
 xhr.setRequestHeader('Content-Type', 'application/json');
 xhr.onload = function() {
   if (xhr.status === 200) {
