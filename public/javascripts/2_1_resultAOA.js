@@ -10,55 +10,39 @@ L.tileLayer('https://api.maptiler.com/maps/streets/{z}/{x}/{y}.png?key=86IucIQ0W
     }).addTo(resultmap);
 
 
-//Icon-source: Icons erstellt von "https://www.freepik.com" Freepik from Flaticon www.flaticon.com
+//Icon-source: Icons erstellt von "https://www.flaticon.com/de/autoren/hasim-safii" hasim safii from "https://www.flaticon.com/de/" 
 //code source:https://leafletjs.com/examples/custom-icons/
 var icon = L.icon({
-    iconSize: [25, 25],
-    iconUrl: '/stylesheets/circle.png'
+    iconSize: [20, 20],
+    iconUrl: '/stylesheets/kreuz.png'
 });
 
-function startCalculation(){
-    console.log("Hello")
-    window.location.href= '/resultAOA'  
-    samplingAreas(); 
-}
 
 /** 
- * Sends API request to [!!!] and calls the "displaySamplingAreas(givenspots)" function to display all the given recommended sampling areas on the map.
+ * Sends API request to [!!!] and to displays all the given recommended sampling areas on the map.
  * [URL ÄNDERN!!!]
  */
-function samplingAreas(){
-    console.log("hello3");
-    anfrage();
-}
 
-function anfrage(){
-    console.log("Hello4")
-    $.ajax({
+$.ajax({
         url: "https://rest.busradar.conterra.de/prod/fahrzeuge",
         type: 'GET',
         dataType: 'json', // added data type
         success: function(res) {
             console.dir(res);
-            displaySamplingAreas(res)
+            var samplingareas = L.geoJson(res, {
+                pointToLayer: function(feature, latlng) {            
+                    return L.marker(latlng, {icon: icon})}})
+                samplingareas.addTo(resultmap)
+                console.log(samplingareas)
         }
-    })};
+    });
 
-
-/** 
- * Adds an icon marker to the recommended sampling areas using the given coordinates and the leaflet function "pointToLayer" and adds them to the map.
- * Source: https://leafletjs.com/examples/geojson/
- * @param givenspots The returned bus stops of the API query
- * @return markers at the locations of the bus stops
- */
-
-function displaySamplingAreas(givenspots){    
-    console.log("HELLO4")
-    console.dir(givenspots)
-    var samplingareas = L.geoJson(givenspots, {
-        pointToLayer: function(feature, latlng) {            
-            return L.marker(latlng, {icon: icon})}})
-        samplingareas.addTo(resultmap)
-        markers = samplingareas;
-        console.log(samplingareas)
-}
+var xhr = new XMLHttpRequest();
+xhr.open('GET', '/stylesheets/test.geojson');
+xhr.setRequestHeader('Content-Type', 'application/json');
+xhr.onload = function() {
+  if (xhr.status === 200) {
+    L.geoJSON(JSON.parse(xhr.responseText)).addTo(resultmap);
+  }
+};
+xhr.send();
