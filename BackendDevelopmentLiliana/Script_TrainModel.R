@@ -40,15 +40,15 @@ sentinel_combined <- stack("demodata_rheine_sentinel_combined.grd")
 ### option for GeoJSON needs to be added!
 trainingsites <- st_read("demodata_rheine_tainingspolygone.gpkg")
 
-# reproject crs of input data to EPSG 900913
+# reproject crs of input data to EPSG4326
 # ensures that data has same crs and that it can be displayed by leaflet
-# for reference see: https://spatialreference.org/ref/sr-org/6627/
-trainingsites <- st_transform(trainingsites,crs= "+proj=merc +lon_0=0 +k=1 +x_0=0 +y_0=0 +ellps=WGS84 +datum=WGS84 +units=m +no_defs")
+# for reference see: https://epsg.io/4326 , https://leafletjs.com/reference-0.7.7.html#icrs
+trainingsites <- st_transform(trainingsites,crs= "+proj=longlat +datum=WGS84 +no_defs")
 sentinel_combined <- projectRaster(sentinel_combined,crs=crs(trainingsites))
 
-# write input data in EPSG 900913
-st_write(trainingsites, "createdbyAISAtool/demodata_rheine_trainingspolygone_EPSG900913.geojson")
-writeRaster(sentinel_combined, "createdbyAISAtool/demodata_rheine_sentinel_combined_EPSG900913.grd")
+# write input data in EPSG4326
+st_write(trainingsites, "createdbyAISAtool/demodata_rheine_trainingspolygone_EPSG4326.geojson")
+writeRaster(sentinel_combined, "createdbyAISAtool/demodata_rheine_sentinel_combined_EPSG4326.grd")
 
 # Extract only those pixels from the combined sentinel data, that are within the training polygons
 extr <- extract(sentinel_combined, trainingsites, df=TRUE)
@@ -87,4 +87,4 @@ model
 ## plot(varImp(model)) # variable weight
 
 # Save/export model
-saveRDS(model,file="createdbyAISAtool/RFModel_EPSG900913.RDS")
+saveRDS(model,file="createdbyAISAtool/RFModel_EPSG4326.RDS")

@@ -226,10 +226,10 @@ runDemo <- function (){
   ### option for GeoJSON needs to be added!
   trainingsites <- st_read("demodata_rheine_tainingspolygone.gpkg")
   
-  # reproject crs of input data to EPSG 900913
+  # reproject crs of input data to EPSG4326
   # ensures that data has same crs and that it can be displayed by leaflet
   # for reference see: https://spatialreference.org/ref/sr-org/6627/
-  trainingsites <- st_transform(trainingsites,crs= "+proj=merc +lon_0=0 +k=1 +x_0=0 +y_0=0 +ellps=WGS84 +datum=WGS84 +units=m +no_defs")
+  trainingsites <- st_transform(trainingsites, crs = "+proj=longlat +datum=WGS84 +no_defs")
   sentinel_combined <- projectRaster(sentinel_combined,crs=crs(trainingsites))
   
   # do calculations
