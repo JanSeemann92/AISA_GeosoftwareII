@@ -78,7 +78,7 @@ $(document).ready(function(){
   });
  */
 
-function startCalculation(){
+function startOwnCalculation(){
     alert("The calculation will now be executed, you will then be redirected to the results. The calculation may take a few minutes, please wait...")
     console.log("Hello")
     window.location.href= '/resultAOA'  

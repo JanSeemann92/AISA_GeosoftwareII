@@ -8,10 +8,10 @@ block content
   
   //- MAP DISPLAY (in einem Flex Container mit Text & Drowpdown) -> evtl. Selection & Upload untereinander anordnen, damit Karte größer
   .row
-    .col-8
+    .col-5
       #map
     //- AREA SELECTION
-    .col-4
+    .col-7
       #textfeld
         h5.text-left AREA SELECTION
         p.text-left
@@ -26,11 +26,8 @@ block content
           .mb-3
             label.form-label(for='coordinates') Coordinates
             input#input3.form-control(type='text' name='coordinates' class='input-box' placeholder='Lower Left Longitude' disabled='')
-            br
             input#input2.form-control(type='text' name='coordinates' class='input-box' placeholder='Lower Left Latitude' disabled='')
-            br
             input#input3.form-control(type='text' name='coordinates' class='input-box' placeholder='Upper Right Longitude' disabled='')
-            br
             input#input3.form-control(type='text' name='coordinates' class='input-box' placeholder='Upper Left Latitude' disabled='')
           .mb-3.form-check
             input#exampleCheck1.form-check-input(type='checkbox')
@@ -55,7 +52,8 @@ block content
             br
             button.btn.btn-outline-success(style='background-color: black; color: rgb(69, 167, 212)' type='submit') Submit
         br
-        button.btn.btn-outline(style='background-color: black; color: rgb(69, 167, 212)' onclick= 'startCalculation()') Start Calculation
+        br
+        button.btn.btn-outline-success(style='background-color: rgb(69, 167, 212); color: black' onclick= 'startCalculation()') Start Calculation
 
   block scripts
   //- JAVASCIPTS
