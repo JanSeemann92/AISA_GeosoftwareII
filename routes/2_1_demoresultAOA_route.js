@@ -6,7 +6,7 @@ var router = express.Router();
  */
 router.get('/', function(req, res, next)
 {
-    res.render('2_1_resultAOA', {title: 'Result AOA'})
+    res.render('2_1_demoresultAOA', {title: 'Demo Result'})
 }); 
 
 module.exports = router;
