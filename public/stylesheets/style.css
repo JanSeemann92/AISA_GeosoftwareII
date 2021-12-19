@@ -1,4 +1,4 @@
-/* Layout für Startseite*/
+/* Layout for homepage */
 .images {
     display: flex;
     justify-content: space-around;
@@ -49,7 +49,7 @@
     opacity: 0.5;
 }
 
-/* Inhalt entlang der Seite anordnen mit festem Header und Bottom*/
+/* Arrange content along page with fixed header and bottom */
 body {
     display:flex;
     min-height: 100vh;
@@ -61,83 +61,57 @@ main {
     flex:1;
 }
 
-/*Map Layout*/
+/* Map layout */
 #map {
-    height: 95vh;
+    height: 100vh;
     max-width: 100%;
     margin: 5px;
 }
 
-/*Resultmap Layout*/
-#resultmap {
+/* Resultmap layout */
+#demoresultmap {
     height: 90vh;
     max-width: 100%;
     margin:5px;
 }
 
-/*Textstyling*/
-
+/* Textstyling */
 #textfeld{
     margin-right: 10px;
     margin-left: 10px;
     margin-bottom: 100px;
 }
 
-/*Textstyling*/
 #text{
     margin-left: 3%;
     margin-bottom: 5%;
 }
 
-/*Textstyling*/
 #textarea{
     margin-left: 5%;
     margin-right: 5%;
     margin-bottom: 5%;
 }
 
-/*Textstyling*/
 #introduction{
     font-style: italic;
     font-size: 17pt;
     text-align: center;
 }
 
-/*Textstyling*/
 #textcenter{
     font-size: 14pt;
     text-align: center;
 }
 
-
-/*Textstyling*/
 #heading{
     margin-left: 15%;
     margin-right: 5%;
     font-weight: bold;
 }
 
-
 h4{
     color: rgb(69, 167, 212);
 }
 
-/*Limiting space of right column*/
-#column{
-    max-width: 500px;
-}
-
-/*Map2 Layout - Seite 1_1_tour_add*/
-#karte {
-    height: 85vh;;
-    max-width: 100%;
-    margin: 10px;
-    margin-top: 20px;
-}
-
-/*Search Bar - Layout*/
-#searchBar {
-    display: flex;
-    justify-content: center;
-}
 

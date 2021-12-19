@@ -1,22 +1,25 @@
-"use strict" 
+"use strict"
 
-//Generate map
-var map = L.map('map').setView([50.943144, 10.388001], 6);
+// center of the map
+var center = [50.943144, 10.388001];
 
-//initialiation of the attributes
+// create a variable that contains the map, initial settings
+var map = L.map('map').setView(center, 6); 
+
+// initialiation of the attributes
 let marker = ""; 
 let rectangle = ""; 
 let drawEvent = false; 
 var route2 = null; 
 var drawnGeojson; 
 
-// MapTiler hinuzfügen
+// add tileLayer
 L.tileLayer('https://api.maptiler.com/maps/streets/{z}/{x}/{y}.png?key=86IucIQ0W7mo5uspiDDB', 
     {
      attribution: '<a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a>'
     }).addTo(map); 
 
-// Draw Group/ Toolbar hinzufügen
+// add drawControl
 var drawnItems = new L.FeatureGroup();
 map.addLayer(drawnItems);
 var drawControl = new L.Control.Draw ({
@@ -33,7 +36,7 @@ var drawControl = new L.Control.Draw ({
 map.addControl(drawControl);
     
 
-// Draw Events
+// manage draw events
 map.on(L.Draw.Event.CREATED, function (e) {
     var type = e.layerType,
         layer = e.layer;
@@ -66,7 +69,7 @@ $(document).ready(function(){
     });
   });
 
-//evtl. EventHandler für Boundingbox einfügen
+//possibly insert EventHandler for bounding box
 /**$(document).ready(function(){
     $("select[name='choose']").on('change',function(){
       if($(this).val()==0){
@@ -77,11 +80,5 @@ $(document).ready(function(){
     });
   });
  */
-
-function startOwnCalculation(){
-    alert("The calculation will now be executed, you will then be redirected to the results. The calculation may take a few minutes, please wait...")
-    console.log("Hello")
-    window.location.href= '/resultAOA'  
-}
 
   

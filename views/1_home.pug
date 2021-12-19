@@ -1,11 +1,12 @@
 extends 0_layout
 block content 
 
-  //- IMAGE DISPLAY
+  //- image display
   .images
     .image-container.fade1
       img(src='/stylesheets/Background.jpg' width='80' height='80')
       p(style='margin:10px;')
+        //- image sources
         a
         | Background picture:
         | &copy;
@@ -20,11 +21,11 @@ block content
   br
   br
   br
-  //- START BUTTON
+  //- start button to redirect to the calculation page
   .d-grid.gap-2.col-6.mx-auto
     a.btn.btn-outline-light(style='background-color:black; color: rgb(69, 167, 212)' href='/AOA' role='button') Get started!
   br
   br
   block scripts
-      //- JAVASCRIPTS
+      //- required javascripts
       script(src=' /javascripts/2_calculateAOA.js', defer='')

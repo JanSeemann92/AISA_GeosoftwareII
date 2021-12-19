@@ -8,7 +8,7 @@ function downloaddemodata(){
 
     var zip = new JSZip();
 
-    JSZipUtils.getBinaryContent("./javascripts/2_1_resultAOA.js", function( err, data1 ) {
+    JSZipUtils.getBinaryContent("./javascripts/3_1_demoresultAOA.js", function( err, data1 ) {
         if ( err ) {
             throw err;
         }

@@ -1,12 +1,10 @@
 const express = require('express')
 var router = express.Router(); 
 
-/**
- * GET Router for Calculate AOA
- */
+//get router for result page of demo calculations
 router.get('/', function(req, res, next)
 {
-    res.render('2_1_demoresultAOA', {title: 'Demo Result'})
+    res.render('3_1_demoresultAOA', {title: 'Demo Result'})
 }); 
 
 module.exports = router;

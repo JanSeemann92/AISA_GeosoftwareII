@@ -10,6 +10,7 @@ function startDemoCalculation(){
         window.location.href= '/demoresultAOA'
     }})*/
     alert("The calculation will now be executed, you will then be redirected to the results. The calculation may take a few minutes, please wait...")
-    console.log("Hello")
     window.location.href= '/demoresultAOA'  
 }
+
+var coordsAOI = [[52.187430, 7.331653], [52.343256,7.605924]];

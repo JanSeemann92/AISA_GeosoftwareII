@@ -1,12 +1,10 @@
 const express = require('express')
 var router = express.Router(); 
 
-/**
- * GET Router für Kontakt Seite
- */
+//get router for about page
 router.get('/', function(req, res, next)
 {
-    res.render('5_imprint', {title: 'Imprint'})
+    res.render('5_about', {title: 'About'})
 }); 
 
 module.exports = router; 
