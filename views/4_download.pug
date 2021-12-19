@@ -1,25 +1,31 @@
 extends 0_layout
 block content
 
-  //- HEADING
+  //- heading
   br
   h2.text-center Download data
   br
 
+  //- download area
   .row
-    .col-6
+    .col-7
       #textfeld
-        p.text-left
-          | Please select the data you want to download!
-        //- FORM SELECT TO CHOOSE OPTION
-        select#choose2.form-select.form-select-lg.mb-3(name='choose1' aria-label='form-select1' style='background-color: black; color: rgb(69, 167, 212); font-size: 16px;')
-          option(selected='') Please select...
-          option(value='2') Prediction map (tiff)
-          option(value='3') Calculated AOA (tiff)
-          option(value='4') Coordinates of recommended sampling areas (geojson)
-          option(value='5') Trained model (R data format)
-        a.btn.btn-outline-success(style='background-color: black; color: rgb(69, 167, 212)' type='submit' form='input-form' onclick="alert('Button works!')") Download data
-
+        //- downloadbuttons
+        p(style= 'font-weight: bold')
+          | By clicking on one of the download buttons the corresponding files will be downloaded as .zip file.
+        //- download own calculation data
+        button.btn.btn-outline.form-select-lg.mb-3(style='background-color: black; color: rgb(69, 167, 212)' onclick= 'downloadowndata()') Download the data of your own calculations
+        br
+         //- download demo calculation data
+        button.btn.btn-outline.form-select-lg.mb-3(style='background-color: black; color: rgb(69, 167, 212)' onclick= 'downloaddemodata()') Download the demodata we provide
+  
+        //- downloadinformation
+        p(style= 'font-weight: bold') The download provides the following files:
+        p Prediction map (tiff)
+        p Calculated AOA (tiff)
+        p Coordinates of recommended sampling areas (geojson)
+        p Trained model (R data format)
+       
   block scripts
-  //- JAVASCIPTS
-  script(src='/javascripts/4_download.js', defer)
+      //- required javascripts
+      script(src='/javascripts/4_download.js', defer)
