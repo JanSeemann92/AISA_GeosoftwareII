@@ -1,0 +1,31 @@
+extends 0_layout
+block content
+
+  //- heading
+  br
+  h2.text-center Results of the demo calculations
+  p.text-center Please wait a moment, the calculated AOA and the prediction must first be projected onto the map. The map is finished loading when you see 4 layer controls on the right side of the map. You can use them to display the result layers via selection.
+  //- resultmap display, legend and redirection to download
+  .row
+    //- resultmap
+    .col-8
+      #demoresultmap
+    //- legend
+    .col-4
+        .card(style='width: 95%; margin-top: 0px; margin-bottom: 20px; display: block')
+          img.card-img-top(src='/stylesheets/Legend_placeholder.jpg')
+
+        //- redirection to download
+        p.text-left
+          | You want to download the results of the calculation? Click here!
+        a.btn.btn-outline-light(style='background-color:black; color: rgb(69, 167, 212)' href='/download' role='button') Go to download
+
+
+  block scripts
+      //- required javascripts
+      script(src='/javascripts/2_calculateAOA.js', defer='')
+      script(src='/javascripts/3_demo.js', defer='')
+      script(src='/javascripts/3_1_demoresultAOA.js', defer='')  
+
+
+  

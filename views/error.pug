@@ -1,6 +1,7 @@
 extends 0_layout
-
 block content
+
+  //- error management
   h1= message
   h2= error.status
   pre #{error.stack}
