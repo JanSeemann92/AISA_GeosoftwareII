@@ -16,7 +16,7 @@ var icon = L.icon({
  * Accesses the demo AOA, saves it as a GeoRasterLayer in a leaflet layerGroup, adjusts the colors, and then calls the createAOALayer(layerAOA) 
  * function to display the layer on the map.
  */
-var url_to_geotiff_file = "/stylesheets/AOA_EPSG4326.tif";
+var url_to_geotiff_file = "http://127.0.0.1:25118/verzeichnisdemodaten/aoaOutput.tif";
 fetch(url_to_geotiff_file).then(response => response.arrayBuffer()).then(arrayBuffer => {
     parseGeoraster(arrayBuffer).then(georaster => {
         console.log("georaster:", georaster);
@@ -52,7 +52,7 @@ fetch(url_to_geotiff_file).then(response => response.arrayBuffer()).then(arrayBu
  * Accesses the demo prediction, saves it as a GeoRasterLayer in a leaflet layerGroup, adjusts the colors, and then calls the 
  * createPredictionLayer(layerPrediction) function to display the layer on the map.
  */
-var url_to_geotiff_file = "/stylesheets/prediction_EPSG4326.tif";
+var url_to_geotiff_file = "http://127.0.0.1:25118/verzeichnisdemodaten/predictionOutput.tif";
 fetch(url_to_geotiff_file).then(response => response.arrayBuffer()).then(arrayBuffer => {
     parseGeoraster(arrayBuffer).then(georaster => {
         console.log("georaster:", georaster);
@@ -111,7 +111,7 @@ fetch(url_to_geotiff_file).then(response => response.arrayBuffer()).then(arrayBu
  * and then calls the createPolygonLayer(layerpolygons) function to display the layer on the map.
  */
 var xhr = new XMLHttpRequest();
-xhr.open('GET', '/stylesheets/demodata_rheine_trainingspolygone_EPSG4326.geojson');
+xhr.open('GET', 'http://127.0.0.1:25118/verzeichnisdemodaten/demodata_rheine_trainingspolygone.geojson');
 xhr.setRequestHeader('Content-Type', 'application/json');
 xhr.onload = function() {
 if (xhr.status === 200) {

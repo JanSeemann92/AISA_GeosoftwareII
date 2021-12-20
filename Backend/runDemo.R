@@ -24,10 +24,11 @@ library(CAST)
 library(doParallel) # loads dependencies too
 #loadpackages for API
 library(beakr)
+library(rgdal)
 
 # set working directory: directory which includes needed data
 #### needs to be changed later on to the hosting server
-setwd("D:/Studium/Geosoftware1/AISA_GeosoftwareII/Backend/demodata")
+setwd("C:/Users/katha/Documents/GitHub/AISA_GeosoftwareII/Backend/demodata")
 
 
 
@@ -215,50 +216,58 @@ AOA <- function (sentinel_resampled, model) {
 # Output files are written within the function
 
 runDemo <- function (){
+ 
   
-  # load input data
-  # As predictor variables a raster data set with sentinel-2 data is used.
-  # The data either comes form AWS and is preprocessed internally first or the demodata is used.
-  # load and build stack with data of predictor variables (=sentinel-2 images)
-  ### yet only running with demodata!
-  sentinel_combined <- stack("demodata_rheine_sentinel_combined.grd")
-  # load training polygons
-  ### option for GeoJSON needs to be added!
-  trainingsites <- st_read("demodata_rheine_tainingspolygone.gpkg")
-  
-  # reproject crs of input data to EPSG4326
-  # ensures that data has same crs and that it can be displayed by leaflet
-  # for reference see: https://spatialreference.org/ref/sr-org/6627/
-  trainingsites <- st_transform(trainingsites, crs = "+proj=longlat +datum=WGS84 +no_defs")
-  sentinel_combined <- projectRaster(sentinel_combined,crs=crs(trainingsites))
-  
-  # do calculations
-  model <-TrainModel(trainingsites, sentinel_combined)
-  predictionLULC <- Prediction(sentinel_combined,model)
-  areaOA <- AOA (sentinel_combined,model)
-  
-  
-  #writing output files
-  saveRDS(model,file="createdbyAISAtool/modelOutput.RDS")
-  print("model output file written")
-  writeRaster(predictionLULC, "createdbyAISAtool/predictionOutput.tif", overwrite=T)
-  print("LULC output file written")
-  writeRaster(areaOA, "createdbyAISAtool/aoaOutput.tif", overwrite=T)
-  print("AOA output file written")
-  st_write(trainingsites, "createdbyAISAtool/demodata_rheine_trainingspolygone.geojson")
-  print("trainingsites geojson outout written")
-  
-  return("JobDone")
 }
   
   
 # Create and start the beakr instance
 newBeakr() %>%
-  httpGET(path = '/runDemo', decorate(runDemo)) %>%
- 
+  # Host the directory of static files
+  serveStaticFiles("/verzeichnisdemodaten", "C:/Users/katha/Documents/GitHub/AISA_GeosoftwareII/Backend/demodata/createdbyAISAtool/", verbose = TRUE) %>%
+  httpGET(path = '/runDemo', function(req,res,err) {
+    # load input data
+    # As predictor variables a raster data set with sentinel-2 data is used.
+    # The data either comes form AWS and is preprocessed internally first or the demodata is used.
+    # load and build stack with data of predictor variables (=sentinel-2 images)
+    ### yet only running with demodata!
+    sentinel_combined <- stack("demodata_rheine_sentinel_combined.grd")
+    # load training polygons
+    ### option for GeoJSON needs to be added!
+    trainingsites <- st_read("demodata_rheine_tainingspolygone.gpkg")
+    
+    # reproject crs of input data to EPSG4326
+    # ensures that data has same crs and that it can be displayed by leaflet
+    # for reference see: https://spatialreference.org/ref/sr-org/6627/
+    trainingsites <- st_transform(trainingsites, crs = "+proj=longlat +datum=WGS84 +no_defs")
+    sentinel_combined <- projectRaster(sentinel_combined,crs=crs(trainingsites))
+    
+    # do calculations
+    model <-TrainModel(trainingsites, sentinel_combined)
+    predictionLULC <- Prediction(sentinel_combined,model)
+    areaOA <- AOA (sentinel_combined,model)
+    
+    
+    #writing output files
+    saveRDS(model,file="createdbyAISAtool/modelOutput.RDS")
+    print("model output file written")
+    writeRaster(predictionLULC, "createdbyAISAtool/predictionOutput.tif", overwrite=T)
+    print("LULC output file written")
+    writeRaster(areaOA, "createdbyAISAtool/aoaOutput.tif", overwrite=T)
+    print("AOA output file written")
+    st_write(trainingsites, "createdbyAISAtool/demodata_rheine_trainingspolygone.geojson", delete_layer=T)
+    print("trainingsites geojson outout written")
+    res$setHeader("Access-Control-Allow-Origin", "*")
+    return("JobDone")
+    }) %>%
+    
+  
+  handleErrors() %>%
   
   listen(host = "127.0.0.1", port = 25118) #for local testing
   #listen(host = "44.234.41.163", port =  8780) #for AWS
+
+
 
 
 # URL GET API Call for local testing: http://127.0.0.1:25118/runDemo
