@@ -223,7 +223,8 @@ runDemo <- function (){
   
 # Create and start the beakr instance
 newBeakr() %>%
-  # Host the directory of static files
+  
+  cors() %>%
   
   httpGET(path = '/runDemo', function(req,res,err) {
     # load input data
@@ -260,9 +261,9 @@ newBeakr() %>%
     res$setHeader("Access-Control-Allow-Origin", "*")
     return("JobDone")
     }) %>%
-    
-
-  serveStaticFiles("/verzeichnisdemodaten", "D:/Studium/Geosoftware1/AISA_GeosoftwareII/Backend/demodata/createdbyAISAtool/", verbose = TRUE) %>%
+  
+  # Host the directory of static files  
+  serveStaticFiles("/verzeichnisdemodaten", "C:/Users/katha/Documents/GitHub/AISA_GeosoftwareII/Backend/demodata/createdbyAISAtool/", verbose = TRUE) %>%
 
   
   handleErrors() %>%

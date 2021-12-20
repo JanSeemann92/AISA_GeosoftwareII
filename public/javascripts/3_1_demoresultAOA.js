@@ -17,7 +17,7 @@ var icon = L.icon({
  * function to display the layer on the map.
  */
 var url_to_geotiff_file = "http://127.0.0.1:25118/verzeichnisdemodaten/aoaOutput.tif";
-fetch(url_to_geotiff_file).then(response => response.arrayBuffer()).then(arrayBuffer => {
+fetch(url_to_geotiff_file, {mode: 'cors'}).then(response => response.arrayBuffer()).then(arrayBuffer => {
     parseGeoraster(arrayBuffer).then(georaster => {
         console.log("georaster:", georaster);
         var AOAlayer = new GeoRasterLayer({
@@ -53,7 +53,7 @@ fetch(url_to_geotiff_file).then(response => response.arrayBuffer()).then(arrayBu
  * createPredictionLayer(layerPrediction) function to display the layer on the map.
  */
 var url_to_geotiff_file = "http://127.0.0.1:25118/verzeichnisdemodaten/predictionOutput.tif";
-fetch(url_to_geotiff_file).then(response => response.arrayBuffer()).then(arrayBuffer => {
+fetch(url_to_geotiff_file, {mode: 'cors'}).then(response => response.arrayBuffer()).then(arrayBuffer => {
     parseGeoraster(arrayBuffer).then(georaster => {
         console.log("georaster:", georaster);
         var Predictionlayer = new GeoRasterLayer({
@@ -112,7 +112,6 @@ fetch(url_to_geotiff_file).then(response => response.arrayBuffer()).then(arrayBu
  */
 var xhr = new XMLHttpRequest();
 xhr.open('GET', 'http://127.0.0.1:25118/verzeichnisdemodaten/demodata_rheine_trainingspolygone.geojson');
-xhr.setRequestHeader('Content-Type', 'application/json');
 xhr.onload = function() {
 if (xhr.status === 200) {
 var polygons = L.geoJSON(JSON.parse(xhr.responseText))
