@@ -224,11 +224,7 @@ runDemo <- function (){
 # Create and start the beakr instance
 newBeakr() %>%
   # Host the directory of static files
-<<<<<<< Updated upstream
-  serveStaticFiles("/verzeichnisdemodaten", "C:/Users/katha/Documents/GitHub/AISA_GeosoftwareII/Backend/demodata/createdbyAISAtool/", verbose = TRUE) %>%
-=======
   
->>>>>>> Stashed changes
   httpGET(path = '/runDemo', function(req,res,err) {
     # load input data
     # As predictor variables a raster data set with sentinel-2 data is used.
@@ -265,10 +261,9 @@ newBeakr() %>%
     return("JobDone")
     }) %>%
     
-<<<<<<< Updated upstream
-=======
+
   serveStaticFiles("/verzeichnisdemodaten", "D:/Studium/Geosoftware1/AISA_GeosoftwareII/Backend/demodata/createdbyAISAtool/", verbose = TRUE) %>%
->>>>>>> Stashed changes
+
   
   handleErrors() %>%
   
