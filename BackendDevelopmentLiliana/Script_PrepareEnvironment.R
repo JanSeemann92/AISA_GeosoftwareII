@@ -18,9 +18,10 @@ install.packages("CAST")  # installs dependencies, too
 install.packages("caret")  # installs dependencies, too
 install.packages("sf")
 install.packages("beakr")  # needed for API; installs dependencies, too
+install.packages("doParallel")
 # not required yet:
 ## install.packages("latticeExtra")  # installs dependencies, too
-install.packages("rgdal")   # needed for package mapview
+## install.packages("rgdal")   # needed for package mapview
 ## install.packages("mapview")
 ## install.packages("tmap")  # installs dependencies, too
 ## install.packages("doParallel")
