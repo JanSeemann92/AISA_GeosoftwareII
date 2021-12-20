@@ -27,7 +27,7 @@ library(beakr)
 
 # set working directory: directory which includes needed data
 #### needs to be changed later on to the hosting server
-setwd("C:/Users/lgits/sciebo/Uni_Geoinfo/GI7_GeosoftwareII/ProjectAISA/AISA_GeosoftwareII/BackendDevelopmentLiliana/demodata")
+setwd("D:/Studium/Geosoftware1/AISA_GeosoftwareII/Backend/demodata")
 
 
 
@@ -200,7 +200,7 @@ AOA <- function (sentinel_resampled, model) {
 
 #######################################################################
 # Title: runDemo
-# Author: Jan Seemann
+# Author: Jan Seemann, Liliana Gitschel
 # Latest Update: 16.12.2021
 # 
 # Purpose:
@@ -246,8 +246,7 @@ runDemo <- function (){
   writeRaster(areaOA, "createdbyAISAtool/aoaOutput.tif", overwrite=T)
   print("AOA output file written")
   st_write(trainingsites, "createdbyAISAtool/demodata_rheine_trainingspolygone.geojson")
-  print("trainingsites geojson output written")
-  
+  print("trainingsites geojson outout written")
   
   return("JobDone")
 }
