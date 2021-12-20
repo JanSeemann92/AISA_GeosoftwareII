@@ -46,12 +46,12 @@ block content
         br
         h5.text-left UPLOAD
         p.text-left
-          | Please choose if you want to upload an trained model or training data.
+          | Please choose if you want to upload training data with trained model or only training data.
         //- form select to choose upload option
         select#choose2.form-select.form-select-lg.mb-3(name='choose1' aria-label='form-select1' style='background-color: black; color: rgb(69, 167, 212); font-size: 16px;')
           option(selected='') Please choose...
-          option(value='0') Trained model
-          option(value='1') Training data
+          option(value='0') Trained model + training data
+          option(value='1') Training data (without model)
         //- upload form to enter file with training data
         form#inputModel
           .form-group
