@@ -46,5 +46,8 @@ registerDoParallel(cl)  # calculate clusters in parallel to speed up the process
 AOA <- aoa(sentinel_combined,model,cl=cl)  # estimate AOA
 plot(AOA)  #plot AOA
 
+
 # Save/export AOA as Geotiff
 writeRaster(AOA, "createdbyAISAtool/AOA_EPSG4326.tif", overwrite=T)
+# Save/export AOA as grd
+writeRaster(AOA, "createdbyAISAtool/AOA_EPSG4326.grd", overwrite=T)

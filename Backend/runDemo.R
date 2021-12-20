@@ -1,6 +1,6 @@
 # Title: Script_MainCalculations
 # Author: Liliana Gitschel, Jan Seemann
-# Latest Update: 17.12.2021
+# Latest Update: 20.12.2021
 # 
 # Purpose:
 #   Includes functions for necessary calculations within the AISA tool:
@@ -22,12 +22,15 @@ library(caret)
 # load packages for AOA
 library(CAST)
 library(doParallel) # loads dependencies too
-#loadpackages for API
+# load packages for API
 library(beakr)
+library(rgdal)
+# load packages for exporting geojson
+library(geojson)
 
 # set working directory: directory which includes needed data
 #### needs to be changed later on to the hosting server
-setwd("C:/Users/lgits/sciebo/Uni_Geoinfo/GI7_GeosoftwareII/ProjectAISA/AISA_GeosoftwareII/BackendDevelopmentLiliana/demodata")
+setwd("C:/Users/katha/Documents/GitHub/AISA_GeosoftwareII/Backend/demodata")
 
 
 
@@ -44,7 +47,7 @@ setwd("C:/Users/lgits/sciebo/Uni_Geoinfo/GI7_GeosoftwareII/ProjectAISA/AISA_Geos
 #   sentinel_resampled - grd-data containing the readily resampled sentinel-2-image from AWS
 #
 # Output:
-#   model - Trained model (RDS data format)
+#   model - Trained model
 #
 # Reference:
 #   Partly based on: https://github.com/HannaMeyer/OpenGeoHub_2021
@@ -118,7 +121,7 @@ TrainModel <- function (trainingsites, sentinel_resampled) {
 #   model - Trained model in RDS-data format (either uploaded by user or internally created with Skript_TrainModel)
 #
 # Output:
-#   prediction - Prediction for LULC classification (Geotiff)
+#   prediction - Prediction for LULC classification
 #
 # Reference:
 #   Partly based on: https://github.com/HannaMeyer/OpenGeoHub_2021
@@ -159,30 +162,14 @@ Prediction <- function (sentinel_resampled, model) {
 #           (either uploaded by user or internally created with function TrainModel)
 #
 # Output:
-#   AOA - Estimation of AOA (Geotiff)
+#   AOA - Estimation of AOA (Rasterstack)
 #
 # Reference:
 #   Partly based on: https://github.com/HannaMeyer/OpenGeoHub_2021
-
+#
 ########################################################################
 
-
-# load input data
-# As predictor variables a raster data set with sentinel-2 data is used.
-# The data either comes form AWS and is preprocessed internally first or the demodata is used.
-# load and build stack with data of predictor variables (=sentinel-2 images)
-### yet only running with demodata!
-#sentinel_combined <- stack("demodata_rheine_sentinel_combined.grd")
-# load model (either created with separate script "Script_TrainModel.R" or user input)
-### directory containing model needs adjustment later on
-#model <- readRDS("createdbyAISAtool/RFModel.RDS")
-
 AOA <- function (sentinel_resampled, model) {
-  
-  # Create raster stack object
-  #sentinel_resampled <- stack(sentinel_resampled)
-  # Read model - necessary??
-  # model <- readRDS(model)
   
   # Estimate AOA
   cl <- makeCluster(4) # devide data into 4 clusters (could be more in final version)
@@ -198,10 +185,45 @@ AOA <- function (sentinel_resampled, model) {
 }
 
 
+
+#######################################################################
+# Title: NewSamplingLocations
+# Author: Liliana Gitschel
+# Latest Update: 20.12.2021
+# 
+# Purpose:
+#   Suggest new sampling locations based on the areas outside the AOA.
+#
+# Input:
+#   AOA
+#
+# Output:
+#   GeoJson containing points for new sampling locations.
+#
+########################################################################
+
+NewSamplingLocations <- function(AOA) {
+  
+  # extract layer containing AOA from raster stack
+  AOA_only <- raster(AOA, layer=2)
+  
+  # set values inside AOA (=1) to NA
+  AOA_only_outside <- reclassify(AOA_only, cbind(1, NA))
+  
+  # get new sampling locations (method = random)
+  samples <- sampleRandom(AOA_only_outside, size=50, sp=TRUE)
+  
+  # convert sampling locations to geojson
+  samples_geojson <- as.geojson(samples)
+  
+  return(newSamplingLocations)
+}
+
+
 #######################################################################
 # Title: runDemo
-# Author: Jan Seemann
-# Latest Update: 16.12.2021
+# Author: Jan Seemann, Liliana Gitschel
+# Latest Update: 20.12.2021
 # 
 # Purpose:
 #   Run the Demo.
@@ -216,54 +238,66 @@ AOA <- function (sentinel_resampled, model) {
 
 runDemo <- function (){
   
-  # load input data
-  # As predictor variables a raster data set with sentinel-2 data is used.
-  # The data either comes form AWS and is preprocessed internally first or the demodata is used.
-  # load and build stack with data of predictor variables (=sentinel-2 images)
-  ### yet only running with demodata!
-  sentinel_combined <- stack("demodata_rheine_sentinel_combined.grd")
-  # load training polygons
-  ### option for GeoJSON needs to be added!
-  trainingsites <- st_read("demodata_rheine_tainingspolygone.gpkg")
   
-  # reproject crs of input data to EPSG4326
-  # ensures that data has same crs and that it can be displayed by leaflet
-  # for reference see: https://spatialreference.org/ref/sr-org/6627/
-  trainingsites <- st_transform(trainingsites, crs = "+proj=longlat +datum=WGS84 +no_defs")
-  sentinel_combined <- projectRaster(sentinel_combined,crs=crs(trainingsites))
-  
-  # do calculations
-  model <-TrainModel(trainingsites, sentinel_combined)
-  predictionLULC <- Prediction(sentinel_combined,model)
-  areaOA <- AOA (sentinel_combined,model)
-  
-  
-  #writing output files
-  saveRDS(model,file="createdbyAISAtool/modelOutput.RDS")
-  print("model output file written")
-  writeRaster(predictionLULC, "createdbyAISAtool/predictionOutput.tif", overwrite=T)
-  print("LULC output file written")
-  writeRaster(areaOA, "createdbyAISAtool/aoaOutput.tif", overwrite=T)
-  print("AOA output file written")
-  st_write(trainingsites, "createdbyAISAtool/demodata_rheine_trainingspolygone.geojson")
-  print("trainingsites geojson output written")
-  
-  
-  return("JobDone")
 }
-  
-  
+
+
 # Create and start the beakr instance
 newBeakr() %>%
-  httpGET(path = '/runDemo', decorate(runDemo)) %>%
- 
+  # Host the directory of static files
+  
+  httpGET(path = '/runDemo', function(req,res,err) {
+    # load input data
+    # As predictor variables a raster data set with sentinel-2 data is used.
+    # The data either comes form AWS and is preprocessed internally first or the demodata is used.
+    # load and build stack with data of predictor variables (=sentinel-2 images)
+    ### yet only running with demodata!
+    sentinel_combined <- stack("demodata_rheine_sentinel_combined.grd")
+    # load training polygons
+    ### option for GeoJSON needs to be added!
+    trainingsites <- st_read("demodata_rheine_tainingspolygone.gpkg")
+    
+    # reproject crs of input data to EPSG4326
+    # ensures that data has same crs and that it can be displayed by leaflet
+    # for reference see: https://spatialreference.org/ref/sr-org/6627/
+    trainingsites <- st_transform(trainingsites, crs = "+proj=longlat +datum=WGS84 +no_defs")
+    sentinel_combined <- projectRaster(sentinel_combined,crs=crs(trainingsites))
+    
+    # do calculations
+    model <-TrainModel(trainingsites, sentinel_combined)
+    predictionLULC <- Prediction(sentinel_combined,model)
+    areaOA <- AOA (sentinel_combined,model)
+    samplingLocations <- NewSamplingLocations(areaOA)
+    
+    
+    
+    #writing output files
+    saveRDS(model,file="createdbyAISAtool/modelOutput.RDS")
+    print("model output file written")
+    writeRaster(predictionLULC, "createdbyAISAtool/predictionOutput.tif", overwrite=T)
+    print("LULC output file written")
+    writeRaster(areaOA, "createdbyAISAtool/aoaOutput.tif", overwrite=T)
+    print("AOA output file written")
+    st_write(trainingsites, "createdbyAISAtool/demodata_rheine_trainingspolygone.geojson", delete_layer=T)
+    print("trainingsites geojson output written")
+    write(samples_geojson, "createdbyAISAtool/demodata_rheine_sampling_EPSG4326.geojson")
+    print("New sampling locations output geojson written")
+    
+    res$setHeader("Access-Control-Allow-Origin", "*")
+    return("JobDone")
+  }) %>%
+  
+  
+  serveStaticFiles("/verzeichnisdemodaten", "D:/Studium/Geosoftware1/AISA_GeosoftwareII/Backend/demodata/createdbyAISAtool/", verbose = TRUE) %>%
+  
+  
+  handleErrors() %>%
   
   listen(host = "127.0.0.1", port = 25118) #for local testing
-  #listen(host = "44.234.41.163", port =  8780) #for AWS
+#listen(host = "44.234.41.163", port =  8780) #for AWS
+
+
 
 
 # URL GET API Call for local testing: http://127.0.0.1:25118/runDemo
 # URL GET API Call for AWS: http://44.234.41.163:8780/runDemo
-
-
-

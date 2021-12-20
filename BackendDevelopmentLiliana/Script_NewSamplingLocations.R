@@ -1,4 +1,4 @@
-# Title: AOA
+# Title: NewSamplingLocations
 # Author: Liliana Gitschel
 # Latest Update: 20.12.2021
 # 
@@ -20,7 +20,6 @@ rm(list=ls())
 # load packages
 library(raster)
 library(sf)
-library(sp)
 library(geojson)
 
 # set working directory: directory which includes needed data
