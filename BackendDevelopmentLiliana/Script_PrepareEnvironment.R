@@ -19,6 +19,7 @@ install.packages("caret")  # installs dependencies, too
 install.packages("sf")
 install.packages("beakr")  # needed for API; installs dependencies, too
 install.packages("doParallel")
+install.packages("geojson")  # needed to convert spatialpointsdataframe into geojson
 # not required yet:
 ## install.packages("latticeExtra")  # installs dependencies, too
 ## install.packages("rgdal")   # needed for package mapview
