@@ -25,10 +25,12 @@ library(doParallel) # loads dependencies too
 #loadpackages for API
 library(beakr)
 library(rgdal)
+# load packages for exporting geojson
+library(geojson)
 
 # set working directory: directory which includes needed data
 #### needs to be changed later on to the hosting server
-setwd("C:/Users/katha/Documents/GitHub/AISA_GeosoftwareII/Backend/demodata")
+setwd("C:/Users/katha/Documents/GitHub/AISA_GeosoftwareII/Backend/demodata/")
 
 
 
@@ -199,6 +201,43 @@ AOA <- function (sentinel_resampled, model) {
 }
 
 
+
+#######################################################################
+# Title: NewSamplingLocations
+# Author: Liliana Gitschel
+# Latest Update: 20.12.2021
+# 
+# Purpose:
+#   Suggest new sampling locations based on the areas outside the AOA.
+#
+# Input:
+#   AOA - AOA
+#
+# Output:
+#   samples_geojson - GeoJson containing points for new sampling locations.
+#
+########################################################################
+
+NewSamplingLocations <- function(AOA) {
+  
+  # extract layer containing AOA from raster stack
+  AOA_only <- raster(AOA, layer=2)
+  
+  # set values inside AOA (=1) to NA
+  AOA_only_outside <- reclassify(AOA_only, cbind(1, NA))
+  
+  # get new sampling locations (method = random)
+  samples <- sampleRandom(AOA_only_outside, size=50, sp=TRUE)
+  
+  # convert sampling locations to geojson
+  samples_geojson <- as.geojson(samples)
+  
+  return(samples_geojson)
+}
+
+
+
+
 #######################################################################
 # Title: runDemo
 # Author: Jan Seemann, Liliana Gitschel
@@ -247,7 +286,7 @@ newBeakr() %>%
     model <-TrainModel(trainingsites, sentinel_combined)
     predictionLULC <- Prediction(sentinel_combined,model)
     areaOA <- AOA (sentinel_combined,model)
-    
+    samplingLocations <- NewSamplingLocations(areaOA)
     
     #writing output files
     saveRDS(model,file="createdbyAISAtool/modelOutput.RDS")
@@ -258,6 +297,9 @@ newBeakr() %>%
     print("AOA output file written")
     st_write(trainingsites, "createdbyAISAtool/demodata_rheine_trainingspolygone.geojson", delete_layer=T)
     print("trainingsites geojson outout written")
+    write(samplingLocations, "createdbyAISAtool/demodata_rheine_sampling_EPSG4326.geojson")
+    print("New sampling locations output geojson written")
+    
     res$setHeader("Access-Control-Allow-Origin", "*")
     return("JobDone")
     }) %>%

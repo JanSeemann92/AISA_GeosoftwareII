@@ -89,7 +89,7 @@ fetch(url_to_geotiff_file, {mode: 'cors'}).then(response => response.arrayBuffer
  * and then calls the createSamplingLayer(layertraingspots) function to display the layer on the map.
  */
  $.ajax({
-    url: "https://rest.busradar.conterra.de/prod/fahrzeuge",
+    url: "http://127.0.0.1:25118/verzeichnisdemodaten/demodata_rheine_sampling_EPSG4326.geojson",
     type: 'GET',
     dataType: 'json', 
     success: function(res) {
