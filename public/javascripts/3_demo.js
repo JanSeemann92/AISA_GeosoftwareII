@@ -14,4 +14,4 @@ function startDemoCalculation(){
     }})
 }
 
-var coordsAOI = [[52.187430, 7.331653], [52.343256,7.605924]];
+var coordsAOI = [[52.18672, 7.325238], [52.34297,7.611398]];
