@@ -195,10 +195,10 @@ AOA <- function (sentinel_resampled, model) {
 #   Suggest new sampling locations based on the areas outside the AOA.
 #
 # Input:
-#   AOA
+#   AOA - AOA
 #
 # Output:
-#   GeoJson containing points for new sampling locations.
+#   samples_geojson - GeoJson containing points for new sampling locations.
 #
 ########################################################################
 
@@ -216,7 +216,7 @@ NewSamplingLocations <- function(AOA) {
   # convert sampling locations to geojson
   samples_geojson <- as.geojson(samples)
   
-  return(newSamplingLocations)
+  return(samples_geojson)
 }
 
 
@@ -280,7 +280,7 @@ newBeakr() %>%
     print("AOA output file written")
     st_write(trainingsites, "createdbyAISAtool/demodata_rheine_trainingspolygone.geojson", delete_layer=T)
     print("trainingsites geojson output written")
-    write(samples_geojson, "createdbyAISAtool/demodata_rheine_sampling_EPSG4326.geojson")
+    write(samplingLocations, "createdbyAISAtool/demodata_rheine_sampling_EPSG4326.geojson")
     print("New sampling locations output geojson written")
     
     res$setHeader("Access-Control-Allow-Origin", "*")
