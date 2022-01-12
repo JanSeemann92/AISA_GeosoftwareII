@@ -4,6 +4,10 @@ block content
   //- heading
   br
   h2.text-center Landuse classification
+  //- redirection to demo
+  p.text-center
+    | Not sure how to use our tool? Check out our 
+    a(href='/demo') demo!
   br
   //- map display and selection of the calculation frame
   .row
@@ -12,10 +16,6 @@ block content
     //- area selection and file upload
     .col-7
       #textfeld
-        //- redirection to demo
-        p
-          | Not sure how to use our tool? Check out our 
-          a(href='/demo') demo!
         h5.text-left AREA SELECTION
         p.text-left
           | Please choose if you want to draw a bounding box directly on the map or if you want to enter the coordinates manually.
@@ -40,16 +40,15 @@ block content
             input#exampleCheck1.form-check-input(type='checkbox')
             label.form-check-label(for='checkbox') Everything correct?
           a.btn.btn-outline-success(style='background-color: black; color: rgb(69, 167, 212)' type='submit' form='input-form' onclick="document.getElementById('input-form').submit()") Submit
-       
-        //- file upload
+          
         br
         h5.text-left UPLOAD
         p.text-left
-          | Please choose if you want to upload training data with trained model or only training data.
+          | Please choose if you want to upload a trained model or only training data.
         //- form select to choose upload option
         select#choose2.form-select.form-select-lg.mb-3(name='choose1' aria-label='form-select1' style='background-color: black; color: rgb(69, 167, 212); font-size: 16px;')
           option(selected='') Please choose...
-          option(value='0') Trained model + training data
+          option(value='0') Trained model 
           option(value='1') Training data (without model)
         //- upload form to enter file with training data
         form#inputModel
@@ -58,10 +57,24 @@ block content
             br
             br
             button.btn.btn-outline-success(style='background-color: black; color: rgb(69, 167, 212)' type='submit') Submit
+
+        br
+        h5.text-left OPTIONAL SETTINGS
+        p.text-left
+          | You can optionally set the cloud coverage and the resolution of the satellite images.
+        form
+        p.text-left  
+          | Cloud cover: 
+          span#demo
+          | %
+          .slidecontainer
+            input#myRange.slider(type='range' min='1' max='100' value='20')  
+
+        br
         br
         button.btn.btn-outline-success(style='background-color: rgb(69, 167, 212); color: black' onclick= 'startCalculation()') Start Calculation
+      
 
-  block scripts
       //- required javascripts
       script(src='/javascripts/2_calculateAOA.js', defer)
       script(src='/javascripts/2_1_ownresultAOA.js', defer)
