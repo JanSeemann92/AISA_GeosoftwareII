@@ -18,50 +18,55 @@ block content
       | even more efficient and help them to focus on the core of their work, not on the technical implementation.
   
   //- contact display
-  .container
-    .row
-      .col-sm
-        .card(style='width: 100%; margin-top: 30px; margin-bottom: 30px;')
-          img.card-img-top(src='/stylesheets/Liliana.jpg')
-          .card-body
-            h5.card-title Liliana Gitschel
-            p.card-text 
-                | Hier kreativen Text einfügen ...
-            a.btn.btn-outline-light(href='mailto:l_gits01@uni-muenster.de' style='background-color:black; color: rgb(69, 167, 212)') Contact Lilana!
-      .col-sm
-        .card(style='width: 100%; margin-top: 30px; margin-bottom: 30px;')
-          img.card-img-top(src='/stylesheets/Jan.JPG')
-          .card-body
-            h5.card-title Jan Seemann
-            p.card-text
-              | Hier kreativen Text einfügen ...
-            a.btn.btn-outline-light(href='mailto:jan.seemann@uni-muenster.de' style='background-color:black; color: rgb(69, 167, 212)') Contact Jan!
-      .col-sm
-        .card(style='width: 100%; margin-top: 30px; margin-bottom: 30px;')
-          img.card-img-top(src='/stylesheets/Niklas.JPG')
-          .card-body
-            h5.card-title Niklas Daute
-            p.card-text
-              | Hier kreativen Text einfügen ...
-            a.btn.btn-outline-light(href='mailto:n_daut02@uni-muenster.de' style='background-color:black; color: rgb(69, 167, 212)') Contact Niklas!
-      .col-sm
-        .card(style='width: 100%; margin-top: 30px; margin-bottom: 30px;')
-          img.card-img-top(src='/stylesheets/Katharina.JPG')
-          .card-body
-            h5.card-title Katharina Kaufmann
-            p.card-text
-              | Hier kreativen Text einfügen ...
-            a.btn.btn-outline-light(href='mailto:kkaufman@uni-muenster.de' style='background-color:black; color: rgb(69, 167, 212)') Contact Katharina!
-      .col-sm
-        .card(style='width: 100%; margin-top: 30px; margin-bottom: 30px;')
-          img.card-img-top(src='/stylesheets/Antonia.JPG')
-          .card-body
-            h5.card-title Antonia Jost
-            p.card-text
-              | Hier kreativen Text einfügen ...
-            a.btn.btn-outline-light(href='mailto:antonia.jost@uni.muenster.de' style='background-color:black; color: rgb(69, 167, 212)') Contact Antonia!
-    a(href="http://www.freepik.com") 
-        | Designed by rawpixel.com, Freepik
+  .row.row-cols-2.row-cols-md-5.g-3(style='margin-left:5%; margin-right:5%;')
+    .col
+      .card
+        h5.card-header(style='background-color: rgb(69, 167, 212)')
+          | Liliana Gitschel
+        .card-body
+          h6.card-subtitle.mb-2.text-muted Backend-Developer
+          p.card-text 
+              | Liliana is our expert for the theory of the Area of Applicability and data science. She implemented the
+              | model into our programme and ...
+          a.btn.btn-outline-light(href='mailto:l_gits01@uni-muenster.de' style='background-color:black; color: rgb(69, 167, 212)') Contact Lilana!
+    .col
+      .card
+        h5.card-header(style='background-color: rgb(69, 167, 212);')
+          | Jan Seemann
+        .card-body
+          h6.card-subtitle.mb-2.text-muted Backend-Developer
+          p.card-text
+            | Jan is responsible for ... and the interfaces. Moreover, he continuously tests our scripts.
+          a.btn.btn-outline-light(href='mailto:jan.seemann@uni-muenster.de' style='background-color:black; color: rgb(69, 167, 212)') Contact Jan!
+    .col
+      .card
+        h5.card-header(style='background-color: rgb(69, 167, 212)')
+          | Niklas Daute
+        .card-body
+          h6.card-subtitle.mb-2.text-muted Backend-Developer
+          p.card-text
+            | Niklas knows everything about STAC. He requests the required images and subsamples them...
+          a.btn.btn-outline-light(href='mailto:n_daut02@uni-muenster.de' style='background-color:black; color: rgb(69, 167, 212)') Contact Niklas!
+    .col
+      .card
+        h5.card-header(style='background-color: rgb(69, 167, 212)')
+          | Katharina Kaufmann
+        .card-body
+          h6.card-subtitle.mb-2.text-muted Frontend-Developer
+          p.card-text
+            | Katharina makes sure that the user interface you're using right now always works as reliable and quickly as it does.
+            | She handles every user input, checks its validity and returns the wanted output. ...
+          a.btn.btn-outline-light(href='mailto:kkaufman@uni-muenster.de' style='background-color:black; color: rgb(69, 167, 212)') Contact Katharina!
+    .col
+      .card
+        h5.card-header(style='background-color: rgb(69, 167, 212)')
+          | Antonia Jost
+        .card-body
+          h6.card-subtitle.mb-2.text-muted Frontend-Developer
+          p.card-text
+            | Antonia is in charge of running the programme on the Amazon Server while using the containerisation with Docker. 
+            | Besides that, she contributes to an appealing and intuitive GUI.
+          a.btn.btn-outline-light(href='mailto:antonia.jost@uni.muenster.de' style='background-color:black; color: rgb(69, 167, 212)') Contact Antonia!
     br
     br
         
