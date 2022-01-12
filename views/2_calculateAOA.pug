@@ -4,18 +4,18 @@ block content
   //- heading
   br
   h2.text-center Landuse classification
+  //- redirection to demo
+  p.text-center
+    | Not sure how to use our tool? Check out our 
+    a(href='/demo') demo!
   br
   //- map display and selection of the calculation frame
   .row
     .col-5
       #map
     //- area selection and file upload
-    .col-7
+    .col-3
       #textfeld
-        //- redirection to demo
-        p
-          | Not sure how to use our tool? Check out our 
-          a(href='/demo') demo!
         h5.text-left AREA SELECTION
         p.text-left
           | Please choose if you want to draw a bounding box directly on the map or if you want to enter the coordinates manually.
@@ -40,9 +40,9 @@ block content
             input#exampleCheck1.form-check-input(type='checkbox')
             label.form-check-label(for='checkbox') Everything correct?
           a.btn.btn-outline-success(style='background-color: black; color: rgb(69, 167, 212)' type='submit' form='input-form' onclick="document.getElementById('input-form').submit()") Submit
-       
-        //- file upload
-        br
+      
+    .col-3 
+      #textfeld
         h5.text-left UPLOAD
         p.text-left
           | Please choose if you want to upload a trained model or only training data.
@@ -58,10 +58,26 @@ block content
             br
             br
             button.btn.btn-outline-success(style='background-color: black; color: rgb(69, 167, 212)' type='submit') Submit
+
+        //- file upload
+        br
+        br
+        h5.text-left OPTIONAL SETTINGS
+        p.text-left
+          | You can optionally set the cloud coverage and the resolution of the satellite images.
+        form
+        p.text-left  
+          | Cloud cover: 
+          span#demo
+          | %
+          .slidecontainer
+            input#myRange.slider(type='range' min='1' max='100' value='20')  
+
+        br
         br
         button.btn.btn-outline-success(style='background-color: rgb(69, 167, 212); color: black' onclick= 'startCalculation()') Start Calculation
+      
 
-  block scripts
       //- required javascripts
       script(src='/javascripts/2_calculateAOA.js', defer)
       script(src='/javascripts/2_1_ownresultAOA.js', defer)
