@@ -14,7 +14,7 @@ block content
     .col-5
       #map
     //- area selection and file upload
-    .col-3
+    .col-7
       #textfeld
         h5.text-left AREA SELECTION
         p.text-left
@@ -40,9 +40,8 @@ block content
             input#exampleCheck1.form-check-input(type='checkbox')
             label.form-check-label(for='checkbox') Everything correct?
           a.btn.btn-outline-success(style='background-color: black; color: rgb(69, 167, 212)' type='submit' form='input-form' onclick="document.getElementById('input-form').submit()") Submit
-      
-    .col-3 
-      #textfeld
+          
+        br
         h5.text-left UPLOAD
         p.text-left
           | Please choose if you want to upload a trained model or only training data.
@@ -59,8 +58,6 @@ block content
             br
             button.btn.btn-outline-success(style='background-color: black; color: rgb(69, 167, 212)' type='submit') Submit
 
-        //- file upload
-        br
         br
         h5.text-left OPTIONAL SETTINGS
         p.text-left
