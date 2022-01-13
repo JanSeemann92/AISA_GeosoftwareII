@@ -91,3 +91,8 @@ slider.oninput = function() {
   output.innerHTML = this.value;
   console.log(this.value)
 } 
+
+resolution.oninput = function(){
+  output.innerHTML = this.value;
+  console.log(this.value)
+} 

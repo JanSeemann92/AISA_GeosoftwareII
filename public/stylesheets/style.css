@@ -63,7 +63,7 @@ main {
 
 /* Map layout */
 #map {
-    height: 115vh;
+    height: 118vh;
     max-width: 100%;
     margin: 5px;
 }
@@ -114,6 +114,9 @@ h4{
     color: rgb(69, 167, 212);
 }
 
+h5{
+    text-decoration: underline;
+}
 /* Slider. Source: https://www.w3schools.com/howto/howto_js_rangeslider.asp */
 .slidecontainer {
     width: 100%; /* Width of the outside container */
@@ -154,4 +157,11 @@ h4{
     cursor: pointer; /* Cursor on hover */
   }
 
+  .my-select {
+    background-color: black;
+    color: rgb(69, 167, 212);
+    border: 0 none;
+    border-radius: 20px;
+    padding: 6px 20px;
+  }
 

@@ -63,16 +63,22 @@ block content
         p.text-left
           | You can optionally set the cloud coverage and the resolution of the satellite images.
         form
-        p.text-left  
+        p.text-left
           | Cloud cover: 
           span#demo
           | %
           .slidecontainer
             input#myRange.slider(type='range' min='1' max='100' value='20')  
+        p.text-left
+          | Resolution:
+        select.custom-select.my-select#resolution(name ='resolution')
+          option 20m
+          option 40m
+          option 80m
 
         br
         br
-        button.btn.btn-outline-success(style='background-color: rgb(69, 167, 212); color: black' onclick= 'startCalculation()') Start Calculation
+        button.btn.btn-outline-success(style='background-color: rgb(69, 167, 212); color: black; font-weight: bold' onclick= 'startCalculation()') Start Calculation
       
 
       //- required javascripts
