@@ -1,10 +1,27 @@
 version: "3"
+
 services:
-  appservice:
-    container_name: aisa-app
+
+  webserver:
+    image: frontend
     restart: always
-    build: . 
     ports:
-      - "3000:5000" # forward webserver on standard-http port
+      - "8081:8780" # forward webserver on standard-http port -> abrufbar über 8080   
+  #  volumes:
+  #    - ./frontend:/usr/
+    container_name: aisa-app
+    build: .
     depends_on:
-      
+      - rscripts # wird erst gestartet, wenn auch backend erfolgreich gestartet werden könnte
+    links: 
+      - rscripts
+
+  rscripts: 
+    image: backend
+    restart: always
+    #volumes:
+    #  - r_vol:/var/lib/...
+
+volumes:
+ r_vol:
+
