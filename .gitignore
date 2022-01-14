@@ -12,3 +12,7 @@ Backend/demodata/createdbyAISAtool/predictionOutput.tif.aux.xml
 Backend/demodata/demodata_rheine_sentinel_combined.grd
 Backend/demodata/demodata_rheine_sentinel_combined.gri
 Backend/demodata/.RData
+Backend/demodata/demodata_rheine_sentinel_combined.grd
+Backend/demodata/createdbyAISAtool/aoaOutput.tif
+Backend/demodata/createdbyAISAtool/modelOutput.RDS
+Backend/demodata/createdbyAISAtool/predictionOutput.tif
