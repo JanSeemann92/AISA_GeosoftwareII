@@ -185,3 +185,41 @@ var layerAOI = L.rectangle(coordsAOI, {
 
 // set view to AOI
 demoresultmap.fitBounds(coordsAOI)
+
+// add a legend
+// source: https://leafletjs.com/examples/choropleth/
+
+var legend = L.control({position: 'topleft'});
+
+legend.onAdd = function (demoresultmap) {
+
+    var div = L.DomUtil.create('div', 'info legend');
+    var labels = ['<strong>Categories</strong>'],
+    categories = ['Road Surface','Signage','Line Markings','Roadside Hazards','Other'];
+
+    // loop through our density intervals and generate a label with a colored square for each interval
+    for (var i = 0; i < categories.length; i++) {
+        div.innerHTML +=
+        labels.push(
+            '<i style="background:' + getColor(categories.length - [i+1]) + '"</i> ' + '</i> ' +
+            (categories[i] ? categories[i] : '+'));
+    }
+    div.innerHTML = labels.join('<br>');
+    return div;
+};
+
+legend.addTo(demoresultmap);
+//source: https://colorbrewer2.org/#type=diverging&scheme=RdYlBu&n=11
+function getColor(d) {
+    return d > 10 ? '#a50026' :
+           d > 9 ? '#d73027' :
+           d > 8 ? '#f46d43' :
+           d > 7 ? '#fdae61' :
+           d > 6  ? '#fee090' :
+           d > 5  ? '#ffffbf' :
+           d > 4  ? '#e0f3f8' :
+           d > 3  ? '#abd9e9' :
+           d > 2  ? '#74add1' :
+           d > 1  ? '#4575b4' :
+                     '#313695';
+}
