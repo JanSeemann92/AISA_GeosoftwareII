@@ -241,7 +241,7 @@ NewSamplingLocations <- function(AOA) {
 #######################################################################
 # Title: runDemo
 # Author: Jan Seemann, Liliana Gitschel
-# Latest Update: 16.12.2021
+# Latest Update: 14.01.2022
 # 
 # Purpose:
 #   Run the Demo.
@@ -356,6 +356,11 @@ newBeakr() %>%
 
 # URL GET API Call for local testing: http://127.0.0.1:25118/runDemo
 # URL GET API Call for AWS: http://44.234.41.163:8780/runDemo
+
+
+# URL POST API Call for local testing  http://127.0.0.1:25118/withModel?lat1=20&long1=100&lat2=30&long2=105&cov=0.3&reso=600  (the numbers are example values)
+# URL POST API Call for local testing  http://127.0.0.1:25118/noModel?lat1=20&long1=100&lat2=30&long2=105&cov=0.3&reso=600  (the numbers are example values)
+
 
 
 
