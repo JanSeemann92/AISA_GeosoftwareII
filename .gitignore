@@ -1,1 +1,14 @@
 node_modules/
+*.gri
+Backend/.Rhistory
+Backend/demodata/.RData
+Backend/demodata/.Rhistory
+Backend/demodata/createdbyAISAtool/aoaOutput.tif
+Backend/demodata/createdbyAISAtool/demodata_rheine_sampling_EPSG4326.geojson
+Backend/demodata/createdbyAISAtool/demodata_rheine_trainingspolygone.geojson
+Backend/demodata/createdbyAISAtool/modelOutput.RDS
+Backend/demodata/createdbyAISAtool/predictionOutput.tif
+Backend/demodata/createdbyAISAtool/predictionOutput.tif.aux.xml
+Backend/demodata/demodata_rheine_sentinel_combined.grd
+Backend/demodata/demodata_rheine_sentinel_combined.gri
+Backend/demodata/.RData

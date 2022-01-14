@@ -1,23 +1,25 @@
-// Mitte der Karte
+"use strict"
+
+// center of the map
 var center = [50.943144, 10.388001];
 
-// Erstellung einer Variablen, die die Karte enthält, initial settings
+// create a variable that contains the map, initial settings
 var map = L.map('map').setView(center, 6); 
 
-//initialiation of the attributes
+// initialiation of the attributes
 let marker = ""; 
 let rectangle = ""; 
 let drawEvent = false; 
 var route2 = null; 
 var drawnGeojson; 
 
-// MapTiler hinuzfügen
+// add tileLayer
 L.tileLayer('https://api.maptiler.com/maps/streets/{z}/{x}/{y}.png?key=86IucIQ0W7mo5uspiDDB', 
     {
      attribution: '<a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a>'
     }).addTo(map); 
 
-// Draw Group/ Toolbar hinzufügen
+// add drawControl
 var drawnItems = new L.FeatureGroup();
 map.addLayer(drawnItems);
 var drawControl = new L.Control.Draw ({
@@ -28,13 +30,13 @@ var drawControl = new L.Control.Draw ({
         polygon:false,
         marker:false,
         polyline: false,
-        circle: false
+        circle: false,
     }
 });
 map.addControl(drawControl);
     
 
-// Draw Events
+// manage draw events
 map.on(L.Draw.Event.CREATED, function (e) {
     var type = e.layerType,
         layer = e.layer;
@@ -42,10 +44,6 @@ map.on(L.Draw.Event.CREATED, function (e) {
     console.log(element); 
     console.log(e.layer) //--> toGeoJson  --> drawnIten
     drawEvent = true; 
-    if (type === 'marker') {
-        marker = e;
-        console.log(marker.layer._latlng);
-    } 
     if (type == 'rectangle') {
       rectangle = e; 
         console.log(rectangle.layer._latlngs);
@@ -60,7 +58,7 @@ map.on('draw:edited', function (e) {
     });
 });
 
-// Event Handler for Area-Selection-Input-form -> disabel/ enable form field depending on selected option
+// Event Handler for Area-Selection-Input-form -> disable/ enable form field depending on selected option
 $(document).ready(function(){
     $("select[name='choose']").on('change',function(){
       if($(this).val()==1){
@@ -71,13 +69,16 @@ $(document).ready(function(){
     });
   });
 
-$(document).ready(function(){
+//possibly insert EventHandler for bounding box
+/**$(document).ready(function(){
     $("select[name='choose']").on('change',function(){
       if($(this).val()==0){
-        $("input[name='bbox']").prop("disabled",false)
+        $("input[name='bbox']").prop("disable",true)
       }else{
-        $("input[name='bbox']").prop("disabled",true);
+        $("input[name='bbox']").prop("disable",false);
       }
     });
   });
+ */
 
+  
