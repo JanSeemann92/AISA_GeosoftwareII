@@ -96,3 +96,11 @@ resolution.oninput = function(){
   output.innerHTML = this.value;
   console.log(this.value)
 } 
+
+function startCalculation(){
+  alert(slider.value)
+  var resolution = document.getElementById('resolution');
+    var name = resolution.options[resolution.selectedIndex].text;
+    var wert = resolution.options[resolution.selectedIndex].value;
+    alert('Wert: '+wert+' - Name: '+name);
+}
