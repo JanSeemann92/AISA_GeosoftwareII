@@ -30,7 +30,7 @@ library(geojson)
 
 # set working directory: directory which includes needed data
 #### needs to be changed later on to the hosting server
-setwd("C:/Users/katha/Documents/GitHub/AISA_GeosoftwareII/Backend/demodata")
+setwd("C:/Users/katha/Documents/GitHub/AISA_GeosoftwareII/Backend/demodata/")
 
 
 
@@ -237,7 +237,9 @@ NewSamplingLocations <- function(AOA) {
 # Output files are written within the function
 
 runDemo <- function (){
+ 
   
+}
   
 }
 
@@ -245,6 +247,11 @@ runDemo <- function (){
 # Create and start the beakr instance
 newBeakr() %>%
   # Host the directory of static files
+  
+# Create and start the beakr instance
+newBeakr() %>%
+  
+  cors() %>%
   
   httpGET(path = '/runDemo', function(req,res,err) {
     # load input data
@@ -269,8 +276,6 @@ newBeakr() %>%
     areaOA <- AOA (sentinel_combined,model)
     samplingLocations <- NewSamplingLocations(areaOA)
     
-    
-    
     #writing output files
     saveRDS(model,file="createdbyAISAtool/modelOutput.RDS")
     print("model output file written")
@@ -279,23 +284,28 @@ newBeakr() %>%
     writeRaster(areaOA, "createdbyAISAtool/aoaOutput.tif", overwrite=T)
     print("AOA output file written")
     st_write(trainingsites, "createdbyAISAtool/demodata_rheine_trainingspolygone.geojson", delete_layer=T)
-    print("trainingsites geojson output written")
+    print("trainingsites geojson outout written")
     write(samplingLocations, "createdbyAISAtool/demodata_rheine_sampling_EPSG4326.geojson")
     print("New sampling locations output geojson written")
     
     res$setHeader("Access-Control-Allow-Origin", "*")
     return("JobDone")
-  }) %>%
+    }) %>%
   
-  
-  serveStaticFiles("/verzeichnisdemodaten", "D:/Studium/Geosoftware1/AISA_GeosoftwareII/Backend/demodata/createdbyAISAtool/", verbose = TRUE) %>%
-  
+  # Host the directory of static files  
+  serveStaticFiles("/verzeichnisdemodaten", "C:/Users/katha/Documents/GitHub/AISA_GeosoftwareII/Backend/demodata/createdbyAISAtool/", verbose = TRUE) %>%
+
   
   handleErrors() %>%
   
   listen(host = "127.0.0.1", port = 25118) #for local testing
 #listen(host = "44.234.41.163", port =  8780) #for AWS
 
+
+
+
+# URL GET API Call for local testing: http://127.0.0.1:25118/runDemo
+# URL GET API Call for AWS: http://44.234.41.163:8780/runDemo
 
 
 

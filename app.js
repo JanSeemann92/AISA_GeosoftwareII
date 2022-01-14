@@ -1,41 +1,39 @@
-//app.js ist der Main Entry Point zur App
 var createError = require('http-errors');
 const express = require('express');
 var path = require('path');
 const bodyParses = require('body-parser');
 
-
 // adding routers
 var homeRouter = require('./routes/1_home_route.js');
 var calculateAOARouter = require('./routes/2_calculateAOA_route.js'); 
-var resultAOARouter = require('./routes/2_1_resultAOA_route.js')
+var ownresultAOARouter = require('./routes/2_1_ownresultAOA_route.js')
 var demoRouter = require('./routes/3_demo_route.js');
+var demoresultAOARouter = require('./routes/3_1_demoresultAOA_route.js')
 var downloadRouter = require('./routes/4_download_route');
-var imprintRouter = require('./routes/5_imprint_route');
+var aboutRouter = require('./routes/5_about_route');
 
-
-
+// adding express-app
 var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
-// Body Parser
+// body parser
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
 
-//adding routes
+// adding routes
 app.use('/', homeRouter); 
 app.use('/home', homeRouter);
 app.use('/AOA', calculateAOARouter);
-app.use('/resultAOA', resultAOARouter);
+app.use('/demoresultAOA', demoresultAOARouter);
+app.use('/ownresultAOA', ownresultAOARouter);
 app.use('/demo', demoRouter);
 app.use('/download', downloadRouter);
-app.use('/imprint', imprintRouter);
-
+app.use('/about', aboutRouter);
 
 // error handler
 app.use(function(err, req, res, next) {
