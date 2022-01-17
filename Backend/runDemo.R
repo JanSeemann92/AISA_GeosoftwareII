@@ -1,6 +1,6 @@
-# Title: Script_MainCalculations
+# Title: runDemo
 # Author: Liliana Gitschel, Jan Seemann
-# Latest Update: 14.01.2022
+# Latest Update: 17.01.2022
 # 
 # Purpose:
 #   Includes functions for necessary calculations within the AISA tool:
@@ -25,8 +25,9 @@ library(doParallel) # loads dependencies too
 # load packages for API
 library(beakr)
 library(rgdal)
-# load packages for exporting geojson
+# load packages for exporting geojson and JSON
 library(geojson)
+library(RJSONIO)
 
 # set working directory: directory which includes needed data
 #### needs to be changed later on to the hosting server
@@ -220,29 +221,8 @@ NewSamplingLocations <- function(AOA) {
 
 
 
-
-#######################################################################
-# Title: runDemo
-# Author: Jan Seemann, Liliana Gitschel
-# Latest Update: 14.01.2022
-# 
-# Purpose:
-#   Run the Demo.
-#
-# Input: -
-#   
-#   
-
-# Output:
-#  Job Done Message (String)
-# Output files are written within the function
-
-runDemo <- function (){
- 
-  
-}
-  
-}
+############################################################
+# Workflow uses above defined funtions
 
 
 # Create and start the beakr instance
@@ -266,7 +246,36 @@ newBeakr() %>%
     print(req$parameters$cov)
     print(req$parameters$reso)
     
+    # load input data
+    # As predictor variables a raster data set with sentinel-2 data is used.
+    # The data comes form AWS and is preprocessed internally first.
+    # load and build stack with data for area of interest (=sentinel-2 images for prediction)
+    sentinel_combined_prediction <- stack("sentinel/sentinel_prediction.grd")  #replace stac file here!
+    # load model
+    ### option for GeoJSON needs to be added!
+    model <- readRDS("upload/model.RDS")   #replace user input file here
     
+    # no reprojection needed
+    # sentinel images from AWS/stac already come in EPSG4326 which is needed for leaflet
+    
+    # do calculations
+    predictionLULC <- predict(sentinel_combined_prediction, model)
+    areaOA <- AOA (sentinel_combined_prediction,model)
+    samplingLocations <- NewSamplingLocations(areaOA)
+    
+    #get labels of LULC (needed for legend on map)
+    labels <- c(model$levels)
+    labelsJSON <- toJSON(labels)
+    
+    #writing output files
+    writeRaster(predictionLULC, "createdbyAISAtool/predictionOutput.tif", overwrite=T)
+    print("LULC output file written")
+    writeRaster(areaOA, "createdbyAISAtool/aoaOutput.tif", overwrite=T)
+    print("AOA output file written")
+    write(samplingLocations, "createdbyAISAtool/samplingLocationsOutput.geojson")
+    print("New sampling locations output geojson written")
+    write(labelsJSON, "createdbyAISAtool/dlabelsOutput.json")
+    print("Labels output json written")
     
     res$setHeader("Access-Control-Allow-Origin", "*")
     return("JobDone")
@@ -286,10 +295,54 @@ newBeakr() %>%
     print(req$parameters$reso)
     
     
+    # load input data
+    # As predictor variables a raster data set with sentinel-2 data is used.
+    # The data comes form AWS and is preprocessed internally first.
+    # load and build stack with data of predictor variables (=sentinel-2 images for training)
+    # load and build stack with data for area of interest (=sentinel-2 images for prediction)
+    sentinel_combined_training <- stack("sentinel/sentinel_training.grd")  # eventually not needed
+    sentinel_combined_prediction <- stack("sentinel/sentinel_prediction.grd")  # eventually not needed
+    # load training polygons
+    ### option for GeoJSON needs to be added!
+    trainingsites <- st_read("upload/trainingdata.gpkg")   #replace user input file here
+    
+    # reproject crs of input data to EPSG4326
+    # sentinel images from AWS/stac already come in EPSG4326
+    # ensures that data has same crs and that it can be displayed by leaflet
+    # for reference see: https://spatialreference.org/ref/sr-org/6627/
+    trainingsites <- st_transform(trainingsites, crs = "+proj=longlat +datum=WGS84 +no_defs")
+    
+    
+    # do calculations
+    model <-TrainModel(trainingsites, sentinel_combined_training)
+    predictionLULC <- predict(sentinel_combined_prediction, model)
+    areaOA <- AOA (sentinel_combined_prediction,model)
+    samplingLocations <- NewSamplingLocations(areaOA)
+    
+    #get labels of LULC (needed for legend on map)
+    labels <- c(model$levels)
+    labelsJSON <- toJSON(labels)
+    
+    #writing output files
+    saveRDS(model,file="createdbyAISAtool/modelOutput.RDS")
+    print("model output file written")
+    writeRaster(predictionLULC, "createdbyAISAtool/predictionOutput.tif", overwrite=T)
+    print("LULC output file written")
+    writeRaster(areaOA, "createdbyAISAtool/aoaOutput.tif", overwrite=T)
+    print("AOA output file written")
+    st_write(trainingsites, "createdbyAISAtool/trainingsitesOutput.geojson", delete_layer=T)
+    print("trainingsites geojson output written")
+    write(samplingLocations, "createdbyAISAtool/samplingLocationsOutput.geojson")
+    print("New sampling locations output geojson written")
+    write(labelsJSON, "createdbyAISAtool/dlabelsOutput.json")
+    print("Labels output json written")
+    
     
     res$setHeader("Access-Control-Allow-Origin", "*")
     return("JobDone")
   }) %>%
+  
+  
   
   #GET API runDemo
    httpGET(path = '/runDemo', function(req,res,err) {
@@ -298,10 +351,10 @@ newBeakr() %>%
     # The data either comes form AWS and is preprocessed internally first or the demodata is used.
     # load and build stack with data of predictor variables (=sentinel-2 images)
     ### yet only running with demodata!
-    sentinel_combined <- stack("demodata_rheine_sentinel_combined.grd")
+    sentinel_combined <- stack("demo/demodata_rheine_sentinel_combined.grd")
     # load training polygons
     ### option for GeoJSON needs to be added!
-    trainingsites <- st_read("demodata_rheine_tainingspolygone.gpkg")
+    trainingsites <- st_read("demo/demodata_rheine_tainingspolygone.gpkg")
     
     # reproject crs of input data to EPSG4326
     # ensures that data has same crs and that it can be displayed by leaflet
@@ -315,6 +368,10 @@ newBeakr() %>%
     areaOA <- AOA (sentinel_combined,model)
     samplingLocations <- NewSamplingLocations(areaOA)
     
+    #get labels of LULC (needed for legend on map)
+    labels <- c(model$levels)
+    labelsJSON <- toJSON(labels)
+    
     #writing output files
     saveRDS(model,file="createdbyAISAtool/modelOutput.RDS")
     print("model output file written")
@@ -322,10 +379,13 @@ newBeakr() %>%
     print("LULC output file written")
     writeRaster(areaOA, "createdbyAISAtool/aoaOutput.tif", overwrite=T)
     print("AOA output file written")
-    st_write(trainingsites, "createdbyAISAtool/demodata_rheine_trainingspolygone.geojson", delete_layer=T)
-    print("trainingsites geojson outout written")
-    write(samplingLocations, "createdbyAISAtool/demodata_rheine_sampling_EPSG4326.geojson")
+    st_write(trainingsites, "createdbyAISAtool/trainingsitesOutput.geojson", delete_layer=T)
+    print("trainingsites geojson output written")
+    write(samplingLocations, "createdbyAISAtool/samplingLocationsOutput.geojson")
     print("New sampling locations output geojson written")
+    write(labelsJSON, "createdbyAISAtool/dlabelsOutput.json")
+    print("Labels output json written")
+    
     
     res$setHeader("Access-Control-Allow-Origin", "*")
     return("JobDone")
