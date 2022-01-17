@@ -1,6 +1,6 @@
 # Title: Script_MainCalculations
 # Author: Liliana Gitschel, Jan Seemann
-# Latest Update: 20.12.2021
+# Latest Update: 14.01.2022
 # 
 # Purpose:
 #   Includes functions for necessary calculations within the AISA tool:
@@ -31,7 +31,6 @@ library(geojson)
 # set working directory: directory which includes needed data
 #### needs to be changed later on to the hosting server
 setwd("C:/Users/katha/Documents/GitHub/AISA_GeosoftwareII/Backend/demodata/")
-
 
 
 #######################################################################
@@ -220,10 +219,12 @@ NewSamplingLocations <- function(AOA) {
 }
 
 
+
+
 #######################################################################
 # Title: runDemo
 # Author: Jan Seemann, Liliana Gitschel
-# Latest Update: 20.12.2021
+# Latest Update: 14.01.2022
 # 
 # Purpose:
 #   Run the Demo.
@@ -253,7 +254,45 @@ newBeakr() %>%
   
   cors() %>%
   
-  httpGET(path = '/runDemo', function(req,res,err) {
+  #POST API withModel
+  httpPOST(path = '/withModel', function(req,res,err) {
+    
+    
+    #testing
+    print(req$parameters$lat1)
+    print(req$parameters$long1)
+    print(req$parameters$lat2)
+    print(req$parameters$long2)
+    print(req$parameters$cov)
+    print(req$parameters$reso)
+    
+    
+    
+    res$setHeader("Access-Control-Allow-Origin", "*")
+    return("JobDone")
+  }) %>%
+  
+  
+  #POST API noModel
+  httpPOST(path = '/noModel', function(req,res,err) {
+    
+    
+    #testing
+    print(req$parameters$lat1)
+    print(req$parameters$long1)
+    print(req$parameters$lat2)
+    print(req$parameters$long2)
+    print(req$parameters$cov)
+    print(req$parameters$reso)
+    
+    
+    
+    res$setHeader("Access-Control-Allow-Origin", "*")
+    return("JobDone")
+  }) %>%
+  
+  #GET API runDemo
+   httpGET(path = '/runDemo', function(req,res,err) {
     # load input data
     # As predictor variables a raster data set with sentinel-2 data is used.
     # The data either comes form AWS and is preprocessed internally first or the demodata is used.
@@ -304,8 +343,15 @@ newBeakr() %>%
 
 
 
+
+
 # URL GET API Call for local testing: http://127.0.0.1:25118/runDemo
 # URL GET API Call for AWS: http://44.234.41.163:8780/runDemo
+
+
+# URL POST API Call for local testing  http://127.0.0.1:25118/withModel?lat1=20&long1=100&lat2=30&long2=105&cov=0.3&reso=600  (the numbers are example values)
+# URL POST API Call for local testing  http://127.0.0.1:25118/noModel?lat1=20&long1=100&lat2=30&long2=105&cov=0.3&reso=600  (the numbers are example values)
+
 
 
 
