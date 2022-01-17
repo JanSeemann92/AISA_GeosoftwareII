@@ -153,9 +153,10 @@ var ownoverlayMaps;
  * @param {L.layerGroup} polygonlayer 
  */
 function createPolygonLayer(polygonlayer){
+    if(polygons =="true"){
     ownoverlayMaps = {"Trainingpolygons": polygonlayer}
     L.control.layers(ownbaseMap,ownoverlayMaps).addTo(ownresultmap)
-}
+}}
 
 /**
  * Adds the recommended sampling areas to demooverlaymaps-variable and creates option to display them

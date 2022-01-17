@@ -107,4 +107,6 @@ function startCalculation(){
   window.location.href= '/ownresultAOA'  
 }
 
+var polygons = 'false'
+
 
