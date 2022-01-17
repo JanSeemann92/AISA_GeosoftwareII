@@ -75,6 +75,13 @@ main {
     margin:5px;
 }
 
+/* Resultmap layout */
+#ownresultmap {
+  height: 85vh;
+  max-width: 100%;
+  margin:5px;
+}
+
 /* Textstyling */
 #textfeld{
     margin-right: 10px;

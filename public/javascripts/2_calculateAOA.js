@@ -39,10 +39,8 @@ map.addControl(drawControl);
 // manage draw events
 map.on(L.Draw.Event.CREATED, function (e) {
     var type = e.layerType,
-        layer = e.layer;
-    var element = document.getElementById('input-map'); 
-    console.log(element); 
-    console.log(e.layer) //--> toGeoJson  --> drawnIten
+        layer = e.layer; 
+    console.log(e.layer) //--> toGeoJson  --> drawnItem
     drawEvent = true; 
     if (type == 'rectangle') {
       rectangle = e; 
@@ -50,6 +48,7 @@ map.on(L.Draw.Event.CREATED, function (e) {
     }
     drawnGeojson = drawnItems.toGeoJSON(); 
     drawnItems.addLayer(layer);
+    console.log(drawnItems)
  });
  
 map.on('draw:edited', function (e) {
@@ -97,10 +96,15 @@ resolution.oninput = function(){
   console.log(this.value)
 } 
 
+
 function startCalculation(){
   alert(slider.value)
   var resolution = document.getElementById('resolution');
     var name = resolution.options[resolution.selectedIndex].text;
     var wert = resolution.options[resolution.selectedIndex].value;
     alert('Wert: '+wert+' - Name: '+name);
+  alert("The calculation will now be executed, you will then be redirected to the results. The calculation may take a few minutes, please wait...")
+  window.location.href= '/ownresultAOA'  
 }
+
+
