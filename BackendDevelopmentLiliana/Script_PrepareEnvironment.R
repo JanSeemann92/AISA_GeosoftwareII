@@ -20,6 +20,7 @@ install.packages("sf")
 install.packages("beakr")  # needed for API; installs dependencies, too
 install.packages("doParallel")
 install.packages("geojson")  # needed to convert spatialpointsdataframe into geojson
+install.packages("RJSONIO")  # needed to convert to JSON
 # not required yet:
 ## install.packages("latticeExtra")  # installs dependencies, too
 ## install.packages("rgdal")   # needed for package mapview
