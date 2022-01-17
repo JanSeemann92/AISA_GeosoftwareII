@@ -274,7 +274,7 @@ newBeakr() %>%
     print("AOA output file written")
     write(samplingLocations, "createdbyAISAtool/samplingLocationsOutput.geojson")
     print("New sampling locations output geojson written")
-    write(labelsJSON, "createdbyAISAtool/dlabelsOutput.json")
+    write(labelsJSON, "createdbyAISAtool/labelsOutput.json")
     print("Labels output json written")
     
     res$setHeader("Access-Control-Allow-Origin", "*")
@@ -334,7 +334,7 @@ newBeakr() %>%
     print("trainingsites geojson output written")
     write(samplingLocations, "createdbyAISAtool/samplingLocationsOutput.geojson")
     print("New sampling locations output geojson written")
-    write(labelsJSON, "createdbyAISAtool/dlabelsOutput.json")
+    write(labelsJSON, "createdbyAISAtool/labelsOutput.json")
     print("Labels output json written")
     
     
@@ -383,7 +383,7 @@ newBeakr() %>%
     print("trainingsites geojson output written")
     write(samplingLocations, "createdbyAISAtool/samplingLocationsOutput.geojson")
     print("New sampling locations output geojson written")
-    write(labelsJSON, "createdbyAISAtool/dlabelsOutput.json")
+    write(labelsJSON, "createdbyAISAtool/labelsOutput.json")
     print("Labels output json written")
     
     
