@@ -107,6 +107,7 @@ function startCalculation(){
   window.location.href= '/ownresultAOA'  
 }
 
-var polygons = 'false'
+var polygonvalue = document.getElementsByName('choose1').value
+console.log
 
 

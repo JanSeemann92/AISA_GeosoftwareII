@@ -52,47 +52,106 @@ fetch(url_to_geotiff_file).then(response => response.arrayBuffer()).then(arrayBu
  * Accesses the demo prediction, saves it as a GeoRasterLayer in a leaflet layerGroup, adjusts the colors, and then calls the 
  * createPredictionLayer(layerPrediction) function to display the layer on the map.
  */
-var url_to_geotiff_file = "/demodata/predictionOutput.tif";
-fetch(url_to_geotiff_file).then(response => response.arrayBuffer()).then(arrayBuffer => {
-    parseGeoraster(arrayBuffer).then(georaster => {
-        const min = 0;
-        const max = 9;
-        const range = max-min;
-        console.log(chroma.brewer);
-        var scale = chroma.scale(['#a50026',
-        '#d73027',
-        '#f46d43',
-        '#fdae61',
-        '#fee090',
-        '#ffffbf',
-        '#e0f3f8',
-        '#abd9e9',
-        '#74add1',
-        '#4575b4',
-        '#313695']).classes(11)
-        console.log("georaster:", georaster);
-        var Predictionlayer = new GeoRasterLayer({
-            georaster: georaster,
-            opacity: 0.8,
-            pixelValuesToColorFn: function(pixelValues) {
-                var pixelValue = pixelValues[0]; // there's just one band in this raster
 
-                // if there's zero wind, don't return a color
-                if (pixelValue === 0) return null;
+ $.ajax({
+    url: "demodata/labelsOutput.json",
+    type: 'GET',
+    dataType: 'json', 
+    success: function(res) {
+        var labels = res;
+        console.log(labels)
+        var url_to_geotiff_file = "/demodata/predictionOutput.tif";
+        fetch(url_to_geotiff_file).then(response => response.arrayBuffer()).then(arrayBuffer => {
+            parseGeoraster(arrayBuffer).then(georaster => {
+                const min = 0;
+                const max = labels.length;
+                const range = max-min;
+                console.log(chroma.brewer);
+                var scale = chroma.scale(['#a50026',
+                '#d73027',
+                '#f46d43',
+                '#fdae61',
+                '#fee090',
+                '#ffffbf',
+                '#e0f3f8',
+                '#abd9e9',
+                '#74add1',
+                '#4575b4',
+                '#313695']).classes(res.length)
+                console.log(res.length)
+                console.log("georaster:", georaster);
+                var Predictionlayer = new GeoRasterLayer({
+                    georaster: georaster,
+                    opacity: 0.8,
+                    pixelValuesToColorFn: function(pixelValues) {
+                        var pixelValue = pixelValues[0]; // there's just one band in this raster
 
-                // scale to 0 - 1 used by chroma
-                var scaledPixelValue = (pixelValue - min) / range;
+                        // if there's zero wind, don't return a color
+                        if (pixelValue === 0) return null;
 
-                var color = scale(scaledPixelValue).hex();
+                        // scale to 0 - 1 used by chroma
+                        var scaledPixelValue = (pixelValue - min) / range;
 
-                return color;
-              },
-              resolution: 1200
-        });
-        var layerPrediction = L.layerGroup([Predictionlayer])
-        createPredictionLayer(layerPrediction);
-    })
-})
+                        var color = scale(scaledPixelValue).hex();
+
+                        return color;
+                    },
+                    resolution: 1000
+                });
+                var layerPrediction = L.layerGroup([Predictionlayer])
+                createPredictionLayer(layerPrediction);
+
+                var classBreaks = []
+
+                for(let i = 0; i < labels.length-1; i++){
+                    var count = i + 1;
+                    classBreaks.push(count);
+                }
+
+                console.log(classBreaks);
+                
+                var categories = labels;
+                
+                var colorHex = ['#a50026',
+                '#d73027',
+                '#f46d43',
+                '#fdae61',
+                '#fee090',
+                '#ffffbf',
+                '#e0f3f8',
+                '#abd9e9',
+                '#74add1',
+                '#4575b4',
+                '#313695'];
+                function getColor(n,classBreaks,colorHex) {
+                    var mapScale = chroma.scale(colorHex).classes(classBreaks);
+                    if (n === 0) {
+                        var regionColor = '#ffffff';
+                    } else { 
+                        var regionColor = mapScale(n).hex();
+                    }
+                    return regionColor
+                }
+                var legend = L.control({position: 'topleft'});
+                
+                legend.onAdd = function (demoresultmap) {
+                    var div = L.DomUtil.create('div', 'legend');
+                    classBreaks.push(999); // add dummy class to extend to get last class color, chroma only returns class.length - 1 colors
+                    for (var i = 0; i < classBreaks.length; i++) {
+                        if (i+2 === classBreaks.length) {
+                            div.innerHTML += '<i style="background: ' + getColor(classBreaks[i], classBreaks, colorHex) + ';"></i> ' +
+                            categories[i] ;
+                            break
+                        } else {
+                            div.innerHTML += '<i style="background: ' + getColor(classBreaks[i], classBreaks, colorHex) + ';"></i> ' +
+                            categories[i] +'<br>';
+                        }
+                    }
+                    return div;
+                };
+                legend.addTo(demoresultmap);
+            })
+        })}})
 
 /** 
  * Loading the recommended sampling areas:
@@ -238,6 +297,7 @@ function getColor(d) {
                      '#313695';
 }*/
 
+/*
 var classBreaks = [1,2,3,4,5,6,7,8,9,10];
 var categories = ['Road Surface','Signage','Line Markings','Roadside Hazards','Other'];
 
@@ -279,4 +339,4 @@ legend.onAdd = function (demoresultmap) {
     }
     return div;
 };
-legend.addTo(demoresultmap);
+legend.addTo(demoresultmap);*/
