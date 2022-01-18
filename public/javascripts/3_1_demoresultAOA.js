@@ -136,6 +136,7 @@ fetch(url_to_geotiff_file).then(response => response.arrayBuffer()).then(arrayBu
                 
                 legend.onAdd = function (demoresultmap) {
                     var div = L.DomUtil.create('div', 'legend');
+                    div.innerHTML += "<h4> LULC </h4>";
                     classBreaks.push(999); // add dummy class to extend to get last class color, chroma only returns class.length - 1 colors
                     for (var i = 0; i < classBreaks.length; i++) {
                         if (i+2 === classBreaks.length) {
@@ -150,7 +151,18 @@ fetch(url_to_geotiff_file).then(response => response.arrayBuffer()).then(arrayBu
                     return div;
                 };
                 legend.addTo(demoresultmap);
-            })
+                console.log(georaster.xmax)
+                // add AOI to the map
+                var coordinates = [[georaster.ymin, georaster.xmin],[georaster.ymax,georaster.xmax]]
+                L.rectangle(coordinates, {
+                    color: 'black',
+                    weight: 3,
+                    fillOpacity: 0,
+                }).addTo(demoresultmap)
+
+                // set view to AOI
+                demoresultmap.fitBounds(coordinates)
+                })
         })}})
 
 /** 
@@ -246,6 +258,7 @@ function createPredictionLayer(predictionlayer){
     L.control.layers(demobaseMap,demooverlayMaps).addTo(demoresultmap)
 }
 
+/**
 // add AOI to the map
 var layerAOI = L.rectangle(coordsAOI, {
     color: 'black',
@@ -255,7 +268,7 @@ var layerAOI = L.rectangle(coordsAOI, {
 
 // set view to AOI
 demoresultmap.fitBounds(coordsAOI)
-
+*/
 // add a legend
 // source: https://leafletjs.com/examples/choropleth/
 
