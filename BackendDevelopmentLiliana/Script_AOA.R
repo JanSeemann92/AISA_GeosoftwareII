@@ -41,7 +41,7 @@ model <- readRDS("createdbyAISAtool/RFModel_EPSG4326.RDS")
 
 
 # Estimate AOA
-cl <- makeCluster(4) # devide data into 4 clusters
+cl <- makeCluster(detectCores()-1) # devide data into 4 clusters
 registerDoParallel(cl)  # calculate clusters in parallel to speed up the process
 AOA <- aoa(sentinel_combined,model,cl=cl)  # estimate AOA
 plot(AOA)  #plot AOA

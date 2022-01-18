@@ -1,6 +1,6 @@
 # Title: runDemo
 # Author: Liliana Gitschel, Jan Seemann
-# Latest Update: 17.01.2022
+# Latest Update: 18.01.2022
 # 
 # Purpose:
 #   Includes functions for necessary calculations within the AISA tool:
@@ -37,7 +37,7 @@ setwd("C:/Users/katha/Documents/GitHub/AISA_GeosoftwareII/Backend/demodata/")
 #######################################################################
 # Name of function: TrainModel
 # Author: Liliana Gitschel
-# Latest Update: 14.12.2021
+# Latest Update: 18.01.2022
 # 
 # Purpose:
 #   Train a model when no model is given by the user.
@@ -56,29 +56,18 @@ setwd("C:/Users/katha/Documents/GitHub/AISA_GeosoftwareII/Backend/demodata/")
 
 TrainModel <- function (trainingsites, sentinel_resampled) {
   
-  # Create raster stack object
-  #sentinel_resampled <- stack(sentinel_resampled)
-  # Read features from trainingsites
-  #trainingsites <- st_read(trainingsites)
-  
   # Extract only those pixels from the combined sentinel data, that are within the training polygons
   extr <- extract(sentinel_resampled, trainingsites, df=TRUE)
-  ## head(extr)
   
   # Add information of labels of polygons to data
   trainingsites$PolyID <- 1:nrow(trainingsites)
   extr <- merge(extr, trainingsites, by.x="ID", by.y
                 ="PolyID")
-  ## head(extr)
   
-  # Save/export the training data -> not required
-  # saveRDS(extr, file="createdbyAISAtool/trainData.RDS")
-  
-  # set predictors (whole data from raster stack) and response (label for LULC)
+  # set predictors (whole data from raster stack)
   predictors <- names(sentinel_resampled)
-  response <- "label"
   
-  ### limit data? 
+  # limit data
   # Proportion of data from each training polygon should be kept
   # here:10% of each training polygon (see ?createDataPartition)
   trainIDs <- createDataPartition(extr$ID,p=0.1,list = FALSE)
@@ -87,19 +76,19 @@ TrainModel <- function (trainingsites, sentinel_resampled) {
   # Make sure no NA is given in predictors:
   trainDat <- trainDat[complete.cases(trainDat[,predictors]),]
   
-  # Train model with random forest (rf)
+  # create spatial folds for cross validation; here k=3 folds
+  trainids <- CreateSpacetimeFolds(trainDat,spacevar="ID",class="label",k=3)
+  
+  # train model with random forest and  tuning using cross validation and kappa
   model <- train(trainDat[,predictors],
                  trainDat$label,
                  method="rf",
                  importance=TRUE,
-                 ntree=50) # 50 is quite small (default=500). But it runs faster.
-  
-  ## model
-  ## plot(model) # see tuning results
-  ## plot(varImp(model)) # variable weight
-  
-  # Save/export model
-  # saveRDS(model,file="createdbyAISAtool/RFModel.RDS")
+                 metric="Kappa", # Optimaler mtry Wert über Kappa
+                 tunelength=length(predictors),
+                 ntree=50, # 50 is quite small (default=500). But it runs faster.
+                 trControl=trainControl(method="cv",index=trainids$index,savePredictions="all"))
+
   print("model trained")
   return(model)
 }
@@ -109,49 +98,9 @@ TrainModel <- function (trainingsites, sentinel_resampled) {
 
 
 #######################################################################
-# Title: Prediction
-# Author: Liliana Gitschel
-# Latest Update: 14.12.2021
-# 
-# Purpose:
-#   Make LULC predictions.
-#
-# Input:
-#   sentinel_resampled - grd-data containing the readily resampled sentinel-2-image from AWS
-#   model - Trained model in RDS-data format (either uploaded by user or internally created with Skript_TrainModel)
-#
-# Output:
-#   prediction - Prediction for LULC classification
-#
-# Reference:
-#   Partly based on: https://github.com/HannaMeyer/OpenGeoHub_2021
-#
-########################################################################
-
-Prediction <- function (sentinel_resampled, model) {
-  
-  # Create raster stack object
-  #sentinel_resampled <- stack(sentinel_resampled)
-  # Read model - necessary??
-  # model <- readRDS(model)
-  
-  # Make predictions
-  prediction <- predict(sentinel_resampled, model)
-  ## spplot(deratify(prediction)) # visualize
-  
-  # Save/export predictions as Geotiff
-  # writeRaster(prediction, "createdbyAISAtool/prediction.tif", overwrite=T)
-  print("LULC predicted")
-  return (prediction)
-}
-
-
-
-
-#######################################################################
 # Title: AOA
 # Author: Liliana Gitschel
-# Latest Update: 14.12.2021
+# Latest Update: 18.01.2022
 # 
 # Purpose:
 #   Estimate the AOA.
@@ -172,14 +121,10 @@ Prediction <- function (sentinel_resampled, model) {
 AOA <- function (sentinel_resampled, model) {
   
   # Estimate AOA
-  cl <- makeCluster(4) # devide data into 4 clusters (could be more in final version)
+  cl <- makeCluster(detectCores()-1) # devide data into (number of CPU cores)-1 clusters
   registerDoParallel(cl)  # calculate clusters in parallel to speed up the process
   AOA <- aoa(sentinel_resampled,model,cl=cl)  # estimate AOA
-  
-  # plot(AOA)  #plot AOA
-  
-  # Save/export AOA as Geotiff
-  # writeRaster(AOA, "createdbyAISAtool/AOA.tif", overwrite=T)
+
   print("AOA calculated")
   return(AOA)
 }
@@ -263,9 +208,12 @@ newBeakr() %>%
     areaOA <- AOA (sentinel_combined_prediction,model)
     samplingLocations <- NewSamplingLocations(areaOA)
     
-    #get labels of LULC (needed for legend on map)
-    labels <- c(model$levels)
-    labelsJSON <- toJSON(labels)
+    # get labels of LULC (needed for legend on map)
+    label <- c(model$levels)
+    # add type of workflow
+    label <- c("model", label)
+    # convert to json for export
+    labelsJSON <- toJSON(label)
     
     #writing output files
     writeRaster(predictionLULC, "createdbyAISAtool/predictionOutput.tif", overwrite=T)
@@ -319,9 +267,12 @@ newBeakr() %>%
     areaOA <- AOA (sentinel_combined_prediction,model)
     samplingLocations <- NewSamplingLocations(areaOA)
     
-    #get labels of LULC (needed for legend on map)
-    labels <- c(model$levels)
-    labelsJSON <- toJSON(labels)
+    # get labels of LULC (needed for legend on map)
+    label <- c(model$levels)
+    # add type of workflow
+    label <- c("trainingdata", label)
+    # convert to json for export
+    labelsJSON <- toJSON(label)
     
     #writing output files
     saveRDS(model,file="createdbyAISAtool/modelOutput.RDS")
@@ -364,13 +315,16 @@ newBeakr() %>%
     
     # do calculations
     model <-TrainModel(trainingsites, sentinel_combined)
-    predictionLULC <- Prediction(sentinel_combined,model)
+    predictionLULC <- predict(sentinel_combined,model)
     areaOA <- AOA (sentinel_combined,model)
     samplingLocations <- NewSamplingLocations(areaOA)
     
-    #get labels of LULC (needed for legend on map)
-    labels <- c(model$levels)
-    labelsJSON <- toJSON(labels)
+    # get labels of LULC (needed for legend on map)
+    label <- c(model$levels)
+    # add type of workflow
+    label <- c("demo", label)
+    # convert to json for export
+    labelsJSON <- toJSON(label)
     
     #writing output files
     saveRDS(model,file="createdbyAISAtool/modelOutput.RDS")
