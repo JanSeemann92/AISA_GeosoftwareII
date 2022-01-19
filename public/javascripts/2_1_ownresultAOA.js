@@ -308,4 +308,3 @@ function createPredictionLayer(predictionlayer){
     L.control.layers(baseMap,overlayMaps).addTo(ownresultmap)
 }
 
-

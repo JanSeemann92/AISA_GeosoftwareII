@@ -5,7 +5,9 @@ function startDemoCalculation(){
     /*$.ajax({
         url: "http://127.0.0.1:25118/runDemo",
         type: 'GET',
+        beforeSend: function(){$('#loading').html("<img src= 'https://media.giphy.com/media/52qtwCtj9OLTi/giphy.gif' />")},
         success: function(){
+        ($('#loading').hide("<img src= 'https://media.giphy.com/media/52qtwCtj9OLTi/giphy.gif' />"))
         console.log("Hello"),
         window.location.href= '/demoresultAOA'
     }})*/
