@@ -266,16 +266,16 @@ NewSamplingLocations <- function(AOA) {
       expect_type(trainingsites, "list")
       
       sentinel_combined <- projectRaster(sentinel_combined,crs=crs(trainingsites))
-      expect_s4_class(sentinel_combined,"RasterFile")
+      expect_s4_class(sentinel_combined,"RasterBrick")
       
       model <-TrainModel(trainingsites, sentinel_combined)
       expect_type(model, "list")
       
       predictionLULC <- Prediction(sentinel_combined,model)
-      expect_s4_class(predictionLULC,"RasterFile")
+      expect_s4_class(predictionLULC,"RasterLayer")
       
       areaOA <- AOA (sentinel_combined,model)
-      expect_s4_class(predictionLULC,"RasterStack")
+      expect_s4_class(areaOA,"RasterStack")
       
       
       samplingLocations <- NewSamplingLocations(areaOA)
