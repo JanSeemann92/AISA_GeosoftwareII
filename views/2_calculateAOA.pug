@@ -29,30 +29,26 @@ block content
         form#input-form(name='input-form')      
           .mb-3
             label.form-label(for='coordinates') Coordinates
-            input#input3.form-control(type='text' name='coordinates' class='input-box' placeholder='Lower Left Longitude' disabled='')
+            input#input1.form-control(type='text' name='coordinates' class='input-box' placeholder='Lower Left Longitude' disabled='')
             br
             input#input2.form-control(type='text' name='coordinates' class='input-box' placeholder='Lower Left Latitude' disabled='')
             br
             input#input3.form-control(type='text' name='coordinates' class='input-box' placeholder='Upper Right Longitude' disabled='')
             br
-            input#input3.form-control(type='text' name='coordinates' class='input-box' placeholder='Upper Left Latitude' disabled='')
+            input#input4.form-control(type='text' name='coordinates' class='input-box' placeholder='Upper Left Latitude' disabled='')
           .mb-3.form-check
             input#exampleCheck1.form-check-input(type='checkbox')
             label.form-check-label(for='checkbox') Everything correct?
-          a.btn.btn-outline-success(style='background-color: black; color: rgb(69, 167, 212)' type='submit' form='input-form' onclick="document.getElementById('input-form').submit()") Submit
           
         br
         h5.text-left UPLOAD
         p.text-left
-          | Please upload a model (.RDA) or training data (.gpkg/.geojson).
+          | Please upload a model (.RDS) or training data (.gpkg/.geojson).
         //- upload form to enter file with training data
         form#inputModel
           .form-group
             input#upload-button.form-control-file(type='file')
-            br
-            br
-            button.btn.btn-outline-success(style='background-color: black; color: rgb(69, 167, 212)' type='submit') Submit
-
+        br
         br
         h5.text-left OPTIONAL SETTINGS
         p.text-left
@@ -78,5 +74,4 @@ block content
 
       //- required javascripts
       script(src='/javascripts/2_calculateAOA.js', defer)
-      script(src='/javascripts/2_1_ownresultAOA.js', defer)
 

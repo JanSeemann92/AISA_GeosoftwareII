@@ -96,8 +96,9 @@ resolution.oninput = function(){
   console.log(this.value)
 } 
 
-
 function startCalculation(){
+  let msg = document.querySelector("#input1").value;
+  console.log(msg);
   alert(slider.value)
   var resolution = document.getElementById('resolution');
     var name = resolution.options[resolution.selectedIndex].text;

@@ -20,20 +20,19 @@ var icon = L.icon({
  fetch(url_to_geotiff_file).then(response => response.arrayBuffer()).then(arrayBuffer => {
     parseGeoraster(arrayBuffer).then(georaster => {
         const min = 0;
-        const max = 0.1;
+        const max = 2;
         const range = max-min;
         console.log(chroma.brewer);
-        var scale = chroma.scale(['#f1a340',
-        '#998ec3']).classes(2)
+        var scale = chroma.scale(['#f6e8c3', '#01665e']).classes(2)
         console.log("georaster:", georaster);
         var AOAlayer = new GeoRasterLayer({
             georaster: georaster,
             opacity: 0.8,
             pixelValuesToColorFn: function(pixelValues) {
-                var pixelValue = pixelValues[0]; // there's just one band in this raster
+                var pixelValue = pixelValues[1]; // there's just one band in this raster
 
                 // if there's zero wind, don't return a color
-                if (pixelValue === 0) return null;
+                if (pixelValue === 0) return '#f6e8c3';
 
                 // scale to 0 - 1 used by chroma
                 var scaledPixelValue = (pixelValue - min) / range;
@@ -58,8 +57,7 @@ var icon = L.icon({
         
         var categories = ['Inside AOA', 'Outside AOA'];
         
-        var colorHex = ['#f1a340',
-        '#998ec3'];
+        var colorHex = ['#01665e','#f6e8c3'];
         function getColor(n,classBreaks,colorHex) {
             var mapScale = chroma.scale(colorHex).classes(classBreaks);
             if (n === 0) {
