@@ -30,7 +30,8 @@
 
 .fade1::after {
     content: "Welcome!";
-    color: rgb(212, 145, 69);
+    font-family:'Courier New', Courier, monospace;
+    color: rgb(255, 123, 0);
     background: black;
     display: flex;
     justify-content: center;
@@ -63,7 +64,7 @@ main {
 
 /* Map layout */
 #map {
-    height: 118vh;
+    height: 103vh;
     max-width: 100%;
     margin: 5px;
 }

@@ -91,28 +91,62 @@ slider.oninput = function() {
   console.log(this.value)
 } 
 
-resolution.oninput = function(){
-  output.innerHTML = this.value;
-  console.log(this.value)
-} 
-
 function startCalculation(){
-  let msg = document.querySelector("#input1").value;
-  console.log(msg);
-  if (msg == 1){
-    alert('Hallo')
-  }
-  else{
-  alert(slider.value)
-  var resolution = document.getElementById('resolution');
-    var name = resolution.options[resolution.selectedIndex].text;
-    var wert = resolution.options[resolution.selectedIndex].value;
-    alert('Wert: '+wert+' - Name: '+name);
-  alert("The calculation will now be executed, you will then be redirected to the results. The calculation may take a few minutes, please wait...")
-  window.location.href= '/ownresultAOA'  
-}
-}
-var polygonvalue = document.getElementsByName('choose1').value
-console.log
+  if(document.querySelector('#validate3').style.display == 'block'){
+    if (document.querySelector('#validate2').checked == false){  
+      console.log('Test3: false')}
+    else{
+      console.log('Test4: true')
+      //coordinates
+      var ymin = document.querySelector("#ymin").value;
+      var xmin = document.querySelector("#xmin").value;
+      var ymax = document.querySelector("#ymax").value;
+      var xmax = document.querySelector("#xmax").value;
+      checkcoordinates(ymin, xmin, ymax, xmax);
+      console.log(ymin);
+      console.log(xmin);
+      console.log(ymax);
+      console.log(xmax);
+      console.log(slider.value)
+      var resolution = document.getElementById('resolution').value;
+      console.log(resolution);
+      //alert("The calculation will now be executed, you will then be redirected to the results. The calculation may take a few minutes, please wait...")
+      //window.location.href= '/ownresultAOA'
+    }}
+  if(document.querySelector('#validate1').style.display == 'block'){
+    if (document.querySelector('#validate').checked == true){ 
+        //coordinates
+      var ymin = document.querySelector("#ymin").value;
+      var xmin = document.querySelector("#xmin").value;
+      var ymax = document.querySelector("#ymax").value;
+      var xmax = document.querySelector("#xmax").value;
+      checkcoordinates(ymin, xmin, ymax, xmax);
+      console.log(ymin);
+      console.log(xmin);
+      console.log(ymax);
+      console.log(xmax);
+      console.log(slider.value)
+      var resolution = document.getElementById('resolution').value;
+      console.log(resolution);
+      //alert("The calculation will now be executed, you will then be redirected to the results. The calculation may take a few minutes, please wait...")
+      //window.location.href= '/ownresultAOA'
+    }
+    else{
+    document.querySelector('#validate1').style.display = 'none';
+    document.querySelector('#validate3').style.display = 'block';
+    console.log('Test2: false')}
+}}
 
-
+function checkcoordinates(ymin, xmin, ymax, xmax){
+  if(ymin == '' || xmin == '' || ymax == '' || xmax == ''){
+    document.querySelector('#msg').style.display = 'block';
+    document.querySelector('#validate2').checked = 'false';
+    document.querySelector('#validate').checked = 'false';
+    document.querySelector('#validate1').style.display = 'block';
+    document.querySelector('#validate3').style.display = 'none';
+    return false
+}
+ else{
+  document.querySelector('#msg').style.display = 'none';
+  document.querySelector('#validate').checked = 'true';
+ }}

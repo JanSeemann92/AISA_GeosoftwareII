@@ -29,17 +29,14 @@ block content
         form#input-form(name='input-form')      
           .mb-3
             label.form-label(for='coordinates') Coordinates
-            input#input1.form-control(type='text' name='coordinates' class='input-box' placeholder='Lower Left Longitude' disabled='')
+            input#ymin.form-control(type='text' name='coordinates' class='input-box' placeholder='Lower Left Latitude (ymin)' disabled='')
             br
-            input#input2.form-control(type='text' name='coordinates' class='input-box' placeholder='Lower Left Latitude' disabled='')
+            input#xmin.form-control(type='text' name='coordinates' class='input-box' placeholder='Lower Left Longitude (xmin)' disabled='')
             br
-            input#input3.form-control(type='text' name='coordinates' class='input-box' placeholder='Upper Right Longitude' disabled='')
+            input#ymax.form-control(type='text' name='coordinates' class='input-box' placeholder='Upper Right Latitude (ymax)' disabled='')
             br
-            input#input4.form-control(type='text' name='coordinates' class='input-box' placeholder='Upper Left Latitude' disabled='')
-          .mb-3.form-check
-            input#exampleCheck1.form-check-input(type='checkbox')
-            label.form-check-label(for='checkbox') Everything correct?
-          
+            input#xmax.form-control(type='text' name='coordinates' class='input-box' placeholder='Upper Left Longitude (xmax)' disabled='')
+        p(id='msg' style='color: red; display: none') Please fill in all coordinate fields.
         br
         h5.text-left UPLOAD
         p.text-left
@@ -61,13 +58,22 @@ block content
           .slidecontainer
             input#myRange.slider(type='range' min='1' max='100' value='20')  
         p.text-left
-          | Resolution:
+          | Resolution (m):
         select.custom-select.my-select#resolution(name ='resolution')
-          option 20m
-          option 40m
-          option 80m
-
+          option 20
+          option 40
+          option 80
         br
+        br
+        .form-group.form-check(id='validate1' style='display: block')
+          input#validate.form-check-input(type='checkbox')
+          label.form-check-label(for='exampleCheck1') Everything correct?
+        .form-group.form-check(id= 'validate3' style='display: none; color: red')
+          input#validate2.form-check-input(type='checkbox')
+          label.form-check-label(for='exampleCheck2') Everything correct?
+        .form-group.form-check(id= 'validate5' style='display: none')
+          input#validate4.form-check-input(type='checkbox')
+          label.form-check-label(for='exampleCheck3') Everything correct?
         br
         button.btn.btn-outline-success(style='background-color: rgb(69, 167, 212); color: black; font-weight: bold' onclick= 'startCalculation()') Start Calculation
       

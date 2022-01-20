@@ -16,23 +16,23 @@ var icon = L.icon({
  * function to display the layer on the map.
  */
 
- var url_to_geotiff_file = "/demodata/aoaOutput.tif";
+ var url_to_geotiff_file = "/demodata/AOA_EPSG4326.tif";
  fetch(url_to_geotiff_file).then(response => response.arrayBuffer()).then(arrayBuffer => {
     parseGeoraster(arrayBuffer).then(georaster => {
         const min = 0;
         const max = 2;
         const range = max-min;
         console.log(chroma.brewer);
-        var scale = chroma.scale(['#f6e8c3', '#01665e']).classes(2)
+        var scale = chroma.scale(['#01665e', '#f6e8c3']).classes(2)
         console.log("georaster:", georaster);
         var AOAlayer = new GeoRasterLayer({
             georaster: georaster,
-            opacity: 0.8,
+            opacity: 0.7,
             pixelValuesToColorFn: function(pixelValues) {
-                var pixelValue = pixelValues[1]; // there's just one band in this raster
+                var pixelValue = pixelValues[0]; // there's just one band in this raster
 
                 // if there's zero wind, don't return a color
-                if (pixelValue === 0) return '#f6e8c3';
+                if (pixelValue === 0) return '#01665e';
 
                 // scale to 0 - 1 used by chroma
                 var scaledPixelValue = (pixelValue - min) / range;
@@ -57,7 +57,7 @@ var icon = L.icon({
         
         var categories = ['Inside AOA', 'Outside AOA'];
         
-        var colorHex = ['#01665e','#f6e8c3'];
+        var colorHex = ['#f6e8c3', '#01665e'];
         function getColor(n,classBreaks,colorHex) {
             var mapScale = chroma.scale(colorHex).classes(classBreaks);
             if (n === 0) {
