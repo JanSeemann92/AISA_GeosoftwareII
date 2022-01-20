@@ -24,7 +24,7 @@ library(geojson)
 
 # set working directory: directory which includes needed data
 #### needs to be changed later on to the hosting server
-setwd("C:/Users/lgits/sciebo/Uni_Geoinfo/GI7_GeosoftwareII/ProjectAISA/AISA_GeosoftwareII/BackendDevelopmentLiliana/demodata")
+setwd("C:/Users/lgits/Documents/GitHub/AISA_GeosoftwareII/BackendDevelopmentLiliana/demodata")
 
 # load input data as raster stack: AOA
 AOA <- stack("createdbyAISAtool/AOA_EPSG4326.tif")

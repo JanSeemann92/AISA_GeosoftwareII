@@ -27,7 +27,7 @@ library(doParallel) # loads dependencies too
 
 # set working directory: directory which includes needed data
 #### needs to be changed later on to the hosting server
-setwd("C:/Users/lgits/sciebo/Uni_Geoinfo/GI7_GeosoftwareII/ProjectAISA/AISA_GeosoftwareII/BackendDevelopmentLiliana/demodata")
+setwd("C:/Users/lgits/Documents/GitHub/AISA_GeosoftwareII/BackendDevelopmentLiliana/demodata")
 
 # load input data
 # As predictor variables a raster data set with sentinel-2 data is used.
@@ -41,10 +41,13 @@ model <- readRDS("createdbyAISAtool/RFModel_EPSG4326.RDS")
 
 
 # Estimate AOA
-cl <- makeCluster(detectCores()-1) # devide data into 4 clusters
+cl <- makeCluster(detectCores()-1) # devide data into clusters
 registerDoParallel(cl)  # calculate clusters in parallel to speed up the process
 AOA <- aoa(sentinel_combined,model,cl=cl)  # estimate AOA
 plot(AOA)  #plot AOA
 
+# extract layer with AOA only (without DI)
+AOA_only <- raster(AOA, layer=2)
+
 # Save/export AOA as Geotiff
-writeRaster(AOA, "createdbyAISAtool/AOA_EPSG4326.tif", overwrite=T)
+writeRaster(AOA_only, "createdbyAISAtool/AOA_EPSG4326.tif", overwrite=T)

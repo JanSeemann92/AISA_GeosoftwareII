@@ -1,6 +1,6 @@
 # Title: TrainModel
 # Author: Liliana Gitschel
-# Latest Update: 17.12.2021
+# Latest Update: 19.01.2022
 # 
 # Purpose:
 #   Train a model when no model is given by the user.
@@ -25,10 +25,11 @@ rm(list=ls())
 library(raster)
 library(sf)
 library(caret)
+library(CAST)
 
 # set working directory: directory which includes needed data
 #### needs to be changed later on to the hosting server
-setwd("C:/Users/lgits/sciebo/Uni_Geoinfo/GI7_GeosoftwareII/ProjectAISA/AISA_GeosoftwareII/BackendDevelopmentLiliana/demodata")
+setwd("C:/Users/lgits/Documents/GitHub/AISA_GeosoftwareII/BackendDevelopmentLiliana/demodata")
 
 # load input data
 # As predictor variables a raster data set with sentinel-2 data is used.
@@ -38,7 +39,7 @@ setwd("C:/Users/lgits/sciebo/Uni_Geoinfo/GI7_GeosoftwareII/ProjectAISA/AISA_Geos
 sentinel_combined <- stack("demodata_rheine_sentinel_combined.grd")
 # load training polygons
 ### option for GeoJSON needs to be added!
-trainingsites <- st_read("demodata_rheine_tainingspolygone.gpkg")
+trainingsites <- st_read("demodata_rheine_trainingspolygone.gpkg")
 
 # reproject crs of input data to EPSG4326
 # ensures that data has same crs and that it can be displayed by leaflet
@@ -48,7 +49,7 @@ sentinel_combined <- projectRaster(sentinel_combined,crs=crs(trainingsites))
 
 # write input data in EPSG4326
 st_write(trainingsites, "createdbyAISAtool/demodata_rheine_trainingspolygone_EPSG4326.geojson")
-writeRaster(sentinel_combined, "createdbyAISAtool/demodata_rheine_sentinel_combined_EPSG4326.grd")
+writeRaster(sentinel_combined, "createdbyAISAtool/demodata_rheine_sentinel_combined_EPSG4326.grd", overwrite=TRUE)
 
 # Extract only those pixels from the combined sentinel data, that are within the training polygons
 extr <- extract(sentinel_combined, trainingsites, df=TRUE)
@@ -64,7 +65,6 @@ extr <- merge(extr, trainingsites, by.x="ID", by.y="PolyID")
 
 # set predictors (whole data from raster stack) and response (label for LULC)
 predictors <- names(sentinel_combined)
-response <- "label"
 
 ### limit data? 
 # Proportion of data from each training polygon should be kept
@@ -83,6 +83,21 @@ model <- train(trainDat[,predictors],
                ntree=50) # 50 is quite small (default=500). But it runs faster.
 
 model
+
+# train model with random forest and  tuning using cross validation and kappa
+
+# create spatial folds for cross validation; here k=3 folds
+trainids <- CreateSpacetimeFolds(trainDat,spacevar="ID",class="label",k=3)
+
+model_CV <- train(trainDat[,predictors],
+               trainDat$label,
+               method="rf",
+               importance=TRUE,
+               metric="Kappa", # Optimaler mtry Wert über Kappa
+               tunelength=length(predictors),
+               ntree=50, # 50 is quite small (default=500). But it runs faster.
+               trControl=trainControl(method="cv",index=trainids$index,savePredictions="all"))
+model_CV
 ## plot(model) # see tuning results
 ## plot(varImp(model)) # variable weight
 
