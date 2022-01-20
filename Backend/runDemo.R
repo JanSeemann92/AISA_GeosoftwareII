@@ -76,9 +76,16 @@ TrainModel <- function (trainingsites, sentinel_resampled) {
   # Make sure no NA is given in predictors:
   trainDat <- trainDat[complete.cases(trainDat[,predictors]),]
   
+  # train model with random forest and no tuning
+  # model_simple <- train(trainDat[,predictors],
+  #                      trainDat$label,
+  #                      method="rf",
+  #                      importance=TRUE,
+  #                      ntree=50) # 50 is quite small (default=500). But it runs faster.
+  
   # create spatial folds for cross validation; here k=3 folds
   trainids <- CreateSpacetimeFolds(trainDat,spacevar="ID",class="label",k=3)
-  
+
   # train model with random forest and  tuning using cross validation and kappa
   model <- train(trainDat[,predictors],
                  trainDat$label,
@@ -86,7 +93,7 @@ TrainModel <- function (trainingsites, sentinel_resampled) {
                  importance=TRUE,
                  metric="Kappa", # Optimaler mtry Wert über Kappa
                  tunelength=length(predictors),
-                 ntree=50, # 50 is quite small (default=500). But it runs faster.
+                 ntree=200, # 50 is quite small (default=500). But it runs faster.
                  trControl=trainControl(method="cv",index=trainids$index,savePredictions="all"))
 
   print("model trained")
@@ -281,7 +288,7 @@ newBeakr() %>%
     print("LULC output file written")
     writeRaster(areaOA, "createdbyAISAtool/aoaOutput.tif", overwrite=T)
     print("AOA output file written")
-    st_write(trainingsites, "createdbyAISAtool/trainingsitesOutput.geojson", delete_layer=T)
+    st_write(trainingsites, "createdbyAISAtool/trainingsitesOutput.geojson",  delete_dsn = TRUE)
     print("trainingsites geojson output written")
     write(samplingLocations, "createdbyAISAtool/samplingLocationsOutput.geojson")
     print("New sampling locations output geojson written")
@@ -305,7 +312,7 @@ newBeakr() %>%
     sentinel_combined <- stack("demo/demodata_rheine_sentinel_combined.grd")
     # load training polygons
     ### option for GeoJSON needs to be added!
-    trainingsites <- st_read("demo/demodata_rheine_tainingspolygone.gpkg")
+    trainingsites <- st_read("demo/demodata_rheine_trainingspolygone.gpkg")
     
     # reproject crs of input data to EPSG4326
     # ensures that data has same crs and that it can be displayed by leaflet
@@ -333,7 +340,7 @@ newBeakr() %>%
     print("LULC output file written")
     writeRaster(areaOA, "createdbyAISAtool/aoaOutput.tif", overwrite=T)
     print("AOA output file written")
-    st_write(trainingsites, "createdbyAISAtool/trainingsitesOutput.geojson", delete_layer=T)
+    st_write(trainingsites, "createdbyAISAtool/trainingsitesOutput.geojson",  delete_dsn = TRUE)
     print("trainingsites geojson output written")
     write(samplingLocations, "createdbyAISAtool/samplingLocationsOutput.geojson")
     print("New sampling locations output geojson written")

@@ -48,7 +48,7 @@ trainingsites <- st_transform(trainingsites,crs= "+proj=longlat +datum=WGS84 +no
 sentinel_combined <- projectRaster(sentinel_combined,crs=crs(trainingsites))
 
 # write input data in EPSG4326
-st_write(trainingsites, "createdbyAISAtool/demodata_rheine_trainingspolygone_EPSG4326.geojson")
+st_write(trainingsites, "createdbyAISAtool/demodata_rheine_trainingspolygone_EPSG4326.geojson", delete_dsn = TRUE)
 writeRaster(sentinel_combined, "createdbyAISAtool/demodata_rheine_sentinel_combined_EPSG4326.grd", overwrite=TRUE)
 
 # Extract only those pixels from the combined sentinel data, that are within the training polygons
@@ -86,7 +86,7 @@ model
 
 # train model with random forest and  tuning using cross validation and kappa
 
-# create spatial folds for cross validation; here k=3 folds
+# create spatial folds for cross validation
 trainids <- CreateSpacetimeFolds(trainDat,spacevar="ID",class="label",k=3)
 
 model_CV <- train(trainDat[,predictors],
@@ -95,7 +95,7 @@ model_CV <- train(trainDat[,predictors],
                importance=TRUE,
                metric="Kappa", # Optimaler mtry Wert über Kappa
                tunelength=length(predictors),
-               ntree=50, # 50 is quite small (default=500). But it runs faster.
+               ntree=200, # 50 is quite small (default=500). But it runs faster.
                trControl=trainControl(method="cv",index=trainids$index,savePredictions="all"))
 model_CV
 ## plot(model) # see tuning results
