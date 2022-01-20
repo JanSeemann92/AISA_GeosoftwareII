@@ -25,6 +25,7 @@ block content
           option(selected='') Please choose...
           option(value='0') Draw Bounding Box
           option(value='1') Enter Coordinates
+        p(id='msgoption' style='color: red; display: none') Please select an option for entering the coordinates.
         //- upload form to enter coordinates manually
         form#input-form(name='input-form')      
           .mb-3
@@ -36,7 +37,8 @@ block content
             input#ymax.form-control(type='text' name='coordinates' class='input-box' placeholder='Upper Right Latitude (ymax)' disabled='')
             br
             input#xmax.form-control(type='text' name='coordinates' class='input-box' placeholder='Upper Left Longitude (xmax)' disabled='')
-        p(id='msg' style='color: red; display: none') Please fill in all coordinate fields.
+        p(id='msgmissed' style='color: red; display: none') Please fill in all coordinate fields.
+        p(id='msgformat' style='color: red; display: none') Please check the format of your coordinate entries. They must be entered in the coordinate system wgs84/epsg:4326. Also note that only numbers from 0-9 and "." are allowed. (Lat min/max = -90.0/90.0; Lng min/max = -180.0/180.0) 
         br
         h5.text-left UPLOAD
         p.text-left
