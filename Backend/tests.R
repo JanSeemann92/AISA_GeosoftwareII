@@ -255,8 +255,11 @@ NewSamplingLocations <- function(AOA) {
 # Output:
 
 
-
-    
+addieren <- function (a,b){
+  c <- (a + b) %>%
+    #print() 
+    return()
+}    
    
     test_that("check data types", {
       sentinel_combined <- stack("demodata_rheine_sentinel_combined.grd")
