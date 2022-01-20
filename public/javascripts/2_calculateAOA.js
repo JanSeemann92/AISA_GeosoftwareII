@@ -99,6 +99,10 @@ resolution.oninput = function(){
 function startCalculation(){
   let msg = document.querySelector("#input1").value;
   console.log(msg);
+  if (msg == 1){
+    alert('Hallo')
+  }
+  else{
   alert(slider.value)
   var resolution = document.getElementById('resolution');
     var name = resolution.options[resolution.selectedIndex].text;
@@ -107,7 +111,7 @@ function startCalculation(){
   alert("The calculation will now be executed, you will then be redirected to the results. The calculation may take a few minutes, please wait...")
   window.location.href= '/ownresultAOA'  
 }
-
+}
 var polygonvalue = document.getElementsByName('choose1').value
 console.log
 
