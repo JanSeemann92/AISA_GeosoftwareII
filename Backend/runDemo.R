@@ -28,10 +28,141 @@ library(rgdal)
 # load packages for exporting geojson and JSON
 library(geojson)
 library(RJSONIO)
+# load packages for image generation from AWS
+library(rstac) 
+library(gdalcubes)
+library(stars)
+library(magick)
+library(rmarkdown)
+library(ncdf4)
+library(Rcpp)
+library(jsonlite)
+library(RcppProgress)
+# library(tmap)
 
 # set working directory: directory which includes needed data
 #### needs to be changed later on to the hosting server
 setwd("C:/Users/katha/Documents/GitHub/AISA_GeosoftwareII/Backend/demodata/")
+
+#######################################################################
+# Name of function: generateImage
+# Author: Niklas Daute
+# Latest Update: 20.01.2022
+# 
+# Purpose:
+#   Train a model when no model is given by the user.
+#
+# Input:
+#   trainingsites - GeoPackage containing labelled training polygons (User Input), important: lables must be named "label"!!
+#   sentinel_resampled - grd-data containing the readily resampled sentinel-2-image from AWS
+#
+# Output:
+#   model - Trained model
+#
+# Reference:
+#   Partly based on: https://github.com/HannaMeyer/OpenGeoHub_2021
+#
+########################################################################
+generateImage <- function (cloudcover, resolution, left, right, top, bottom, type){
+  
+  filename <- "sentinel"
+  
+  # type can be "prediction" or "training"
+  if (type == "prediction"){
+    filename <- "sentinel/sentinel_prediction.tif"
+  } else {
+    filename <- "sentinel/sentinel_training.tif"
+  }
+  
+  #
+  # variables
+  #
+  
+  # STAC catalog
+  
+  s <- stac("https://earth-search.aws.element84.com/v0")
+  
+  #
+  # query STAC
+  #
+  
+  items <- s %>%
+    stac_search(collections = "sentinel-s2-l2a-cogs",
+                bbox = c(left,top,right,bottom), # Geneva
+                datetime = "2020-01-01/2020-12-31",
+                limit = 500) %>%
+    post_request() 
+  
+  
+  #
+  # filter by cloud cover
+  #
+  
+  system.time(col <- stac_image_collection(items$features,
+                                           property_filter = function(x)
+                                           {x[["eo:cloud_cover"]] < cloudcover}))
+  
+  
+  #
+  # create cubeview
+  #
+  
+  v = cube_view(srs = "EPSG:4326",
+                extent = list(t0 = "2020-01-01",
+                              t1 = "2020-12-31",
+                              left = left,
+                              right = right,
+                              top = top,
+                              bottom = bottom),
+                dx = 0.001,
+                dy = 0.0001,
+                dt = "P1D",
+                aggregation = "median",
+                resampling = "near")
+  
+  
+  #
+  # create datacube and output
+  #
+  
+  S2.mask = image_mask("SCL", values=c(3,8,9)) # clouds and cloud shadows
+  gdalcubes_options(threads = 4) 
+  raster_cube(col, v) %>%
+    select_bands(c("B01",
+                   "B02",
+                   "B03",
+                   "B04",
+                   "B05",
+                   "B06",
+                   "B07",
+                   "B08",
+                   "B08A",
+                   "B09",
+                   "B10",
+                   "B11",
+                   "B12")) %>%
+    reduce_time(c("median(B01)",
+                  "median(B02)",
+                  "median(B03)",
+                  "median(B04)",
+                  "median(B05)",
+                  "median(B06)",
+                  "median(B07)",
+                  "median(B08)",
+                  "median(B08A)",
+                  "median(B09)",
+                  "median(B10)",
+                  "median(B11)",
+                  "median(B12)")) %>%
+    write_tif(dir=filename) %>%     # set correct directory
+    # plot(rgb = 3:1, zlim=c(0,1800)) %>%
+    # system.time()
+  
+  
+  return()
+}
+
+
 
 
 #######################################################################
@@ -174,7 +305,7 @@ NewSamplingLocations <- function(AOA) {
 
 
 ############################################################
-# Workflow uses above defined funtions
+# Workflow uses above defined functions
 
 
 # Create and start the beakr instance
@@ -198,11 +329,24 @@ newBeakr() %>%
     print(req$parameters$cov)
     print(req$parameters$reso)
     
+    # parameters for AOI
+    top <- as.numeric(req$parameters$lat1)
+    left <- as.numeric(req$parameters$long1)
+    bottom <- as.numeric(req$parameters$lat2)
+    right <- as.numeric(req$parameters$long2)
+    cov <- as.numeric(req$parameters$cov)
+    reso <- as.numeric(req$parameters$reso)
+    type <- prediction
+    
+    # generate sentinel images from AWS for AOI/prediction
+    generateImage(cov, reso, left, right, top, bottom, type)
+    
+        
     # load input data
     # As predictor variables a raster data set with sentinel-2 data is used.
     # The data comes form AWS and is preprocessed internally first.
     # load and build stack with data for area of interest (=sentinel-2 images for prediction)
-    sentinel_combined_prediction <- stack("sentinel/sentinel_prediction.grd")  #replace stac file here!
+    sentinel_combined_prediction <- stack("sentinel/sentinel_prediction.tif")  #replace stac file here!
     # load model
     ### option for GeoJSON needs to be added!
     model <- readRDS("upload/model.RDS")   #replace user input file here
@@ -250,16 +394,44 @@ newBeakr() %>%
     print(req$parameters$reso)
     
     
+    # parameters for AOI
+    top <- as.numeric(req$parameters$lat1)
+    left <- as.numeric(req$parameters$long1)
+    bottom <- as.numeric(req$parameters$lat2)
+    right <- as.numeric(req$parameters$long2)
+    cov <- as.numeric(req$parameters$cov)
+    reso <- as.numeric(req$parameters$reso)
+    type <- prediction
+    
+    # generate sentinel images from AWS for AOI/prediction
+    generateImage(cov, reso, left, right, top, bottom, type)
+    
+    # load training data
+    ### option for GeoJSON needs to be added!
+    trainingsites <- st_read("upload/trainingdata.gpkg")   #replace user input file here
+    
+    # parameters for training
+    top <- st_bbox(trainingsites)[3]    #xmax
+    left <- st_bbox(trainingsites)[2]   #ymin
+    bottom <- st_bbox(trainingsites)[1]  #xmin
+    right <- st_bbox(trainingsites)[4]   #ymax
+    cov <- as.numeric(req$parameters$cov)
+    reso <- as.numeric(req$parameters$reso)
+    type <- training
+    
+    # generate sentinel images from AWS for training
+    generateImage(cov, reso, left, right, top, bottom, type)
+    
+   
+    
     # load input data
     # As predictor variables a raster data set with sentinel-2 data is used.
     # The data comes form AWS and is preprocessed internally first.
     # load and build stack with data of predictor variables (=sentinel-2 images for training)
     # load and build stack with data for area of interest (=sentinel-2 images for prediction)
-    sentinel_combined_training <- stack("sentinel/sentinel_training.grd")  # eventually not needed
-    sentinel_combined_prediction <- stack("sentinel/sentinel_prediction.grd")  # eventually not needed
-    # load training polygons
-    ### option for GeoJSON needs to be added!
-    trainingsites <- st_read("upload/trainingdata.gpkg")   #replace user input file here
+    sentinel_combined_training <- stack("sentinel/sentinel_training.tif")  # eventually not needed
+    sentinel_combined_prediction <- stack("sentinel/sentinel_prediction.tif")  # eventually not needed
+   
     
     # reproject crs of input data to EPSG4326
     # sentinel images from AWS/stac already come in EPSG4326
