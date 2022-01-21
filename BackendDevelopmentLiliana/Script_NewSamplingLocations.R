@@ -24,13 +24,13 @@ library(geojson)
 
 # set working directory: directory which includes needed data
 #### needs to be changed later on to the hosting server
-setwd("C:/Users/lgits/Documents/GitHub/AISA_GeosoftwareII/BackendDevelopmentLiliana/demodata")
+setwd("C:/Users/lgits/Documents/GitHub/AISA_GeosoftwareII/BackendDevelopmentLiliana/demodata/demodata_small")
 
 # load input data as raster stack: AOA
 AOA <- stack("createdbyAISAtool/AOA_EPSG4326.tif")
 
 # extract layer containing AOA from raster stack
-AOA_only <- raster(AOA, layer=2)
+# AOA_only <- raster(AOA, layer=2)
 
 # set values inside AOA (=1) to NA
 AOA_only_outside <- reclassify(AOA_only, cbind(1, NA))

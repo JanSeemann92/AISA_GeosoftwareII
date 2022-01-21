@@ -27,7 +27,7 @@ library(doParallel) # loads dependencies too
 
 # set working directory: directory which includes needed data
 #### needs to be changed later on to the hosting server
-setwd("C:/Users/lgits/Documents/GitHub/AISA_GeosoftwareII/BackendDevelopmentLiliana/demodata")
+setwd("C:/Users/lgits/Documents/GitHub/AISA_GeosoftwareII/BackendDevelopmentLiliana/demodata/demodata_small")
 
 # load input data
 # As predictor variables a raster data set with sentinel-2 data is used.
@@ -46,3 +46,4 @@ prediction <- predict(sentinel_combined,model)
 
 # Save/export predictions as Geotiff
 writeRaster(prediction, "createdbyAISAtool/prediction_EPSG4326.tif", overwrite=T)
+

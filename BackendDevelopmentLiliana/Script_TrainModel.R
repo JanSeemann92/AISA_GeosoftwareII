@@ -29,7 +29,7 @@ library(CAST)
 
 # set working directory: directory which includes needed data
 #### needs to be changed later on to the hosting server
-setwd("C:/Users/lgits/Documents/GitHub/AISA_GeosoftwareII/BackendDevelopmentLiliana/demodata")
+setwd("C:/Users/lgits/Documents/GitHub/AISA_GeosoftwareII/BackendDevelopmentLiliana/demodata/demodata_small")
 
 # load input data
 # As predictor variables a raster data set with sentinel-2 data is used.
@@ -77,7 +77,7 @@ trainDat <- trainDat[complete.cases(trainDat[,predictors]),]
 
 # Train  model
 model <- train(trainDat[,predictors],
-               trainDat$label,
+               trainDat$Label,
                method="rf",
                importance=TRUE,
                ntree=50) # 50 is quite small (default=500). But it runs faster.
@@ -87,10 +87,10 @@ model
 # train model with random forest and  tuning using cross validation and kappa
 
 # create spatial folds for cross validation
-trainids <- CreateSpacetimeFolds(trainDat,spacevar="ID",class="label",k=3)
+trainids <- CreateSpacetimeFolds(trainDat,spacevar="ID",class="Label",k=3)
 
 model_CV <- train(trainDat[,predictors],
-               trainDat$label,
+               trainDat$Label,
                method="rf",
                importance=TRUE,
                metric="Kappa", # Optimaler mtry Wert über Kappa
