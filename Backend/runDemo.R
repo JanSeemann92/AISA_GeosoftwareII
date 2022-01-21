@@ -15,11 +15,10 @@
 # delete all variables from environment
 rm(list=ls())
 
-# load packages for training
+# load packages for training and AOA
 library(raster)
 library(sf)
 library(caret)
-# load packages for AOA
 library(CAST)
 library(doParallel) # loads dependencies too
 # load packages for API
@@ -30,13 +29,13 @@ library(geojson)
 library(RJSONIO)
 # load packages for image generation from AWS
 library(rstac) 
-library(gdalcubes) # installs ncdf4 and RcppProgress, too
-library(stars)
+library(gdalcubes)
+# library(stars)
 # library(magick)
-library(rmarkdown) 
+# library(rmarkdown) 
 # library(ncdf4)
-library(Rcpp)
-library(jsonlite)
+# library(Rcpp)
+# library(jsonlite)
 # library(RcppProgress)
 # library(tmap)
 

@@ -21,11 +21,15 @@ install.packages("beakr")  # needed for API; installs dependencies, too
 install.packages("doParallel")
 install.packages("geojson")  # needed to convert spatialpointsdataframe into geojson
 install.packages("RJSONIO")  # needed to convert to JSON
+install.packages("rgdal")
+install.packages("gdalcubes") # installs ncdf4 and RcppProgress, too
+install.packages("rstac")
 # not required yet:
-## install.packages("latticeExtra")  # installs dependencies, too
-## install.packages("rgdal")   # needed for package mapview
-## install.packages("mapview")
-## install.packages("tmap")  # installs dependencies, too
-## install.packages("doParallel")
-## install.packages("Orcs")  # installs dependencies, too
-## install.packages("randomForest")
+# install.packages("stars")
+# install.packages("magick")
+# install.packages("rmarkdown") 
+# install.packages("ncdf4")
+# install.packages("Rcpp")
+# install.packages("jsonlite")
+# install.packages("RcppProgress")
+# install.packages("tmap")
