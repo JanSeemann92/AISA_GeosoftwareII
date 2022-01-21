@@ -122,6 +122,82 @@ function startCalculation(){
       console.log(cloudcover);
       var resolution = document.getElementById('resolution').value;
       console.log(resolution);
+      if(document.getElementById("upload").files.length > 0){
+        document.querySelector('#msgupload').style.display = 'none';   
+        console.log('found file')
+        var upload = document.getElementById("upload").files[0];
+        console.log(upload.name)
+        console.log(upload)
+        var size = upload.size;
+        console.log(size)
+        if(getending(upload.name) == 'geojson' || getending(upload.name) == 'gpkg'){
+          document.querySelector('#msgfile').style.display = 'none';
+          document.querySelector('#msggeojson').style.display = 'none';
+          document.querySelector('#msggpkg').style.display = 'none';
+          document.querySelector('#msgRDS').style.display = 'none';
+          console.log('trainingdata')
+          if(getending(upload.name) == 'geojson'){
+            console.log('geojson')
+            if(size > 0){
+              console.log('valid .geojson')
+              document.querySelector('#msggeojson').style.display = 'none';
+              if(checkformatgeojson(upload) == 'valid'){
+                console.log('valid .geojson format')
+              }
+              else{
+                console.log('invalid .geojson format')
+                return false
+              }
+            }
+            else{
+              console.log('invalid .geojson')
+              document.querySelector('#msggeojson').style.display = 'block';
+              return false
+              }}
+          if(getending(upload.name) == 'gpkg'){
+            console.log('gpkg')
+            if(size > 0){
+              console.log('valid .gpkg')
+              document.querySelector('#msggpkg').style.display = 'none';
+              if(checkformatgeojson(upload) == 'valid'){
+                console.log('valid .gpkg format')
+              }
+              else{
+                console.log('invalid .gpkg format')
+                return false
+              }}
+            else{
+              console.log('invalid .gpkg')
+              document.querySelector('#msggpkg').style.display = 'block';
+              return false
+              }
+        	}}
+        else{
+          document.querySelector('#msggeojson').style.display = 'none';
+          document.querySelector('#msggpkg').style.display = 'none';
+          if(getending(upload.name) == 'RDS'){
+            document.querySelector('#msgfile').style.display = 'none';
+            console.log('RDS')
+            if(size > 0){
+              console.log('valid .RDS')
+              document.querySelector('#msgRDS').style.display = 'none';
+          }
+            else{
+              console.log('invalid .RDS')
+              document.querySelector('#msgRDS').style.display = 'block';
+              return false
+            }}
+          else{
+            console.log('invalid file')
+            document.querySelector('#msgfile').style.display = 'block';
+            return false
+          }
+        }}
+      else{
+        document.querySelector('#msgupload').style.display = 'block';
+        console.log('failed')   
+        return false
+      }
       //alert("The calculation will now be executed, you will then be redirected to the results. The calculation may take a few minutes, please wait...")
       //window.location.href= '/ownresultAOA'
     }
@@ -130,6 +206,7 @@ function startCalculation(){
     document.querySelector('#validate3').style.display = 'block';
     console.log('Test2: false')}
 }}
+//Bounding box
 else{
   document.querySelector('#msgoption').style.display = 'none';
   console.log('Bounding box!')
@@ -262,5 +339,8 @@ function checkcoordsformat(ymin, xmin, ymax, xmax){
   }}
 
 
-
-
+function getending(filename){
+  var splitted = filename.split('.')
+  var ending = splitted[splitted.length-1]
+  return ending
+}

@@ -45,9 +45,12 @@ block content
         p.text-left
           | Please upload a model (.RDS) or training data (.gpkg/.geojson).
         //- upload form to enter file with training data
-        form#inputModel
-          .form-group
-            input#upload-button.form-control-file(type='file')
+        input#upload(type='file' name='filename')
+        p(id='msgupload' style='color: red; display: none') Please upload a model (.RDS) or training data (.gpkg/.geojson).
+        p(id='msgfile' style='color: red; display: none') The uploaded file must be either a model in .RDS format or training data in .gpkg or .geojson format.
+        p(id='msgRDS' style='color: red; display: none') You have uploaded an empty model file.
+        p(id='msggeojson' style='color: red; display: none') You have uploaded an empty .geojson file for the training data.
+        p(id='msggpkg' style='color: red; display: none') You have uploaded an empty .gpkg file for the training data.
         br
         br
         h5.text-left OPTIONAL SETTINGS
