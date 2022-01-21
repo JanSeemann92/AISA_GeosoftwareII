@@ -32,8 +32,8 @@ library(RJSONIO)
 library(rstac) 
 library(gdalcubes) # installs ncdf4 and RcppProgress, too
 library(stars)
-library(magick)
-library(rmarkdown)
+# library(magick)
+library(rmarkdown) 
 # library(ncdf4)
 library(Rcpp)
 library(jsonlite)
@@ -196,17 +196,17 @@ TrainModel <- function (trainingsites, sentinel_resampled) {
   
   # train model with random forest and no tuning
   # model_simple <- train(trainDat[,predictors],
-  #                      trainDat$label,
+  #                      trainDat$Label,
   #                      method="rf",
   #                      importance=TRUE,
   #                      ntree=50) # 50 is quite small (default=500). But it runs faster.
   
   # create spatial folds for cross validation; here k=3 folds
-  trainids <- CreateSpacetimeFolds(trainDat,spacevar="ID",class="label",k=3)
+  trainids <- CreateSpacetimeFolds(trainDat,spacevar="ID",class="Label",k=3)
   
   # train model with random forest and  tuning using cross validation and kappa
   model <- train(trainDat[,predictors],
-                 trainDat$label,
+                 trainDat$Label,
                  method="rf",
                  importance=TRUE,
                  metric="Kappa", # Optimaler mtry Wert über Kappa
@@ -236,7 +236,7 @@ TrainModel <- function (trainingsites, sentinel_resampled) {
 #           (either uploaded by user or internally created with function TrainModel)
 #
 # Output:
-#   AOA - Estimation of AOA (Rasterstack)
+#   AOA_only - Estimation of AOA (Rasterstack) without DI
 #
 # Reference:
 #   Partly based on: https://github.com/HannaMeyer/OpenGeoHub_2021
@@ -250,8 +250,11 @@ AOA <- function (sentinel_resampled, model) {
   registerDoParallel(cl)  # calculate clusters in parallel to speed up the process
   AOA <- aoa(sentinel_resampled,model,cl=cl)  # estimate AOA
   
+  # extract layer containing AOA from raster stack (without DI)
+  AOA_only <- raster(AOA, layer=2)
+  
   print("AOA calculated")
-  return(AOA)
+  return(AOA_only)
 }
 
 
@@ -265,7 +268,7 @@ AOA <- function (sentinel_resampled, model) {
 #   Suggest new sampling locations based on the areas outside the AOA.
 #
 # Input:
-#   AOA - AOA
+#   AOA - AOA (without DI)
 #
 # Output:
 #   samples_geojson - GeoJson containing points for new sampling locations.
@@ -273,9 +276,6 @@ AOA <- function (sentinel_resampled, model) {
 ########################################################################
 
 NewSamplingLocations <- function(AOA) {
-  
-  # extract layer containing AOA from raster stack
-  AOA_only <- raster(AOA, layer=2)
   
   # set values inside AOA (=1) to NA
   AOA_only_outside <- reclassify(AOA_only, cbind(1, NA))
@@ -292,10 +292,16 @@ NewSamplingLocations <- function(AOA) {
 
 ############################################################
 ############################################################
-
-# Workflows for following options: demo, with model, with training data
-# Workflows use above defined functions
+#
 # Authors: Jan Seemann, Liliana Gitschel
+# Latest update: 21.01.22
+#
+# Purpose:
+#   Implements connection to frontend via beakr instance and
+#   workflows for following options: demo, with model, with training data.
+#   Workflows use above defined functions
+#
+###########################################################
 
 
 # Create and start the beakr instance
@@ -499,8 +505,8 @@ newBeakr() %>%
     # do calculations
     model <-TrainModel(trainingsites, sentinel_combined)
     predictionLULC <- predict(sentinel_combined,model)
-    areaOA <- AOA (sentinel_combined,model)
-    samplingLocations <- NewSamplingLocations(areaOA)
+    areaAOA <- AOA (sentinel_combined,model)
+    samplingLocations <- NewSamplingLocations(areaAOA)
     
     # get labels of LULC (needed for legend on map)
     label <- c(model$levels)
@@ -514,7 +520,7 @@ newBeakr() %>%
     print("model output file written")
     writeRaster(predictionLULC, "createdbyAISAtool/predictionOutput.tif", overwrite=T)
     print("LULC output file written")
-    writeRaster(areaOA, "createdbyAISAtool/aoaOutput.tif", overwrite=T)
+    writeRaster(areaAOA, "createdbyAISAtool/aoaOutput.tif", overwrite=T)
     print("AOA output file written")
     st_write(trainingsites, "createdbyAISAtool/trainingsitesOutput.geojson",  delete_dsn = TRUE)
     print("trainingsites geojson output written")
