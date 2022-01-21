@@ -1,11 +1,11 @@
 # Title: runDemo
-# Author: Liliana Gitschel, Jan Seemann
-# Latest Update: 18.01.2022
+# Author: Liliana Gitschel, Jan Seemann, Niklas Daute
+# Latest Update: 21.01.2022
 # 
 # Purpose:
 #   Includes functions for necessary calculations within the AISA tool:
-#   training of model, making predictions, estimate the AOA, suggesting new sample locations
-#   exposes a function that runs the demo as API
+#   generating images from AWS, training of model, making predictions, estimate the AOA, suggesting new sample locations
+#   Implements APIs for different workflows (demo, with model, with trainingdata)
 #
 ############################################################################################
 ############################################################################################
@@ -30,62 +30,65 @@ library(geojson)
 library(RJSONIO)
 # load packages for image generation from AWS
 library(rstac) 
-library(gdalcubes)
+library(gdalcubes) # installs ncdf4 and RcppProgress, too
 library(stars)
 library(magick)
 library(rmarkdown)
-library(ncdf4)
+# library(ncdf4)
 library(Rcpp)
 library(jsonlite)
-library(RcppProgress)
+# library(RcppProgress)
 # library(tmap)
 
 # set working directory: directory which includes needed data
 #### needs to be changed later on to the hosting server
-setwd("C:/Users/katha/Documents/GitHub/AISA_GeosoftwareII/Backend/demodata/")
+#setwd("C:/Users/katha/Documents/GitHub/AISA_GeosoftwareII/Backend/demodata/")
+setwd("D:/Studium/Geosoftware1/AISA_GeosoftwareII/Backend/demodata")
 
 #######################################################################
+
+# define functions:
+
+########################################################################
 # Name of function: generateImage
 # Author: Niklas Daute
 # Latest Update: 20.01.2022
 # 
 # Purpose:
-#   Train a model when no model is given by the user.
+#   Generate sentinel-2-images for a given bounding box from AWS using stac.
 #
 # Input:
-#   trainingsites - GeoPackage containing labelled training polygons (User Input), important: lables must be named "label"!!
-#   sentinel_resampled - grd-data containing the readily resampled sentinel-2-image from AWS
+#   cloudcover - maximum percentage of cloudcover for filtering the sentinel-2-images
+#   resolution - resolution in which the images should be generated
+#   left - left longitude value for bounding box (given in EPSG 4326)
+#   right - right longitude value for bounding box (given in EPSG 4326)
+#   top - upper latitude value for bounding box (given in EPSG 4326)
+#   bottom - lower latitude value for bounding box (given in EPSG 4326)
+#   type - indicates whether the image is for training or prediction purposes
 #
 # Output:
-#   model - Trained model
-#
-# Reference:
-#   Partly based on: https://github.com/HannaMeyer/OpenGeoHub_2021
+#   writes image as geotif in directory
 #
 ########################################################################
+
 generateImage <- function (cloudcover, resolution, left, right, top, bottom, type){
   
+  # set filename depending on type
+  # type can be "prediction" or "training"
   filename <- "sentinel"
   
-  # type can be "prediction" or "training"
   if (type == "prediction"){
-    filename <- "sentinel/sentinel_prediction.tif"
+    filename <- "sentinel_prediction"
   } else {
-    filename <- "sentinel/sentinel_training.tif"
+    filename <- "sentinel_training"
   }
   
-  #
-  # variables
-  #
   
   # STAC catalog
-  
   s <- stac("https://earth-search.aws.element84.com/v0")
   
-  #
-  # query STAC
-  #
   
+  # query STAC
   items <- s %>%
     stac_search(collections = "sentinel-s2-l2a-cogs",
                 bbox = c(left,top,right,bottom), # Geneva
@@ -94,19 +97,13 @@ generateImage <- function (cloudcover, resolution, left, right, top, bottom, typ
     post_request() 
   
   
-  #
   # filter by cloud cover
-  #
-  
   system.time(col <- stac_image_collection(items$features,
                                            property_filter = function(x)
                                            {x[["eo:cloud_cover"]] < cloudcover}))
   
   
-  #
   # create cubeview
-  #
-  
   v = cube_view(srs = "EPSG:4326",
                 extent = list(t0 = "2020-01-01",
                               t1 = "2020-12-31",
@@ -121,45 +118,35 @@ generateImage <- function (cloudcover, resolution, left, right, top, bottom, typ
                 resampling = "near")
   
   
-  #
   # create datacube and output
-  #
-  
   S2.mask = image_mask("SCL", values=c(3,8,9)) # clouds and cloud shadows
   gdalcubes_options(threads = 4) 
   raster_cube(col, v) %>%
-    select_bands(c("B01",
-                   "B02",
+    select_bands(c("B02",
                    "B03",
                    "B04",
                    "B05",
                    "B06",
                    "B07",
                    "B08",
-                   "B08A",
-                   "B09",
-                   "B10",
                    "B11",
-                   "B12")) %>%
-    reduce_time(c("median(B01)",
-                  "median(B02)",
+                   "B12",
+                   "B8A")) %>%
+    reduce_time(c("median(B02)",
                   "median(B03)",
                   "median(B04)",
                   "median(B05)",
                   "median(B06)",
                   "median(B07)",
                   "median(B08)",
-                  "median(B08A)",
-                  "median(B09)",
-                  "median(B10)",
                   "median(B11)",
-                  "median(B12)")) %>%
-    write_tif(dir=filename) %>%     # set correct directory
+                  "median(B12)",
+                  "median(B8A)")) %>%
+    write_tif(dir="D:/Studium/Geosoftware1/AISA_GeosoftwareII/Backend/demodata/sentinel", prefix = filename) %>%     # set correct directory
     # plot(rgb = 3:1, zlim=c(0,1800)) %>%
     # system.time()
-  
-  
-  return()
+    
+    return()
 }
 
 
@@ -175,7 +162,7 @@ generateImage <- function (cloudcover, resolution, left, right, top, bottom, typ
 #
 # Input:
 #   trainingsites - GeoPackage containing labelled training polygons (User Input), important: lables must be named "label"!!
-#   sentinel_resampled - grd-data containing the readily resampled sentinel-2-image from AWS
+#   sentinel_resampled - geotif or grd-data containing the readily resampled sentinel-2-image from AWS
 #
 # Output:
 #   model - Trained model
@@ -216,7 +203,7 @@ TrainModel <- function (trainingsites, sentinel_resampled) {
   
   # create spatial folds for cross validation; here k=3 folds
   trainids <- CreateSpacetimeFolds(trainDat,spacevar="ID",class="label",k=3)
-
+  
   # train model with random forest and  tuning using cross validation and kappa
   model <- train(trainDat[,predictors],
                  trainDat$label,
@@ -226,7 +213,7 @@ TrainModel <- function (trainingsites, sentinel_resampled) {
                  tunelength=length(predictors),
                  ntree=200, # 50 is quite small (default=500). But it runs faster.
                  trControl=trainControl(method="cv",index=trainids$index,savePredictions="all"))
-
+  
   print("model trained")
   return(model)
 }
@@ -238,7 +225,7 @@ TrainModel <- function (trainingsites, sentinel_resampled) {
 #######################################################################
 # Title: AOA
 # Author: Liliana Gitschel
-# Latest Update: 18.01.2022
+# Latest Update: 21.01.2022
 # 
 # Purpose:
 #   Estimate the AOA.
@@ -259,10 +246,10 @@ TrainModel <- function (trainingsites, sentinel_resampled) {
 AOA <- function (sentinel_resampled, model) {
   
   # Estimate AOA
-  cl <- makeCluster(detectCores()-1) # devide data into (number of CPU cores)-1 clusters
+  cl <- makeCluster(4) # devide data into 4 clusters
   registerDoParallel(cl)  # calculate clusters in parallel to speed up the process
   AOA <- aoa(sentinel_resampled,model,cl=cl)  # estimate AOA
-
+  
   print("AOA calculated")
   return(AOA)
 }
@@ -303,23 +290,27 @@ NewSamplingLocations <- function(AOA) {
 }
 
 
-
 ############################################################
-# Workflow uses above defined functions
+############################################################
+
+# Workflows for following options: demo, with model, with training data
+# Workflows use above defined functions
+# Authors: Jan Seemann, Liliana Gitschel
 
 
 # Create and start the beakr instance
 newBeakr() %>%
   # Host the directory of static files
   
-# Create and start the beakr instance
-newBeakr() %>%
+  # Create and start the beakr instance
+  newBeakr() %>%
   
   cors() %>%
   
+  
+  ########################################
   #POST API withModel
   httpPOST(path = '/withModel', function(req,res,err) {
-    
     
     #testing
     print(req$parameters$lat1)
@@ -336,23 +327,26 @@ newBeakr() %>%
     right <- as.numeric(req$parameters$long2)
     cov <- as.numeric(req$parameters$cov)
     reso <- as.numeric(req$parameters$reso)
-    type <- prediction
+    type <- "prediction"
     
     # generate sentinel images from AWS for AOI/prediction
     generateImage(cov, reso, left, right, top, bottom, type)
     
-        
-    # load input data
-    # As predictor variables a raster data set with sentinel-2 data is used.
-    # The data comes form AWS and is preprocessed internally first.
-    # load and build stack with data for area of interest (=sentinel-2 images for prediction)
-    sentinel_combined_prediction <- stack("sentinel/sentinel_prediction.tif")  #replace stac file here!
-    # load model
-    ### option for GeoJSON needs to be added!
-    model <- readRDS("upload/model.RDS")   #replace user input file here
     
+    # load input data
+    # load model
+    model <- readRDS("upload/model.RDS")
+    # As predictor variables a raster data set with sentinel-2 data is used.
+    # The data comes form AWS and is preprocessed internally first (see above).
+    # load and build stack with data for area of interest (=sentinel-2 images for prediction)
+    sentinel_combined_prediction <- stack("sentinel/sentinel_prediction2020-01-01.tif")
     # no reprojection needed
     # sentinel images from AWS/stac already come in EPSG4326 which is needed for leaflet
+    
+    # set names of bands in the sentinel data
+    bandnames <- c("B02","B03","B04","B05","B06","B07","B08","B11","B12","B8A")
+    names(sentinel_combined_prediction) <- bandnames
+   
     
     # do calculations
     predictionLULC <- predict(sentinel_combined_prediction, model)
@@ -381,6 +375,7 @@ newBeakr() %>%
   }) %>%
   
   
+  ########################################
   #POST API noModel
   httpPOST(path = '/noModel', function(req,res,err) {
     
@@ -401,37 +396,47 @@ newBeakr() %>%
     right <- as.numeric(req$parameters$long2)
     cov <- as.numeric(req$parameters$cov)
     reso <- as.numeric(req$parameters$reso)
-    type <- prediction
+    type <- "prediction"
     
     # generate sentinel images from AWS for AOI/prediction
     generateImage(cov, reso, left, right, top, bottom, type)
     
     # load training data
-    ### option for GeoJSON needs to be added!
-    trainingsites <- st_read("upload/trainingdata.gpkg")   #replace user input file here
+    # depends on data format (gpkg or geojson)
+    dataformat <- req$parameters$format   # variables names mustbe checked with frontend
+    if (dataformat == "geopackage") {
+      trainingsites <- st_read("upload/trainingdata.gpkg")
+    } else {
+      trainingsites <- st_read("upload/trainingdata.geojson")
+    }
+    
     
     # parameters for training
-    top <- st_bbox(trainingsites)[3]    #xmax
-    left <- st_bbox(trainingsites)[2]   #ymin
-    bottom <- st_bbox(trainingsites)[1]  #xmin
-    right <- st_bbox(trainingsites)[4]   #ymax
+    right <- st_bbox(trainingsites)[3]    #xmax
+    bottom <- st_bbox(trainingsites)[2]   #ymin
+    left <- st_bbox(trainingsites)[1]  #xmin
+    top <- st_bbox(trainingsites)[4]   #ymax 
     cov <- as.numeric(req$parameters$cov)
     reso <- as.numeric(req$parameters$reso)
-    type <- training
+    type <- "training"
     
     # generate sentinel images from AWS for training
     generateImage(cov, reso, left, right, top, bottom, type)
     
-   
+    
     
     # load input data
     # As predictor variables a raster data set with sentinel-2 data is used.
     # The data comes form AWS and is preprocessed internally first.
     # load and build stack with data of predictor variables (=sentinel-2 images for training)
     # load and build stack with data for area of interest (=sentinel-2 images for prediction)
-    sentinel_combined_training <- stack("sentinel/sentinel_training.tif")  # eventually not needed
-    sentinel_combined_prediction <- stack("sentinel/sentinel_prediction.tif")  # eventually not needed
-   
+    sentinel_combined_training <- stack("sentinel/sentinel_training2020-01-01.tif")  # eventually not needed
+    sentinel_combined_prediction <- stack("sentinel/sentinel_prediction2020-01-01.tif")  # eventually not needed
+    
+    # set names of bands in the sentinel data
+    bandnames <- c("B02","B03","B04","B05","B06","B07","B08","B11","B12","B8A")
+    names(sentinel_combined_training) <- bandnames
+    names(sentinel_combined_prediction) <- bandnames
     
     # reproject crs of input data to EPSG4326
     # sentinel images from AWS/stac already come in EPSG4326
@@ -474,16 +479,15 @@ newBeakr() %>%
   
   
   
+  ########################################
   #GET API runDemo
-   httpGET(path = '/runDemo', function(req,res,err) {
+  httpGET(path = '/runDemo', function(req,res,err) {
     # load input data
+    # The data is kept in directory for demodata.
     # As predictor variables a raster data set with sentinel-2 data is used.
-    # The data either comes form AWS and is preprocessed internally first or the demodata is used.
     # load and build stack with data of predictor variables (=sentinel-2 images)
-    ### yet only running with demodata!
     sentinel_combined <- stack("demo/demodata_rheine_sentinel_combined.grd")
     # load training polygons
-    ### option for GeoJSON needs to be added!
     trainingsites <- st_read("demo/demodata_rheine_trainingspolygone.gpkg")
     
     # reproject crs of input data to EPSG4326
@@ -522,11 +526,14 @@ newBeakr() %>%
     
     res$setHeader("Access-Control-Allow-Origin", "*")
     return("JobDone")
-    }) %>%
+  }) %>%
   
+  
+  ########################################
   # Host the directory of static files  
-  serveStaticFiles("/verzeichnisdemodaten", "C:/Users/katha/Documents/GitHub/AISA_GeosoftwareII/Backend/demodata/createdbyAISAtool/", verbose = TRUE) %>%
-
+  #serveStaticFiles("/verzeichnisdemodaten", "C:/Users/katha/Documents/GitHub/AISA_GeosoftwareII/Backend/demodata/createdbyAISAtool/", verbose = TRUE) %>%
+  serveStaticFiles("/verzeichnisdemodaten", "D:/Studium/Geosoftware1/AISA_GeosoftwareII/Backend/demodata/createdbyAISAtool/", verbose = TRUE) %>%
+  
   
   handleErrors() %>%
   
