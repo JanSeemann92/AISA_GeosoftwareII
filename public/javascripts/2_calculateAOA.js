@@ -123,9 +123,9 @@ function startCalculation(){
       var resolution = document.getElementById('resolution').value;
       console.log(resolution);
       if(document.getElementById("upload").files.length > 0){
+        var upload = document.getElementById("upload").files[0];
         document.querySelector('#msgupload').style.display = 'none';   
         console.log('found file')
-        var upload = document.getElementById("upload").files[0];
         console.log(upload.name)
         console.log(upload)
         var size = upload.size;
@@ -141,14 +141,21 @@ function startCalculation(){
             if(size > 0){
               console.log('valid .geojson')
               document.querySelector('#msggeojson').style.display = 'none';
-              if(checkformatgeojson(upload) == 'valid'){
+              var reader = new FileReader(); //File reader to read the selected file
+              reader.readAsText(upload); //reads the file
+              reader.addEventListener('load', function(){
+              let fileAsGeojson = JSON.parse(reader.result);
+              if(checkformatgeojson(fileAsGeojson) == true){
+                document.querySelector('#msggeojsonformat').style.display = 'none';
                 console.log('valid .geojson format')
+
               }
               else{
+                document.querySelector('#msggeojsonformat').style.display = 'block';
                 console.log('invalid .geojson format')
                 return false
               }
-            }
+            })}
             else{
               console.log('invalid .geojson')
               document.querySelector('#msggeojson').style.display = 'block';
@@ -344,3 +351,33 @@ function getending(filename){
   var ending = splitted[splitted.length-1]
   return ending
 }
+
+function checkformatgeojson(fileAsGeojson){
+   var geojson = fileAsGeojson;
+   if(geojson.type !== 'FeatureCollection'){
+    console.log('no featurecollection')
+    return false
+   }
+   else{
+   var features = geojson.features;
+   for(let i = 0; i < features.length; i++){
+     if(features[i].properties.label == "" || features[i].properties.label == null || features[i].properties.label == undefined){
+      console.log(features[i].properties.label)
+      console.log('no label')
+      return false
+     }
+     if(!features[i].geometry.type == "MultiPolygon" || !features[i].geometry.type == "Polygon"){
+      console.log(features[i].geometry.type)
+      console.log('no type')
+      return false
+     }
+    if(features[i].geometry.coordinates.length < 1){
+      console.log(features[i].geometry.coordinates.length)
+      console.log('no coords')
+      return false
+    }
+    else{
+      console.log('valid')
+    return true
+    }}}}
+
