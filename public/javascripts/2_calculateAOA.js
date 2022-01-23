@@ -249,7 +249,6 @@ function startCalculation(){
               document.querySelector('#msgupload').style.display = 'none';   
               console.log('found file')
               console.log(upload.name)
-              console.log(upload)
               // Size of the uploaded file
               var size = upload.size;
               console.log(size)
@@ -543,7 +542,6 @@ function startCalculation(){
               document.querySelector('#msgupload').style.display = 'none';   
               console.log('found file')
               console.log(upload.name)
-              console.log(upload)
               // Size of the uploaded file
               var size = upload.size;
               console.log(size)
