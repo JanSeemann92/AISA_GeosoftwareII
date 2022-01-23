@@ -127,7 +127,8 @@ function startCalculation(){
             document.querySelector('#msgupload').style.display = 'none';   
             console.log('found file')
             console.log(upload.name)
-            console.log(upload)
+            var URL = window.URL.createObjectURL(document.getElementById("upload").files[0]);
+            console.log(URL);
             // Size of the uploaded file
             var size = upload.size;
             console.log(size)
@@ -249,6 +250,8 @@ function startCalculation(){
               document.querySelector('#msgupload').style.display = 'none';   
               console.log('found file')
               console.log(upload.name)
+              var URL = window.URL.createObjectURL(document.getElementById("upload").files[0]);
+              console.log(URL);
               // Size of the uploaded file
               var size = upload.size;
               console.log(size)
@@ -275,7 +278,7 @@ function startCalculation(){
                       document.querySelector('#msggeojsonformat').style.display = 'none';
                       console.log('valid .geojson format')
                       // Call function to send the entered data to the backend 
-                      //sendValuesTrainingdata(ymin, xmin, ymax, xmax, cloudcover, resolution)
+                      //sendValuesTrainingdata(URL, ymin, xmin, ymax, xmax, cloudcover, resolution)
                     }
                     // Show message if format is invalid
                     else{
@@ -301,7 +304,7 @@ function startCalculation(){
                     console.log('valid .gpkg')
                     document.querySelector('#msggpkg').style.display = 'none';
                     // Call function to send the entered data to the backend 
-                    //sendValuesTrainingdata(ymin, xmin, ymax, xmax, cloudcover, resolution)
+                    //sendValuesTrainingdata(URL, ymin, xmin, ymax, xmax, cloudcover, resolution)
                   }
                   // Show message when file is empty
                   else{
@@ -324,7 +327,7 @@ function startCalculation(){
                     console.log('valid .RDS')
                     document.querySelector('#msgRDS').style.display = 'none';
                     // Call function to send the entered data to the backend 
-                    //sendValuesModel(ymin, xmin, ymax, xmax, cloudcover, resolution)
+                    //sendValuesModel(URL, ymin, xmin, ymax, xmax, cloudcover, resolution)
                   }
                   // Show message when file is empty
                   else{
@@ -406,7 +409,8 @@ function startCalculation(){
               document.querySelector('#msgupload').style.display = 'none';   
               console.log('found file')
               console.log(upload.name)
-              console.log(upload)
+              var URL = window.URL.createObjectURL(document.getElementById("upload").files[0]);
+              console.log(URL);
               // Size of the uploaded file
               var size = upload.size;
               console.log(size)
@@ -433,7 +437,7 @@ function startCalculation(){
                       document.querySelector('#msggeojsonformat').style.display = 'none';
                       console.log('valid .geojson format')
                       // Call function to send the entered data to the backend 
-                      //sendValuesTrainingdata(ymin, xmin, ymax, xmax, cloudcover, resolution)
+                      //sendValuesTrainingdata(URL, ymin, xmin, ymax, xmax, cloudcover, resolution)
                     }
                     // Show message if format is invalid
                     else{
@@ -459,7 +463,7 @@ function startCalculation(){
                     console.log('valid .gpkg')
                     document.querySelector('#msggpkg').style.display = 'none';
                     // Call function to send the entered data to the backend 
-                    //sendValuesTrainingdata(ymin, xmin, ymax, xmax, cloudcover, resolution)
+                    //sendValuesTrainingdata(URL, ymin, xmin, ymax, xmax, cloudcover, resolution)
                   }
                   // Show message when file is empty
                   else{
@@ -482,7 +486,7 @@ function startCalculation(){
                     console.log('valid .RDS')
                     document.querySelector('#msgRDS').style.display = 'none';
                     // Call function to send the entered data to the backend 
-                    //sendValuesModel(ymin, xmin, ymax, xmax, cloudcover, resolution)
+                    //sendValuesModel(URL, ymin, xmin, ymax, xmax, cloudcover, resolution)
                   }
                   // Show message when file is empty
                   else{
@@ -542,6 +546,8 @@ function startCalculation(){
               document.querySelector('#msgupload').style.display = 'none';   
               console.log('found file')
               console.log(upload.name)
+              var URL = window.URL.createObjectURL(document.getElementById("upload").files[0]);
+              console.log(URL);
               // Size of the uploaded file
               var size = upload.size;
               console.log(size)
@@ -594,7 +600,7 @@ function startCalculation(){
                     console.log('valid .gpkg')
                     document.querySelector('#msggpkg').style.display = 'none';
                     // Call function to send the entered data to the backend 
-                    //sendValuesTrainingdata(ymin, xmin, ymax, xmax, cloudcover, resolution)
+                    //sendValuesTrainingdata(URL, ymin, xmin, ymax, xmax, cloudcover, resolution)
                   }
                   // Show message when file is empty
                   else{
@@ -617,7 +623,7 @@ function startCalculation(){
                     console.log('valid .RDS')
                     document.querySelector('#msgRDS').style.display = 'none';
                     // Call function to send the entered data to the backend 
-                    //sendValuesModel(ymin, xmin, ymax, xmax, cloudcover, resolution)
+                    //sendValuesModel(URL, ymin, xmin, ymax, xmax, cloudcover, resolution)
                   }
                   // Show message when file is empty
                   else{
@@ -798,10 +804,10 @@ function checkformatgeojson(fileAsGeojson){
  * @param {*} cloudcover 
  * @param {*} resolution 
  */
-function sendValuesTrainingdata(ymin, xmin, ymax, xmax, cloudcover, resolution){}
+function sendValuesTrainingdata(URL, ymin, xmin, ymax, xmax, cloudcover, resolution){}
   //alert("The calculation will now be executed, you will then be redirected to the results. The calculation may take a few minutes, please wait...")
     /*$.ajax({
-        url: http://127.0.0.1:25118/noModel?lat1=${ymin}&long1={xmin}&lat2={ymax}&long2={xmax}&cov={cloudcover}&reso={resolution},
+        url: http://127.0.0.1:25118/noModel?URL=${URL}&lat1=${ymin}&long1=${xmin}&lat2=${ymax}&long2=${xmax}&cov=${cloudcover}&reso=${resolution},
         type: 'POST',
         beforeSend: function(){$('#loading').html("<img src= 'https://media.giphy.com/media/52qtwCtj9OLTi/giphy.gif' />")},
         success: function(){
@@ -818,10 +824,10 @@ function sendValuesTrainingdata(ymin, xmin, ymax, xmax, cloudcover, resolution){
  * @param {*} cloudcover 
  * @param {*} resolution 
  */
-function sendValuesModel(ymin, xmin, ymax, xmax, cloudcover, resolution){}
+function sendValuesModel(URL, ymin, xmin, ymax, xmax, cloudcover, resolution){}
   //alert("The calculation will now be executed, you will then be redirected to the results. The calculation may take a few minutes, please wait...")
     /*$.ajax({
-        url: http://127.0.0.1:25118/withModel?lat1=${ymin}&long1={xmin}&lat2={ymax}&long2={xmax}&cov={cloudcover}&reso={resolution},
+        url: http://127.0.0.1:25118/withModel?URL${URL}&lat1=${ymin}&long1=${xmin}&lat2=${ymax}&long2=${xmax}&cov=${cloudcover}&reso=${resolution},
         type: 'POST',
         beforeSend: function(){$('#loading').html("<img src= 'https://media.giphy.com/media/52qtwCtj9OLTi/giphy.gif' />")},
         success: function(){
