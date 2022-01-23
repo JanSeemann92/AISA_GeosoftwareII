@@ -1,5 +1,8 @@
 "use strict" 
 
+/**
+ * Sends request for demo run to backend, meanwhile shows a loading gif and then redirects to the result page
+ */
 function startDemoCalculation(){
     //alert("The calculation will now be executed, you will then be redirected to the results. The calculation may take a few minutes, please wait...")
     /*$.ajax({

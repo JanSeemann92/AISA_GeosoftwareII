@@ -11,8 +11,8 @@ var icon = L.icon({
 });
 
 /**
- * Loading the demo AOA:
- * Accesses the demo AOA, saves it as a GeoRasterLayer in a leaflet layerGroup, adjusts the colors, and then calls the createAOALayer(layerAOA) 
+ * Loading the AOA:
+ * Accesses the AOA, saves it as a GeoRasterLayer in a leaflet layerGroup, adjusts the colors, and then calls the createAOALayer(layerAOA) 
  * function to display the layer on the map.
  */
 
@@ -89,8 +89,8 @@ var icon = L.icon({
  })})
  
 /**
- * Loading the demo prediction:
- * Accesses the demo prediction, saves it as a GeoRasterLayer in a leaflet layerGroup, adjusts the colors, and then calls the 
+ * Loading the prediction:
+ * Accesses the prediction, saves it as a GeoRasterLayer in a leaflet layerGroup, adjusts the colors, and then calls the 
  * createPredictionLayer(layerPrediction) function to display the layer on the map.
  */
 
@@ -259,7 +259,7 @@ var satbase = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/W
     attribution: '&copy; '+mapLink+', '+wholink,});
 
 
-// create map for demo calculation results
+// create map for own calculation results
 var ownresultmap = L.map('ownresultmap', {center: [50.943144, 10.388001], zoom: 6, layers: base});
 
 // declare basemap and overlaymaps
@@ -267,7 +267,7 @@ var baseMap = {"Basemap": base, "Satellite": satbase};
 var overlayMaps;
 
 /**
- * Adds training polygons to demooverlaymaps-variable and creates option to display the polygons on the map 
+ * Adds training polygons to overlaymaps-variable and creates option to display the polygons on the map 
  * using layer control.
  * @param {L.layerGroup} polygonlayer 
  */
@@ -277,7 +277,7 @@ function createPolygonLayer(polygonlayer){
 }
 
 /**
- * Adds the recommended sampling areas to demooverlaymaps-variable and creates option to display them
+ * Adds the recommended sampling areas to overlaymaps-variable and creates option to display them
  * on the map using layer control.
  * @param {L.layerGroup} samplinglayer
  */
@@ -287,7 +287,7 @@ function createSamplingLayer(samplinglayer){
 }
 
 /**
- * Adds the demo AOA to demooverlaymaps-variable and creates option to display it
+ * Adds the demo AOA to overlaymaps-variable and creates option to display it
  * on the map using layer control.
  * @param {L.layerGroup} aoalayer
  */
@@ -297,7 +297,7 @@ function createAOALayer(aoalayer){
 }
 
 /**
- * Adds the demo prediction to demooverlaymaps-variable and creates option to display it
+ * Adds the demo prediction to overlaymaps-variable and creates option to display it
  * on the map using layer control.
  * @param {L.layerGroup} predictionlayer
  */

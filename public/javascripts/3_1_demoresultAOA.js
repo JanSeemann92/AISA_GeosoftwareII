@@ -231,11 +231,6 @@ var icon = L.icon({
     url: "demodata/demodata_rheine_sampling_EPSG4326.geojson",
     type: 'GET',
     dataType: 'json',
-    beforeSend:function(response)
-        {
-            $('#records_table').html('<img src="https://media.giphy.com/media/52qtwCtj9OLTi/giphy.gif">');
-            $('#records_loading thead.bg-teal').hide();
-        }, 
     success: function(res) {
         console.dir(res);
         var samplingareas = L.geoJson(res, {
