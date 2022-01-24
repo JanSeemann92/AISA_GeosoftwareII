@@ -152,10 +152,11 @@ function startCalculation(){
                   let fileAsGeojson = JSON.parse(reader.result);
                     // Check the format of the file
                     if(checkformatgeojson(fileAsGeojson) == true){
+                      var format = 'geojson';
                       document.querySelector('#msggeojsonformat').style.display = 'none';
                       console.log('valid .geojson format')
                       // Call function to send the entered data to the backend 
-                      //sendValuesTrainingdata(ymin, xmin, ymax, xmax, cloudcover, resolution)
+                      sendValuesTrainingdata(format, URL, ymin, xmin, ymax, xmax, cloudcover, resolution)
                     }
                     // Show message if format is invalid
                     else{
@@ -178,10 +179,11 @@ function startCalculation(){
                 console.log('gpkg')
                 // Check if there is anything in the file
                 if(size > 0){
+                  var format = 'geopackage';
                   console.log('valid .gpkg')
                   document.querySelector('#msggpkg').style.display = 'none';
                   // Call function to send the entered data to the backend 
-                  //sendValuesTrainingdata(ymin, xmin, ymax, xmax, cloudcover, resolution)
+                  sendValuesTrainingdata(format, URL, ymin, xmin, ymax, xmax, cloudcover, resolution)
                 }
                 // Show message when file is empty
                 else{
@@ -204,7 +206,7 @@ function startCalculation(){
                   console.log('valid .RDS')
                   document.querySelector('#msgRDS').style.display = 'none';
                   // Call function to send the entered data to the backend 
-                  //sendValuesModel(ymin, xmin, ymax, xmax, cloudcover, resolution)
+                  sendValuesModel(URL, ymin, xmin, ymax, xmax, cloudcover, resolution)
                 }
                 // Show message when file is empty
                 else{
@@ -275,10 +277,11 @@ function startCalculation(){
                     let fileAsGeojson = JSON.parse(reader.result);
                     // Check the format of the file
                     if(checkformatgeojson(fileAsGeojson) == true){
+                      var format = 'geojson';
                       document.querySelector('#msggeojsonformat').style.display = 'none';
                       console.log('valid .geojson format')
                       // Call function to send the entered data to the backend 
-                      //sendValuesTrainingdata(URL, ymin, xmin, ymax, xmax, cloudcover, resolution)
+                      sendValuesTrainingdata(format, URL, ymin, xmin, ymax, xmax, cloudcover, resolution)
                     }
                     // Show message if format is invalid
                     else{
@@ -301,10 +304,11 @@ function startCalculation(){
                   console.log('gpkg')
                   // Check if there is anything in the file
                   if(size > 0){
+                    var format = 'geopackage';
                     console.log('valid .gpkg')
                     document.querySelector('#msggpkg').style.display = 'none';
                     // Call function to send the entered data to the backend 
-                    //sendValuesTrainingdata(URL, ymin, xmin, ymax, xmax, cloudcover, resolution)
+                    sendValuesTrainingdata(format, URL, ymin, xmin, ymax, xmax, cloudcover, resolution)
                   }
                   // Show message when file is empty
                   else{
@@ -327,7 +331,7 @@ function startCalculation(){
                     console.log('valid .RDS')
                     document.querySelector('#msgRDS').style.display = 'none';
                     // Call function to send the entered data to the backend 
-                    //sendValuesModel(URL, ymin, xmin, ymax, xmax, cloudcover, resolution)
+                    sendValuesModel(URL, ymin, xmin, ymax, xmax, cloudcover, resolution)
                   }
                   // Show message when file is empty
                   else{
@@ -434,10 +438,11 @@ function startCalculation(){
                     let fileAsGeojson = JSON.parse(reader.result);
                     // Check the format of the file
                     if(checkformatgeojson(fileAsGeojson) == true){
+                      var format = 'geojson';
                       document.querySelector('#msggeojsonformat').style.display = 'none';
                       console.log('valid .geojson format')
                       // Call function to send the entered data to the backend 
-                      //sendValuesTrainingdata(URL, ymin, xmin, ymax, xmax, cloudcover, resolution)
+                      sendValuesTrainingdata(format, URL, ymin, xmin, ymax, xmax, cloudcover, resolution)
                     }
                     // Show message if format is invalid
                     else{
@@ -460,10 +465,11 @@ function startCalculation(){
                   console.log('gpkg')
                   // Check if there is anything in the file
                   if(size > 0){
+                    var format = 'geopackage';
                     console.log('valid .gpkg')
                     document.querySelector('#msggpkg').style.display = 'none';
                     // Call function to send the entered data to the backend 
-                    //sendValuesTrainingdata(URL, ymin, xmin, ymax, xmax, cloudcover, resolution)
+                    sendValuesTrainingdata(format, URL, ymin, xmin, ymax, xmax, cloudcover, resolution)
                   }
                   // Show message when file is empty
                   else{
@@ -486,7 +492,7 @@ function startCalculation(){
                     console.log('valid .RDS')
                     document.querySelector('#msgRDS').style.display = 'none';
                     // Call function to send the entered data to the backend 
-                    //sendValuesModel(URL, ymin, xmin, ymax, xmax, cloudcover, resolution)
+                    sendValuesModel(URL, ymin, xmin, ymax, xmax, cloudcover, resolution)
                   }
                   // Show message when file is empty
                   else{
@@ -571,10 +577,11 @@ function startCalculation(){
                     let fileAsGeojson = JSON.parse(reader.result);
                     // Check the format of the file
                     if(checkformatgeojson(fileAsGeojson) == true){
+                      var format = 'geojson';
                       document.querySelector('#msggeojsonformat').style.display = 'none';
                       console.log('valid .geojson format')
                       // Call function to send the entered data to the backend 
-                      //sendValuesTrainingdata(ymin, xmin, ymax, xmax, cloudcover, resolution)
+                      sendValuesTrainingdata(format, URL, ymin, xmin, ymax, xmax, cloudcover, resolution)
                     }
                     // Show message if format is invalid
                     else{
@@ -597,10 +604,11 @@ function startCalculation(){
                   console.log('gpkg')
                   // Check if there is anything in the file
                   if(size > 0){
+                    var format = 'geopackage';
                     console.log('valid .gpkg')
                     document.querySelector('#msggpkg').style.display = 'none';
                     // Call function to send the entered data to the backend 
-                    //sendValuesTrainingdata(URL, ymin, xmin, ymax, xmax, cloudcover, resolution)
+                    sendValuesTrainingdata(format, URL, ymin, xmin, ymax, xmax, cloudcover, resolution)
                   }
                   // Show message when file is empty
                   else{
@@ -623,7 +631,7 @@ function startCalculation(){
                     console.log('valid .RDS')
                     document.querySelector('#msgRDS').style.display = 'none';
                     // Call function to send the entered data to the backend 
-                    //sendValuesModel(URL, ymin, xmin, ymax, xmax, cloudcover, resolution)
+                    sendValuesModel(URL, ymin, xmin, ymax, xmax, cloudcover, resolution)
                   }
                   // Show message when file is empty
                   else{
@@ -804,16 +812,16 @@ function checkformatgeojson(fileAsGeojson){
  * @param {*} cloudcover 
  * @param {*} resolution 
  */
-function sendValuesTrainingdata(URL, ymin, xmin, ymax, xmax, cloudcover, resolution){}
-  //alert("The calculation will now be executed, you will then be redirected to the results. The calculation may take a few minutes, please wait...")
-    /*$.ajax({
-        url: http://127.0.0.1:25118/noModel?URL=${URL}&lat1=${ymin}&long1=${xmin}&lat2=${ymax}&long2=${xmax}&cov=${cloudcover}&reso=${resolution},
+function sendValuesTrainingdata(format, URL, ymin, xmin, ymax, xmax, cloudcover, resolution){}
+  alert("The calculation will now be executed, you will then be redirected to the results. The calculation may take a few minutes, please wait...")
+    $.ajax({
+        url: 'http://127.0.0.1:25118/noModel?format=${format}&URL=${URL}&lat1=${ymin}&long1=${xmin}&lat2=${ymax}&long2=${xmax}&cov=${cloudcover}&reso=${resolution}',
         type: 'POST',
         beforeSend: function(){$('#loading').html("<img src= 'https://media.giphy.com/media/52qtwCtj9OLTi/giphy.gif' />")},
         success: function(){
         ($('#loading').hide("<img src= 'https://media.giphy.com/media/52qtwCtj9OLTi/giphy.gif' />")),
         window.location.href= '/ownresultAOA'
-    }})*/
+    }})
 
 /** 
  * Case: model: Sends data via AJAX to the backend, meanwhile shows a loading gif and then redirects to the results page
@@ -825,12 +833,12 @@ function sendValuesTrainingdata(URL, ymin, xmin, ymax, xmax, cloudcover, resolut
  * @param {*} resolution 
  */
 function sendValuesModel(URL, ymin, xmin, ymax, xmax, cloudcover, resolution){}
-  //alert("The calculation will now be executed, you will then be redirected to the results. The calculation may take a few minutes, please wait...")
-    /*$.ajax({
-        url: http://127.0.0.1:25118/withModel?URL${URL}&lat1=${ymin}&long1=${xmin}&lat2=${ymax}&long2=${xmax}&cov=${cloudcover}&reso=${resolution},
+  alert("The calculation will now be executed, you will then be redirected to the results. The calculation may take a few minutes, please wait...")
+    $.ajax({
+        url: 'http://127.0.0.1:25118/withModel?URL${URL}&lat1=${ymin}&long1=${xmin}&lat2=${ymax}&long2=${xmax}&cov=${cloudcover}&reso=${resolution}',
         type: 'POST',
         beforeSend: function(){$('#loading').html("<img src= 'https://media.giphy.com/media/52qtwCtj9OLTi/giphy.gif' />")},
         success: function(){
         ($('#loading').hide("<img src= 'https://media.giphy.com/media/52qtwCtj9OLTi/giphy.gif' />")),
         window.location.href= '/ownresultAOA'
-    }})*/
+    }})
