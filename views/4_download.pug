@@ -4,28 +4,34 @@ block content
   //- heading
   br
   h2.text-center Download data
+  p.text-center
+    | By clicking on one of the download buttons the corresponding files will be downloaded as .zip file.
   br
-
   //- download area
   .row
-    .col-7
-      #textfeld
-        //- downloadbuttons
-        p(style= 'font-weight: bold')
-          | By clicking on one of the download buttons the corresponding files will be downloaded as .zip file.
-        //- download own calculation data
-        button.btn.btn-outline.form-select-lg.mb-3(style='background-color: black; color: rgb(69, 167, 212)' onclick= 'downloadowndata()') Download the data of your own calculations
-        br
-         //- download demo calculation data
-        button.btn.btn-outline.form-select-lg.mb-3(style='background-color: black; color: rgb(69, 167, 212)' onclick= 'downloaddemodata()') Download the demodata we provide
-  
-        //- downloadinformation
-        p(style= 'font-weight: bold') The download provides the following files:
-        p Prediction map (tiff)
-        p Calculated AOA (tiff)
-        p Coordinates of recommended sampling areas (geojson)
-        p Trained model (R data format)
-       
+    .col-3
+    .col-4
+      //- download own calculation data
+      //- downloadbutton
+      button.btn.btn-outline.form-select-lg.mb-3(style='background-color: black; color: rgb(69, 167, 212)' onclick= 'downloadowndata()') Download the data of your own calculations
+      br
+      //- downloadinformation
+      ul 
+        li Prediction map (.tif)
+        li Calculated AOA (.tif)
+        li Coordinates of recommended sampling areas (.geojson)
+        li Trained model (.RDS) [If no model was uploaded!]
+      //- download demo calculation data
+      //- downloadbutton
+      button.btn.btn-outline.form-select-lg.mb-3(style='background-color: black; color: rgb(69, 167, 212)' onclick= 'downloaddemodata()') Download the demodata we provide
+      //- downloadinformation
+      ul 
+        li Prediction map (.tif)
+        li Calculated AOA (.tif)
+        li Coordinates of recommended sampling areas (.geojson)
+        li Trainingpolygons (.geojson) 
+        li Trained model (.RDS) 
+
   block scripts
       //- required javascripts
       script(src='/javascripts/4_download.js', defer)
