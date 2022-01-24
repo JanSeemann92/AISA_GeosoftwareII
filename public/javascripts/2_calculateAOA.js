@@ -740,6 +740,68 @@ function checkcoordsformat(ymin, xmin, ymax, xmax){
     console.log("invalid lng value")
     return false;
   }
+  if(ymin >= 0 && ymax >= 0){
+    if(ymin > ymax){
+      document.querySelector('#msgformat').style.display = 'block';
+      document.querySelector('#validate2').checked = 'false';
+      document.querySelector('#validate').checked = 'false';
+      document.querySelector('#validate1').style.display = 'block';
+      document.querySelector('#validate3').style.display = 'none';
+      console.log('plus ymin > ymax')
+      return false;
+    }
+  } 
+  if(ymin <= 0 && ymax <= 0){
+    if(ymin < ymax){
+      document.querySelector('#msgformat').style.display = 'block';
+      document.querySelector('#validate2').checked = 'false';
+      document.querySelector('#validate').checked = 'false';
+      document.querySelector('#validate1').style.display = 'block';
+      document.querySelector('#validate3').style.display = 'none';
+      console.log('minus ymin < ymax')
+      return false;
+    }
+  } 
+  if(ymin >= 0 && ymax <= 0){
+    document.querySelector('#msgformat').style.display = 'block';
+    document.querySelector('#validate2').checked = 'false';
+    document.querySelector('#validate').checked = 'false';
+    document.querySelector('#validate1').style.display = 'block';
+    document.querySelector('#validate3').style.display = 'none';
+    console.log('ymin > 0 && ymax < 0')
+    return false;
+  }
+  if(xmin >= 0 && xmax >= 0){
+    if(xmin > xmax){
+      document.querySelector('#msgformat').style.display = 'block';
+      document.querySelector('#validate2').checked = 'false';
+      document.querySelector('#validate').checked = 'false';
+      document.querySelector('#validate1').style.display = 'block';
+      document.querySelector('#validate3').style.display = 'none';
+      console.log('plus xmin > xmax')
+      return false;
+    }
+  }
+  if(xmin <= 0 && xmax <= 0){
+    if(xmin < xmax){
+      document.querySelector('#msgformat').style.display = 'block';
+      document.querySelector('#validate2').checked = 'false';
+      document.querySelector('#validate').checked = 'false';
+      document.querySelector('#validate1').style.display = 'block';
+      document.querySelector('#validate3').style.display = 'none';
+      console.log('minus xmin < xmax')
+      return false;
+    }
+  }
+  if(xmin >= 0 && xmax <= 0){
+    document.querySelector('#msgformat').style.display = 'block';
+    document.querySelector('#validate2').checked = 'false';
+    document.querySelector('#validate').checked = 'false';
+    document.querySelector('#validate1').style.display = 'block';
+    document.querySelector('#validate3').style.display = 'none';
+    console.log('xmin > 0 && xmax < 0')
+    return false;
+  }
   else{
     document.querySelector('#msgformat').style.display = 'none';
     document.querySelector('#validate1').style.display = 'block';
