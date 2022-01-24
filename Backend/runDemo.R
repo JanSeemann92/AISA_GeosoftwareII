@@ -41,7 +41,6 @@ library(gdalcubes)
 
 # set working directory: directory which includes needed data
 #### needs to be changed later on to the hosting server
-#setwd("C:/Users/katha/Documents/GitHub/AISA_GeosoftwareII/Backend/demodata/")
 setwd("D:/Studium/Geosoftware1/AISA_GeosoftwareII/Backend/demodata")
 
 #######################################################################
@@ -151,6 +150,7 @@ generateImage <- function (cloudcover, resolution, left, right, top, bottom, typ
 
 
 
+
 #######################################################################
 # Name of function: TrainModel
 # Author: Liliana Gitschel
@@ -208,7 +208,7 @@ TrainModel <- function (trainingsites, sentinel_resampled) {
                  trainDat$Label,
                  method="rf",
                  importance=TRUE,
-                 metric="Kappa", # Optimaler mtry Wert über Kappa
+                 metric="Kappa", # Optimaler mtry Wert ï¿½ber Kappa
                  tunelength=length(predictors),
                  ntree=200, # 50 is quite small (default=500). But it runs faster.
                  trControl=trainControl(method="cv",index=trainids$index,savePredictions="all"))
@@ -548,15 +548,8 @@ newBeakr() %>%
 
 
 
-
-
 # URL GET API Call for local testing: http://127.0.0.1:25118/runDemo
 # URL GET API Call for AWS: http://44.234.41.163:8780/runDemo
-
-
-# URL POST API Call for local testing  http://127.0.0.1:25118/withModel?lat1=20&long1=100&lat2=30&long2=105&cov=0.3&reso=600  (the numbers are example values)
-# URL POST API Call for local testing  http://127.0.0.1:25118/noModel?lat1=20&long1=100&lat2=30&long2=105&cov=0.3&reso=600  (the numbers are example values)
-
 
 
 

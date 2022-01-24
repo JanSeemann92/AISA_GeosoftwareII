@@ -4,6 +4,10 @@ block content
   //- heading
   br
   h2.text-center Landuse classification
+  //- redirection to demo
+  p.text-center
+    | Not sure how to use our tool? Check out our 
+    a(href='/demo') demo!
   br
   //- map display and selection of the calculation frame
   .row
@@ -12,10 +16,6 @@ block content
     //- area selection and file upload
     .col-7
       #textfeld
-        //- redirection to demo
-        p
-          | Not sure how to use our tool? Check out our 
-          a(href='/demo') demo!
         h5.text-left AREA SELECTION
         p.text-left
           | Please choose if you want to draw a bounding box directly on the map or if you want to enter the coordinates manually.
@@ -25,45 +25,63 @@ block content
           option(selected='') Please choose...
           option(value='0') Draw Bounding Box
           option(value='1') Enter Coordinates
+        p(id='msgoption' style='color: red; display: none') Please select an option for entering the coordinates.
+        p(id='msgbox' style='color: red; display: none') Please draw your AOI to read in the coordinates. Alternatively, select the option to enter the coordinates manually.
         //- upload form to enter coordinates manually
         form#input-form(name='input-form')      
           .mb-3
             label.form-label(for='coordinates') Coordinates
+            input#ymin.form-control(type='text' name='coordinates' class='input-box' placeholder='Lower Left Latitude (ymin)' disabled='')
             br
-            input#input3.form-control(type='text' name='coordinates' class='input-box' placeholder='Lower Left Longitude' disabled='')
+            input#xmin.form-control(type='text' name='coordinates' class='input-box' placeholder='Lower Left Longitude (xmin)' disabled='')
             br
-            input#input2.form-control(type='text' name='coordinates' class='input-box' placeholder='Lower Left Latitude' disabled='')
+            input#ymax.form-control(type='text' name='coordinates' class='input-box' placeholder='Upper Right Latitude (ymax)' disabled='')
             br
-            input#input3.form-control(type='text' name='coordinates' class='input-box' placeholder='Upper Right Longitude' disabled='')
-            br
-            input#input3.form-control(type='text' name='coordinates' class='input-box' placeholder='Upper Left Latitude' disabled='')
-          .mb-3.form-check
-            input#exampleCheck1.form-check-input(type='checkbox')
-            label.form-check-label(for='checkbox') Everything correct?
-          a.btn.btn-outline-success(style='background-color: black; color: rgb(69, 167, 212)' type='submit' form='input-form' onclick="document.getElementById('input-form').submit()") Submit
-       
-        //- file upload
+            input#xmax.form-control(type='text' name='coordinates' class='input-box' placeholder='Upper Left Longitude (xmax)' disabled='')
+        p(id='msgmissed' style='color: red; display: none') Please fill in all coordinate fields.
+        p(id='msgformat' style='color: red; display: none') Please check the format of your coordinate entries. They must be entered in the coordinate system wgs84/epsg:4326. Also note that only numbers from 0-9 and "." are allowed. (Lat min/max = -90.0/90.0; Lng min/max = -180.0/180.0) 
         br
         h5.text-left UPLOAD
         p.text-left
-          | Please choose if you want to upload training data with trained model or only training data.
-        //- form select to choose upload option
-        select#choose2.form-select.form-select-lg.mb-3(name='choose1' aria-label='form-select1' style='background-color: black; color: rgb(69, 167, 212); font-size: 16px;')
-          option(selected='') Please choose...
-          option(value='0') Trained model + training data
-          option(value='1') Training data (without model)
+          | Please upload a model (.RDS) or training data (.gpkg/.geojson).
         //- upload form to enter file with training data
-        form#inputModel
-          .form-group
-            input#upload-button.form-control-file(type='file')
-            br
-            br
-            button.btn.btn-outline-success(style='background-color: black; color: rgb(69, 167, 212)' type='submit') Submit
+        input#upload(type='file' name='filename')
+        p(id='msgupload' style='color: red; display: none') Please upload a model (.RDS) or training data (.gpkg/.geojson).
+        p(id='msgfile' style='color: red; display: none') The uploaded file must be either a model in .RDS format or training data in .gpkg or .geojson format.
+        p(id='msgRDS' style='color: red; display: none') You have uploaded an empty model file.
+        p(id='msggeojson' style='color: red; display: none') You have uploaded an empty .geojson file for the training data.
+        p(id='msggpkg' style='color: red; display: none') You have uploaded an empty .gpkg file for the training data.
+        p(id='msggeojsonformat' style='color: red; display: none') The format of your geojson is not correct. Please check if your geojson is of type "FeatureCollection", if there is a "label" for each feature, if the geometry is of type "MultiPolygon" or "Polygon", and if there are coordinates for each geometry.
         br
-        button.btn.btn-outline-success(style='background-color: rgb(69, 167, 212); color: black' onclick= 'startCalculation()') Start Calculation
+        br
+        h5.text-left OPTIONAL SETTINGS
+        p.text-left
+          | You can optionally set the cloud coverage and the resolution of the satellite images.
+        form
+        p.text-left
+          | Cloud cover: 
+          span#demo
+          | %
+          .slidecontainer
+            input#myRange.slider(type='range' min='1' max='100' value='20')  
+        p.text-left
+          | Resolution (m):
+        select.custom-select.my-select#resolution(name ='resolution')
+          option 20
+          option 40
+          option 80
+        br
+        br
+        .form-group.form-check(id='validate1' style='display: block')
+          input#validate.form-check-input(type='checkbox')
+          label.form-check-label(for='exampleCheck1') Everything correct?
+        .form-group.form-check(id= 'validate3' style='display: none; color: red')
+          input#validate2.form-check-input(type='checkbox')
+          label.form-check-label(for='exampleCheck2') Everything correct?
+        br
+        button.btn.btn-outline-success(style='background-color: rgb(69, 167, 212); color: black; font-weight: bold' onclick= 'startCalculation()') Start Calculation
+        #loading
 
-  block scripts
       //- required javascripts
       script(src='/javascripts/2_calculateAOA.js', defer)
-      script(src='/javascripts/2_1_ownresultAOA.js', defer)
 

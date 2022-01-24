@@ -1,5 +1,31 @@
 #library(readr)
 library(beakr)
+library(MazamaCoreUtils)
+
+options(stringsAsFactors = FALSE)
+library(raster)
+library(dplyr)
+library(tidyverse)
+
+
+#set temporary hostDir
+hostDir <- tempdir()
+setwd (hostDir)
+
+
+#test GeoTIFF modelled after https://inbo.github.io/tutorials/tutorials/spatial_standards_raster/
+
+artwork <- 
+  raster(extent(188500, 190350, 227550, 229550), # xmin, xmax, ymin, ymax
+         res = 50, # resolution of 50 meters
+         crs = 31370) %>% 
+  setValues(runif(ncell(.)))  # fill with random values
+
+#spplot(artwork) plot option
+
+#write test geoTiff
+artwork %>% 
+  writeRaster("artwork.tif", overwrite = TRUE)
 
 
 
@@ -11,15 +37,16 @@ beakr <- newBeakr()
 beakr %>%
 
 # Host the directory of static files
-serveStaticFiles("/verzeichnisdemodaten", "C:/Users/katha/Documents/GitHub/AISA_GeosoftwareII/Backend/demodata/createdbyAISAtool/", verbose = TRUE) %>%
+serveStaticFiles("/test", hostDir, verbose = TRUE) %>%
   
   handleErrors() %>%
   
    
   # Start the server on port 25118
-  listen(host = "127.0.0.1", port = 25119, daemon = TRUE)
+  listen(host = "127.0.0.1", port = 25118, daemon = TRUE)
 
 # ------------------------------------------------------------
 # POINT YOUR BROWSER AT:
-# * http://127.0.0.1:25119/verzeichnisdemodaten/predictionOutput.tif
+# * http://127.0.0.1:25118/test/artwork.tif
+
 #code should be added to the output generating parts of the other r-scripts
