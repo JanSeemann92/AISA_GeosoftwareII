@@ -12,7 +12,7 @@
   * Get port from environment and store in Express.
   */
  
- var port = normalizePort(process.env.PORT || '8780');
+ var port = normalizePort(process.env.PORT || '25117');
  app.set('port', port);
 
  
@@ -28,7 +28,7 @@
  
  server.listen(port, () => 
  {
-  console.log(`App listening at http://localhost:${port} or http://44.234.41.163:${port}`)
+  console.log(`App listening at http://127.0.0.1:${port} or http://44.234.41.163:${port}`)
  })
  server.on('error', onError);
  server.on('listening', onListening);

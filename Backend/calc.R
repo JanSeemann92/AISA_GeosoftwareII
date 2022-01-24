@@ -42,8 +42,8 @@ library(gdalcubes)
 
 # set working directory: directory which includes needed data
 #### needs to be changed later on to the hosting server
-#setwd("C:/Users/katha/Documents/GitHub/AISA_GeosoftwareII/Backend/demodata/")
-setwd("D:/Studium/Geosoftware1/AISA_GeosoftwareII/Backend/demodata")
+setwd("C:/Users/katha/Documents/GitHub/AISA_GeosoftwareII/Backend/demodata/")
+#setwd("D:/Studium/Geosoftware1/AISA_GeosoftwareII/Backend/demodata")
 
 #######################################################################
 
@@ -569,8 +569,8 @@ httpGET(path = '/runDemo', function(req,res,err) {
   
   ########################################
 # Host the directory of static files  
-#serveStaticFiles("/verzeichnisdemodaten", "C:/Users/katha/Documents/GitHub/AISA_GeosoftwareII/Backend/demodata/createdbyAISAtool/", verbose = TRUE) %>%
-serveStaticFiles("/verzeichnisdemodaten", "D:/Studium/Geosoftware1/AISA_GeosoftwareII/Backend/demodata/createdbyAISAtool/", verbose = TRUE) %>%
+serveStaticFiles("/verzeichnisdemodaten", "C:/Users/katha/Documents/GitHub/AISA_GeosoftwareII/Backend/demodata/createdbyAISAtool/", verbose = TRUE) %>%
+#serveStaticFiles("/verzeichnisdemodaten", "D:/Studium/Geosoftware1/AISA_GeosoftwareII/Backend/demodata/createdbyAISAtool/", verbose = TRUE) %>%
   
   
   handleErrors() %>%
