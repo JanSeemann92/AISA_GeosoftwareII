@@ -1,3 +1,4 @@
+
 # Title: runDemo
 # Author: Liliana Gitschel, Jan Seemann, Niklas Daute
 # Latest Update: 21.01.2022
@@ -333,6 +334,8 @@ httpPOST(path = '/withModel', function(req,res,err) {
   cov <- as.numeric(req$parameters$cov)
   reso <- as.numeric(req$parameters$reso)
   type <- "prediction"
+  url <- req$parameter$URL
+  
   
   # generate sentinel images from AWS for AOI/prediction
   generateImage(cov, reso, left, right, top, bottom, type)
@@ -340,6 +343,8 @@ httpPOST(path = '/withModel', function(req,res,err) {
   
   # load input data
   # load model
+  download.file(url, "upload/model.RDS")
+  
   model <- readRDS("upload/model.RDS")
   # As predictor variables a raster data set with sentinel-2 data is used.
   # The data comes form AWS and is preprocessed internally first (see above).
@@ -366,7 +371,7 @@ httpPOST(path = '/withModel', function(req,res,err) {
     print("New sampling locations output geojson written")
   } else {print ("AOA = AOI")
     output_string <- "No Sampling Locations"
-    }
+  }
   
   # get labels of LULC (needed for legend on map)
   label <- c(model$levels)
@@ -381,7 +386,7 @@ httpPOST(path = '/withModel', function(req,res,err) {
   print("LULC output file written")
   writeRaster(areaOA, "createdbyAISAtool/aoaOutput.tif", overwrite=T)
   print("AOA output file written")
-
+  
   write(labelsJSON, "createdbyAISAtool/labelsOutput.json")
   print("Labels output json written")
   
@@ -413,6 +418,7 @@ httpPOST(path = '/noModel', function(req,res,err) {
   cov <- as.numeric(req$parameters$cov)
   reso <- as.numeric(req$parameters$reso)
   type <- "prediction"
+  url <- req$parameter$URL
   
   # generate sentinel images from AWS for AOI/prediction
   generateImage(cov, reso, left, right, top, bottom, type)
@@ -421,8 +427,10 @@ httpPOST(path = '/noModel', function(req,res,err) {
   # depends on data format (gpkg or geojson)
   dataformat <- req$parameters$format   # variables names must be checked with frontend
   if (dataformat == "geopackage") {
+    download.file(url, "upload/trainingdata.gpkg")
     trainingsites <- st_read("upload/trainingdata.gpkg")
   } else {
+    download.file(url, "upload/trainingdata.geojson")
     trainingsites <- st_read("upload/trainingdata.geojson")
   }
   
@@ -460,26 +468,26 @@ httpPOST(path = '/noModel', function(req,res,err) {
   names(sentinel_combined_training) <- bandnames
   names(sentinel_combined_prediction) <- bandnames
   
-
+  
   
   
   # do calculations
   model <-TrainModel(trainingsites, sentinel_combined_training)
   predictionLULC <- predict(sentinel_combined_prediction, model)
   areaOA <- AOA (sentinel_combined_prediction,model)
- 
+  
   
   #calcualting and writing sampling locations
   
-
+  
   if(0 %in% values(areaOA)){
     samplingLocations <- NewSamplingLocations(areaOA)
     write(samplingLocations, "createdbyAISAtool/samplingLocationsOutput.geojson")
     print("New sampling locations output geojson written")
   } else {print("AOA=AOI") 
     output_string <- "No Sampling Locations"
-    }
-
+  }
+  
   
   # get labels of LULC (needed for legend on map)
   label <- c(model$levels)
@@ -498,7 +506,7 @@ httpPOST(path = '/noModel', function(req,res,err) {
   print("AOA output file written")
   st_write(trainingsites, "createdbyAISAtool/trainingsitesOutput.geojson",  delete_dsn = TRUE)
   print("trainingsites geojson output written")
-
+  
   write(labelsJSON, "createdbyAISAtool/labelsOutput.json")
   print("Labels output json written")
   
@@ -587,3 +595,4 @@ serveStaticFiles("/verzeichnisdemodaten", "D:/Studium/Geosoftware1/AISA_Geosoftw
 
 # URL GET API Call for local testing: http://127.0.0.1:25118/runDemo
 # URL GET API Call for AWS: http://44.234.41.163:8780/runDemo
+
