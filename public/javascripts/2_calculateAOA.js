@@ -778,8 +778,8 @@ function checkformatgeojson(fileAsGeojson){
     var features = geojson.features;
     // labels?
     for(let i = 0; i < features.length; i++){
-      if(features[i].properties.label == "" || features[i].properties.label == null || features[i].properties.label == undefined){
-        console.log(features[i].properties.label)
+      if(features[i].properties.Label == "" || features[i].properties.Label == null || features[i].properties.Label == undefined){
+        console.log(features[i].properties.Label)
         console.log('no label')
         return false
       }
@@ -812,16 +812,16 @@ function checkformatgeojson(fileAsGeojson){
  * @param {*} cloudcover 
  * @param {*} resolution 
  */
-function sendValuesTrainingdata(format, URL, ymin, xmin, ymax, xmax, cloudcover, resolution){}
+function sendValuesTrainingdata(format, URL, ymin, xmin, ymax, xmax, cloudcover, resolution){
   alert("The calculation will now be executed, you will then be redirected to the results. The calculation may take a few minutes, please wait...")
     $.ajax({
-        url: 'http://127.0.0.1:25118/noModel?format=${format}&URL=${URL}&lat1=${ymin}&long1=${xmin}&lat2=${ymax}&long2=${xmax}&cov=${cloudcover}&reso=${resolution}',
+        url: `http://127.0.0.1:25118/noModel?format=${format}&URL=${URL}&lat1=${ymax}&long1=${xmin}&lat2=${ymin}&long2=${xmax}&cov=${cloudcover}&reso=${resolution}`,
         type: 'POST',
         beforeSend: function(){$('#loading').html("<img src= 'https://media.giphy.com/media/52qtwCtj9OLTi/giphy.gif' />")},
         success: function(){
         ($('#loading').hide("<img src= 'https://media.giphy.com/media/52qtwCtj9OLTi/giphy.gif' />")),
         window.location.href= '/ownresultAOA'
-    }})
+    }})}
 
 /** 
  * Case: model: Sends data via AJAX to the backend, meanwhile shows a loading gif and then redirects to the results page
@@ -832,13 +832,13 @@ function sendValuesTrainingdata(format, URL, ymin, xmin, ymax, xmax, cloudcover,
  * @param {*} cloudcover 
  * @param {*} resolution 
  */
-function sendValuesModel(URL, ymin, xmin, ymax, xmax, cloudcover, resolution){}
+function sendValuesModel(URL, ymin, xmin, ymax, xmax, cloudcover, resolution){
   alert("The calculation will now be executed, you will then be redirected to the results. The calculation may take a few minutes, please wait...")
     $.ajax({
-        url: 'http://127.0.0.1:25118/withModel?URL${URL}&lat1=${ymin}&long1=${xmin}&lat2=${ymax}&long2=${xmax}&cov=${cloudcover}&reso=${resolution}',
+        url: `http://127.0.0.1:25118/withModel?URL${URL}&lat1=${ymax}&long1=${xmin}&lat2=${ymin}&long2=${xmax}&cov=${cloudcover}&reso=${resolution}`,
         type: 'POST',
         beforeSend: function(){$('#loading').html("<img src= 'https://media.giphy.com/media/52qtwCtj9OLTi/giphy.gif' />")},
         success: function(){
         ($('#loading').hide("<img src= 'https://media.giphy.com/media/52qtwCtj9OLTi/giphy.gif' />")),
         window.location.href= '/ownresultAOA'
-    }})
+    }})}

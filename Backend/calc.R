@@ -142,7 +142,7 @@ generateImage <- function (cloudcover, resolution, left, right, top, bottom, typ
                   "median(B11)",
                   "median(B12)",
                   "median(B8A)")) %>%
-    write_tif(dir="D:/Studium/Geosoftware1/AISA_GeosoftwareII/Backend/demodata/sentinel", prefix = filename) %>%     # set correct directory
+    write_tif(dir="C:/Users/katha/Documents/GitHub/AISA_GeosoftwareII/Backend/demodata/sentinel", prefix = filename) %>%     # set correct directory
     # plot(rgb = 3:1, zlim=c(0,1800)) %>%
     # system.time()
     
@@ -357,7 +357,6 @@ httpPOST(path = '/withModel', function(req,res,err) {
   bandnames <- c("B02","B03","B04","B05","B06","B07","B08","B11","B12","B8A")
   names(sentinel_combined_prediction) <- bandnames
   
-  
   # do calculations
   predictionLULC <- predict(sentinel_combined_prediction, model)
   areaOA <- AOA (sentinel_combined_prediction,model)
@@ -524,15 +523,18 @@ httpGET(path = '/runDemo', function(req,res,err) {
   # The data is kept in directory for demodata.
   # As predictor variables a raster data set with sentinel-2 data is used.
   # load and build stack with data of predictor variables (=sentinel-2 images)
-  sentinel_combined <- stack("demo/demodata_rheine_sentinel_combined.grd")
+  sentinel_combined <- stack("demodata_rheine_sentinel_combined.grd")
   # load training polygons
-  trainingsites <- st_read("demo/demodata_rheine_trainingspolygone.gpkg")
+  trainingsites <- st_read("demodata_rheine_trainingspolygone.gpkg")
   
   # reproject crs of input data to EPSG4326
   # ensures that data has same crs and that it can be displayed by leaflet
   # for reference see: https://spatialreference.org/ref/sr-org/6627/
   trainingsites <- st_transform(trainingsites, crs = "+proj=longlat +datum=WGS84 +no_defs")
   sentinel_combined <- projectRaster(sentinel_combined,crs=crs(trainingsites))
+ 
+   # rename "label" to "Label"
+  names(trainingsites)[2] <- 'Label'
   
   # do calculations
   model <-TrainModel(trainingsites, sentinel_combined)
@@ -549,7 +551,7 @@ httpGET(path = '/runDemo', function(req,res,err) {
   
   #writing output files
   saveRDS(model,file="createdbyAISAtool/modelOutput.RDS")
-  print("model output file written")
+  print("mtputdel output file written")
   writeRaster(predictionLULC, "createdbyAISAtool/predictionOutput.tif", overwrite=T)
   print("LULC output file written")
   writeRaster(areaAOA, "createdbyAISAtool/aoaOutput.tif", overwrite=T)
