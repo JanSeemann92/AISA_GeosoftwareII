@@ -32,6 +32,10 @@ Cloud Vision offers a simple tool for estimating the applicability of models for
 
 ### Generating Sentinel-2 images from AWS
 
+The following parameters can be chosen by the user within the webtool:
+- Resolution of requested sentinel-2 images can be 20m (default), 40m or 80m.
+- 
+
 ### Model Training and Prediction
 
 ### Estimating AOA
