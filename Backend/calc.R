@@ -333,6 +333,8 @@ httpPOST(path = '/withModel', function(req,res,err) {
   cov <- as.numeric(req$parameters$cov)
   reso <- as.numeric(req$parameters$reso)
   type <- "prediction"
+  url <- req$parameter$URL
+  
   
   # generate sentinel images from AWS for AOI/prediction
   generateImage(cov, reso, left, right, top, bottom, type)
@@ -340,6 +342,8 @@ httpPOST(path = '/withModel', function(req,res,err) {
   
   # load input data
   # load model
+  download.file(url, "upload/model.RDS")
+  
   model <- readRDS("upload/model.RDS")
   # As predictor variables a raster data set with sentinel-2 data is used.
   # The data comes form AWS and is preprocessed internally first (see above).
@@ -413,6 +417,7 @@ httpPOST(path = '/noModel', function(req,res,err) {
   cov <- as.numeric(req$parameters$cov)
   reso <- as.numeric(req$parameters$reso)
   type <- "prediction"
+  url <- req$parameter$URL
   
   # generate sentinel images from AWS for AOI/prediction
   generateImage(cov, reso, left, right, top, bottom, type)
@@ -421,8 +426,10 @@ httpPOST(path = '/noModel', function(req,res,err) {
   # depends on data format (gpkg or geojson)
   dataformat <- req$parameters$format   # variables names must be checked with frontend
   if (dataformat == "geopackage") {
+    download.file(url, "upload/trainingdata.gpkg")
     trainingsites <- st_read("upload/trainingdata.gpkg")
   } else {
+    download.file(url, "upload/trainingdata.geojson")
     trainingsites <- st_read("upload/trainingdata.geojson")
   }
   
