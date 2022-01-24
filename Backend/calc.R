@@ -42,8 +42,9 @@ library(gdalcubes)
 
 # set working directory: directory which includes needed data
 #### needs to be changed later on to the hosting server
-setwd("C:/Users/katha/Documents/GitHub/AISA_GeosoftwareII/Backend/demodata/")
+# setwd("C:/Users/katha/Documents/GitHub/AISA_GeosoftwareII/Backend/demodata/")
 #setwd("D:/Studium/Geosoftware1/AISA_GeosoftwareII/Backend/demodata")
+setwd("C:/Users/lgits/Documents/GitHub/AISA_GeosoftwareII/Backend/demodata/")
 
 #######################################################################
 
@@ -142,7 +143,7 @@ generateImage <- function (cloudcover, resolution, left, right, top, bottom, typ
                   "median(B11)",
                   "median(B12)",
                   "median(B8A)")) %>%
-    write_tif(dir="C:/Users/katha/Documents/GitHub/AISA_GeosoftwareII/Backend/demodata/sentinel", prefix = filename) %>%     # set correct directory
+    write_tif(dir="C:/Users/lgits/Documents/GitHub/AISA_GeosoftwareII/Backend/demodata/sentinel", prefix = filename) %>%     # set correct directory
     # plot(rgb = 3:1, zlim=c(0,1800)) %>%
     # system.time()
     
@@ -209,7 +210,7 @@ TrainModel <- function (trainingsites, sentinel_resampled) {
                  trainDat$Label,
                  method="rf",
                  importance=TRUE,
-                 metric="Kappa", # Optimaler mtry Wert über Kappa
+                 metric="Kappa", # Optimaler mtry Wert ï¿½ber Kappa
                  tunelength=length(predictors),
                  ntree=200, # 50 is quite small (default=500). But it runs faster.
                  trControl=trainControl(method="cv",index=trainids$index,savePredictions="all"))
@@ -417,10 +418,11 @@ httpPOST(path = '/noModel', function(req,res,err) {
   cov <- as.numeric(req$parameters$cov)
   reso <- as.numeric(req$parameters$reso)
   type <- "prediction"
-  url <- req$parameter$URL
+  url <- req$parameters$URL
   
   # generate sentinel images from AWS for AOI/prediction
   generateImage(cov, reso, left, right, top, bottom, type)
+  
   
   # load training data
   # depends on data format (gpkg or geojson)
@@ -448,6 +450,7 @@ httpPOST(path = '/noModel', function(req,res,err) {
   cov <- as.numeric(req$parameters$cov)
   reso <- as.numeric(req$parameters$reso)
   type <- "training"
+  url <- req$parameters$URL
   
   # generate sentinel images from AWS for training
   generateImage(cov, reso, left, right, top, bottom, type)
@@ -571,7 +574,7 @@ httpGET(path = '/runDemo', function(req,res,err) {
   
   ########################################
 # Host the directory of static files  
-serveStaticFiles("/verzeichnisdemodaten", "C:/Users/katha/Documents/GitHub/AISA_GeosoftwareII/Backend/demodata/createdbyAISAtool/", verbose = TRUE) %>%
+serveStaticFiles("/verzeichnisdemodaten", "C:/Users/lgits/Documents/GitHub/AISA_GeosoftwareII/Backend/demodata/createdbyAISAtool/", verbose = TRUE) %>%
 #serveStaticFiles("/verzeichnisdemodaten", "D:/Studium/Geosoftware1/AISA_GeosoftwareII/Backend/demodata/createdbyAISAtool/", verbose = TRUE) %>%
   
   
