@@ -30,7 +30,8 @@
 
 .fade1::after {
     content: "Welcome!";
-    color: rgb(212, 145, 69);
+    font-family:'Courier New', Courier, monospace;
+    color: rgb(255, 123, 0);
     background: black;
     display: flex;
     justify-content: center;
@@ -63,16 +64,23 @@ main {
 
 /* Map layout */
 #map {
-    height: 115vh;
+    height: 103vh;
     max-width: 100%;
     margin: 5px;
 }
 
 /* Resultmap layout */
 #demoresultmap {
-    height: 90vh;
+    height: 85vh;
     max-width: 100%;
     margin:5px;
+}
+
+/* Resultmap layout */
+#ownresultmap {
+  height: 85vh;
+  max-width: 100%;
+  margin:5px;
 }
 
 /* Textstyling */
@@ -114,6 +122,9 @@ h4{
     color: rgb(69, 167, 212);
 }
 
+h5{
+    text-decoration: underline;
+}
 /* Slider. Source: https://www.w3schools.com/howto/howto_js_rangeslider.asp */
 .slidecontainer {
     width: 100%; /* Width of the outside container */
@@ -154,4 +165,47 @@ h4{
     cursor: pointer; /* Cursor on hover */
   }
 
+  .my-select {
+    background-color: black;
+    color: rgb(69, 167, 212);
+    border: 0 none;
+    border-radius: 20px;
+    padding: 6px 20px;
+  }
 
+  /*Legend specific*/
+.legend {
+    padding: 6px 8px;
+    font: 14px Arial, Helvetica, sans-serif;
+    background: white;
+    background: rgba(255, 255, 255, 0.8);
+    line-height: 24px;
+    color: #555;
+  }
+  .legend h4 {
+    text-align: center;
+    font-size: 16px;
+    margin: 2px 12px 8px;
+    color: #777;
+  }
+  
+  .legend span {
+    position: relative;
+    bottom: 3px;
+  }
+  
+  .legend i {
+    width: 18px;
+    height: 18px;
+    float: left;
+    margin: 0 8px 0 0;
+    opacity: 0.8;
+  }
+  
+  .legend i.icon {
+    background-size: 18px;
+    background-color: rgba(255, 255, 255, 1);
+  }
+  
+
+  

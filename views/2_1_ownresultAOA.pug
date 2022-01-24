@@ -1,2 +1,29 @@
 extends 0_layout
 block content
+
+  //- heading
+  br
+  h2.text-center Results of your calculations
+  p.text-center 
+      Some Please wait a moment, the calculated AOA and the prediction must first be projected onto the map.#[br]
+      Some The map is finished loading when you see layer controls for AOA and Prediction on the right side of the map.#[br]
+      Some You can use them to display the result layers via selection.
+
+  //- resultmap display, legend and redirection to download
+  .row
+    //- resultmap
+    .col-10
+      #ownresultmap
+    //- legend
+    .col-2
+        //- redirection to download
+        p.text-left
+          | You want to download the results of the calculation?#[br]
+          | Click here!
+        a.btn.btn-outline-light(style='background-color:black; color: rgb(69, 167, 212)' href='/download' role='button') Go to download
+
+
+  block scripts
+      //- required javascripts
+      script(src='/javascripts/2_1_ownresultAOA.js', defer='')
+

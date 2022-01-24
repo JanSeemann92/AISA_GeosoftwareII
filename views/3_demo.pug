@@ -4,7 +4,6 @@ block content
   //- heading
   br
   h2.text-center Demo
-  br
   
   //- step-by-step tutorial
   //- headline & step 1
@@ -99,18 +98,15 @@ block content
       p Are you curious now?
     #textcenter 
       p Try out our one-click-demo! With just one click a demoversion will start and calculate an example AOA.
-
   //- start-demo-button
   .d-grid.gap-2.col-4.mx-auto
-    a.btn.btn-outline-light(style='background-color: rgb(69, 167, 212); color: black' onclick= 'startDemoCalculation()') Start the demo!
+    a.btn.btn-outline-light(style='background-color: rgb(69, 167, 212); color: black; font-weight: bold' onclick= 'startDemoCalculation()') Start the demo!
   br
+  #loading
 
   block scripts
       //- required javascruots
-      script(src='/javascripts/2_calculateAOA.js', defer)
       script(src='/javascripts/3_demo.js', defer)
-      script(src='/javascripts/3_1_demoresultAOA.js', defer)
-
 
 
 
