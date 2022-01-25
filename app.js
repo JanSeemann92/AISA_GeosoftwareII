@@ -66,9 +66,9 @@ const handleError = (err, res) => {
     upload.single("upload" /* name attribute of <file> element in your form */),
     (req, res) => {
       const tempPath = req.file.path;
-      const targetPath1 = path.join(__dirname, "./public/upload/upload.geojson");
-      const targetPath2 = path.join(__dirname, "./public/upload/upload.gpkg");
-      const targetPath3 = path.join(__dirname, "./public/upload/upload.rds");
+      const targetPath1 = path.join(__dirname, "./Backend/demodata/upload/upload.geojson");
+      const targetPath2 = path.join(__dirname, "./Backend/demodata/upload/upload.gpkg");
+      const targetPath3 = path.join(__dirname, "./Backend/demodata/upload/upload.rds");
 
       if (path.extname(req.file.originalname).toLowerCase() === ".geojson" || path.extname(req.file.originalname).toLowerCase() === ".gpkg" || path.extname(req.file.originalname).toLowerCase() === ".rds"){
       if (path.extname(req.file.originalname).toLowerCase() === ".geojson") {
