@@ -11,6 +11,7 @@ WORKDIR /app
 # RUN R -e "install.packages(c('raster', 'CAST', 'caret', 'sf', 'beakr', 'rgdal', 'testthat', 'stars', 'magick', 'ncdf4', 'Rcpp', 'jsonlite', \
 #                            'RcppProgress', 'rstac', 'tmap', 'gdalcubes', 'RJSONIO') dependencies=TRUE, repos='http://cran.rstudio.com/')"
 
+RUN R -e "install.packages('Rcpp')"
 RUN R -e "install.packages('raster')"
 RUN R -e "install.packages('CAST')"
 RUN R -e "install.packages('caret')" 
@@ -21,7 +22,6 @@ RUN R -e "install.packages('testthat')"
 RUN R -e "install.packages('stars')"
 RUN R -e "install.packages('magick')"
 RUN R -e "install.packages('ncdf4')"
-RUN R -e "install.packages('Rcpp')"
 RUN R -e "install.packages('jsonlite')"
 RUN R -e "install.packages('RcppProgress')"
 RUN R -e "install.packages('rstac')"
@@ -55,7 +55,7 @@ EXPOSE 8783
 
 # ENTRYPOINT [ "npm", "start" ]
 
-CMD ["Rscript", "/Backend/run.R"]
+CMD ["Rscript", "calc.R"]
 # Start the app
 # CMD ["Rscript", "myscript.R"] 
 # oder: CMD R -e "source('/app/myscript.R')"

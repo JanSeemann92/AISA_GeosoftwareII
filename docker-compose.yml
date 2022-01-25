@@ -1,7 +1,7 @@
 version: "3.9"
 services:
   frontend:
-    image: aisagesoft2/frontend:latest
+    image: antonia123/aisafrontend:latest
     build: .    
     environment:
       - NODE_ENV=production
@@ -14,10 +14,10 @@ services:
       - backend
 
   backend: 
-    image: aisageosoft2/backend:latest
+    image: antonia123/aisabackend:latest
     build: ./Backend
-    environment:
-      - NODE_ENV=production #evtl. weitere ergänzen
+    #environment:
+    #  - NODE_ENV=production #evtl. weitere ergänzen
     container_name: aisa-data
     ports:
       - "8782:8782"
