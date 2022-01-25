@@ -36,6 +36,7 @@ The following parameters can be chosen by the user within the webtool:
 - Resolution of requested sentinel-2 images can be 20m (default), 40m or 80m.
 - The maximum cloudcover to filter sentinel-2 images can be between 0% and 100% (default it 20%).
 - An area of interest must be chosen (see Requirements on Input Data - Area of Interest).
+The images contain the bands B02, B03, B04, B05, B06, B07, B08, B11, B12 and B8A.
 
 ### Model Training and Prediction
 The model is trained by random forest with ntree=200 using the Labels (which store the LULC classes) as predictors. The model is validated by spatial cross validation with three folds and the polygons as spatial units. The final model is chosen by best value for kappa. 
