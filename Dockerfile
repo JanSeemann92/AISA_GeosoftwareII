@@ -19,6 +19,8 @@ COPY . .
 # Build the app 
 # RUN npm run build 
 
+# EXPOSE 8781
+
 # Start the app
 CMD [ "npm", "start" ]
 
