@@ -20,7 +20,7 @@ function downloaddemodata(){
         }
         zip.file("predictionOutput.tif", data2, { binary:true } );
 
-    JSZipUtils.getBinaryContent("/http://127.0.0.1:25118/demodata/createdbyAISAtool/samplingLocationsOutput.geojson", function( err, data3 ) {
+    JSZipUtils.getBinaryContent("http://127.0.0.1:25118/demodata/createdbyAISAtool/samplingLocationsOutput.geojson", function( err, data3 ) {
         if ( err ) {
             throw err;
         }
