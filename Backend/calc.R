@@ -42,9 +42,9 @@ library(gdalcubes)
 
 # set working directory: directory which includes needed data
 #### needs to be changed later on to the hosting server
-setwd("C:/Users/katha/Documents/GitHub/AISA_GeosoftwareII/Backend/demodata/")
-#setwd("D:/Studium/Geosoftware1/AISA_GeosoftwareII/Backend/demodata")
-#setwd("C:/Users/lgits/Documents/GitHub/AISA_GeosoftwareII/Backend/demodata/")
+setwd("C:/Users/katha/Documents/GitHub/AISA_GeosoftwareII/Backend/")
+#setwd("D:/Studium/Geosoftware1/AISA_GeosoftwareII/Backend/")
+#setwd("C:/Users/lgits/Documents/GitHub/AISA_GeosoftwareII/Backend/")
 
 #######################################################################
 
@@ -143,7 +143,7 @@ generateImage <- function (cloudcover, resolution, left, right, top, bottom, typ
                   "median(B11)",
                   "median(B12)",
                   "median(B8A)")) %>%
-    write_tif(dir="C:/Users/katha/Documents/GitHub/AISA_GeosoftwareII/Backend/demodata/sentinel", prefix = filename) %>%     # set correct directory
+    write_tif(dir="C:/Users/katha/Documents/GitHub/AISA_GeosoftwareII/Backend/data/sentinel", prefix = filename) %>%     # set correct directory
     # plot(rgb = 3:1, zlim=c(0,1800)) %>%
     # system.time()
     
@@ -343,11 +343,11 @@ httpPOST(path = '/withModel', function(req,res,err) {
   
   # load input data
   # load model
-  model <- readRDS("upload/upload.rds")
+  model <- readRDS("data/upload/upload.rds")
   # As predictor variables a raster data set with sentinel-2 data is used.
   # The data comes form AWS and is preprocessed internally first (see above).
   # load and build stack with data for area of interest (=sentinel-2 images for prediction)
-  sentinel_combined_prediction <- stack("sentinel/sentinel_prediction2020-01-01.tif")
+  sentinel_combined_prediction <- stack("data/sentinel/sentinel_prediction2020-01-01.tif")
   # no reprojection needed
   # sentinel images from AWS/stac already come in EPSG4326 which is needed for leaflet
   
@@ -364,27 +364,29 @@ httpPOST(path = '/withModel', function(req,res,err) {
   
   if(0 %in% values(areaOA)){
     samplingLocations <- NewSamplingLocations(areaOA)
-    write(samplingLocations, "createdbyAISAtool/samplingLocationsOutput.geojson")
+    write(samplingLocations, "data/output/samplingLocationsOutput.geojson")
     print("New sampling locations output geojson written")
+    sampling <- "sampling"
   } else {print ("AOA = AOI")
+    sampling <- "nosampling"
     output_string <- "No Sampling Locations"
   }
   
   # get labels of LULC (needed for legend on map)
   label <- c(model$levels)
   # add type of workflow
-  label <- c("model", label)
+  label <- c("model",sampling , label)
   print("labels extracted")
   # convert to json for export
   labelsJSON <- toJSON(label)
   
   #writing output files
-  writeRaster(predictionLULC, "createdbyAISAtool/predictionOutput.tif", overwrite=T)
+  writeRaster(predictionLULC, "data/output/predictionOutput.tif", overwrite=T)
   print("LULC output file written")
-  writeRaster(areaOA, "createdbyAISAtool/aoaOutput.tif", overwrite=T)
+  writeRaster(areaOA, "data/output/aoaOutput.tif", overwrite=T)
   print("AOA output file written")
   
-  write(labelsJSON, "createdbyAISAtool/labelsOutput.json")
+  write(labelsJSON, "data/output/labelsOutput.json")
   print("Labels output json written")
   
   res$setHeader("Access-Control-Allow-Origin", "*")
@@ -424,9 +426,9 @@ httpPOST(path = '/noModel', function(req,res,err) {
   # depends on data format (gpkg or geojson)
   dataformat <- req$parameters$format   # variables names must be checked with frontend
   if (dataformat == "geopackage") {
-    trainingsites <- st_read("upload/upload.gpkg")
+    trainingsites <- st_read("data/upload/upload.gpkg")
   } else {
-    trainingsites <- st_read("upload/upload.geojson")
+    trainingsites <- st_read("data/upload/upload.geojson")
   }
   
   # reproject crs of input data to EPSG4326
@@ -444,7 +446,6 @@ httpPOST(path = '/noModel', function(req,res,err) {
   cov <- as.numeric(req$parameters$cov)
   reso <- as.numeric(req$parameters$reso)
   type <- "training"
-  url <- req$parameters$URL
   
   # generate sentinel images from AWS for training
   generateImage(cov, reso, left, right, top, bottom, type)
@@ -456,15 +457,13 @@ httpPOST(path = '/noModel', function(req,res,err) {
   # The data comes form AWS and is preprocessed internally first.
   # load and build stack with data of predictor variables (=sentinel-2 images for training)
   # load and build stack with data for area of interest (=sentinel-2 images for prediction)
-  sentinel_combined_training <- stack("sentinel/sentinel_training2020-01-01.tif")  # eventually not needed
-  sentinel_combined_prediction <- stack("sentinel/sentinel_prediction2020-01-01.tif")  # eventually not needed
+  sentinel_combined_training <- stack("data/sentinel/sentinel_training2020-01-01.tif")  # eventually not needed
+  sentinel_combined_prediction <- stack("data/sentinel/sentinel_prediction2020-01-01.tif")  # eventually not needed
   
   # set names of bands in the sentinel data
   bandnames <- c("B02","B03","B04","B05","B06","B07","B08","B11","B12","B8A")
   names(sentinel_combined_training) <- bandnames
   names(sentinel_combined_prediction) <- bandnames
-  
-  
   
   
   # do calculations
@@ -478,9 +477,11 @@ httpPOST(path = '/noModel', function(req,res,err) {
   
   if(0 %in% values(areaOA)){
     samplingLocations <- NewSamplingLocations(areaOA)
-    write(samplingLocations, "createdbyAISAtool/samplingLocationsOutput.geojson")
+    sampling <- "sampling"
+    write(samplingLocations, "data/output/samplingLocationsOutput.geojson")
     print("New sampling locations output geojson written")
   } else {print("AOA=AOI") 
+    sampling <- "nosampling"
     output_string <- "No Sampling Locations"
   }
   
@@ -488,22 +489,22 @@ httpPOST(path = '/noModel', function(req,res,err) {
   # get labels of LULC (needed for legend on map)
   label <- c(model$levels)
   # add type of workflow
-  label <- c("trainingdata", label)
+  label <- c("trainingdata", sampling, label)
   print("labels extracted")
   # convert to json for export
   labelsJSON <- toJSON(label)
   
   #writing output files
-  saveRDS(model,file="createdbyAISAtool/modelOutput.RDS")
+  saveRDS(model,file="data/output/modelOutput.RDS")
   print("model output file written")
-  writeRaster(predictionLULC, "createdbyAISAtool/predictionOutput.tif", overwrite=T)
+  writeRaster(predictionLULC, "data/output/predictionOutput.tif", overwrite=T)
   print("LULC output file written")
-  writeRaster(areaOA, "createdbyAISAtool/aoaOutput.tif", overwrite=T)
+  writeRaster(areaOA, "data/output/aoaOutput.tif", overwrite=T)
   print("AOA output file written")
-  st_write(trainingsites, "createdbyAISAtool/trainingsitesOutput.geojson",  delete_dsn = TRUE)
+  st_write(trainingsites, "data/output/trainingsitesOutput.geojson",  delete_dsn = TRUE)
   print("trainingsites geojson output written")
   
-  write(labelsJSON, "createdbyAISAtool/labelsOutput.json")
+  write(labelsJSON, "data/output/labelsOutput.json")
   print("Labels output json written")
   
   
@@ -520,9 +521,9 @@ httpGET(path = '/runDemo', function(req,res,err) {
   # The data is kept in directory for demodata.
   # As predictor variables a raster data set with sentinel-2 data is used.
   # load and build stack with data of predictor variables (=sentinel-2 images)
-  sentinel_combined <- stack("demodata_rheine_sentinel_combined.grd")
+  sentinel_combined <- stack("demodata/demodata_rheine_sentinel_combined.grd")
   # load training polygons
-  trainingsites <- st_read("demodata_rheine_trainingspolygone.gpkg")
+  trainingsites <- st_read("demodata/demodata_rheine_trainingspolygone.gpkg")
   
   # reproject crs of input data to EPSG4326
   # ensures that data has same crs and that it can be displayed by leaflet
@@ -547,17 +548,17 @@ httpGET(path = '/runDemo', function(req,res,err) {
   labelsJSON <- toJSON(label)
   
   #writing output files
-  saveRDS(model,file="createdbyAISAtool/modelOutput.RDS")
+  saveRDS(model,file="demodata/createdbyAISAtool/modelOutput.RDS")
   print("mtputdel output file written")
-  writeRaster(predictionLULC, "createdbyAISAtool/predictionOutput.tif", overwrite=T)
+  writeRaster(predictionLULC, "demodata/createdbyAISAtool/predictionOutput.tif", overwrite=T)
   print("LULC output file written")
-  writeRaster(areaAOA, "createdbyAISAtool/aoaOutput.tif", overwrite=T)
+  writeRaster(areaAOA, "demodata/createdbyAISAtool/aoaOutput.tif", overwrite=T)
   print("AOA output file written")
-  st_write(trainingsites, "createdbyAISAtool/trainingsitesOutput.geojson",  delete_dsn = TRUE)
+  st_write(trainingsites, "demodata/createdbyAISAtool/trainingsitesOutput.geojson",  delete_dsn = TRUE)
   print("trainingsites geojson output written")
-  write(samplingLocations, "createdbyAISAtool/samplingLocationsOutput.geojson")
+  write(samplingLocations, "demodata/createdbyAISAtool/samplingLocationsOutput.geojson")
   print("New sampling locations output geojson written")
-  write(labelsJSON, "createdbyAISAtool/labelsOutput.json")
+  write(labelsJSON, "demodata/createdbyAISAtool/labelsOutput.json")
   print("Labels output json written")
   
   
@@ -568,9 +569,9 @@ httpGET(path = '/runDemo', function(req,res,err) {
   
   ########################################
 # Host the directory of static files  
-#serveStaticFiles("/verzeichnisdemodaten", "C:/Users/lgits/Documents/GitHub/AISA_GeosoftwareII/Backend/demodata/createdbyAISAtool/", verbose = TRUE) %>%
-#serveStaticFiles("/verzeichnisdemodaten", "D:/Studium/Geosoftware1/AISA_GeosoftwareII/Backend/demodata/createdbyAISAtool/", verbose = TRUE) %>%
-serveStaticFiles("/verzeichnisdemodaten", "C:/Users/katha/Documents/GitHub/AISA_GeosoftwareII/Backend/demodata/createdbyAISAtool/", verbose = TRUE) %>%
+#serveStaticFiles("/verzeichnisdemodaten", "C:/Users/lgits/Documents/GitHub/AISA_GeosoftwareII/Backend/", verbose = TRUE) %>%
+#serveStaticFiles("/verzeichnisdemodaten", "D:/Studium/Geosoftware1/AISA_GeosoftwareII/Backend/", verbose = TRUE) %>%
+serveStaticFiles("/verzeichnisdemodaten", "C:/Users/katha/Documents/GitHub/AISA_GeosoftwareII/Backend/", verbose = TRUE) %>%
   
   handleErrors() %>%
   
