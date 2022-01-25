@@ -54,33 +54,41 @@ function downloadowndata(){
 
     var zip = new JSZip();
 
-    JSZipUtils.getBinaryContent("http://127.0.0.1:25118/demodata/createdbyAISAtool/aoaOutput.tif", function( err, data1 ) {
+    JSZipUtils.getBinaryContent("http://127.0.0.1:25118/data/output/aoaOutput.tif", function( err, data1 ) {
         if ( err ) {
             throw err;
         }
         zip.file("aoaOutput.tif", data1, { binary:true } );
 
-    JSZipUtils.getBinaryContent("http://127.0.0.1:25118/demodata/createdbyAISAtool/predictionOutput.tif", function( err, data2 ) {
+    JSZipUtils.getBinaryContent("http://127.0.0.1:25118/data/output/predictionOutput.tif", function( err, data2 ) {
         if ( err ) {
             throw err;
         }
         zip.file("predictionOutput.tif", data2, { binary:true } );
 
-    JSZipUtils.getBinaryContent("/http://127.0.0.1:25118/demodata/createdbyAISAtool/samplingLocationsOutput.geojson", function( err, data3 ) {
-        if ( err ) {
-            throw err;
-        }
-        zip.file("samplingLocations.geojson", data3, { binary:true } );
+    $.ajax({
+        url: "http://127.0.0.1:25118/data/output/labelsOutput.json",
+        type: 'GET',
+        dataType: 'json', 
+        success: function(res) {
+            var status = res[0][1];
+            console.log(status)
+            if(status == 'sampling'){
+                JSZipUtils.getBinaryContent("/http://127.0.0.1:25118/data/output/samplingLocationsOutput.geojson", function( err, data3 ) {
+                    if ( err ) {
+                        throw err;
+                    }
+                    zip.file("samplingLocations.geojson", data3, { binary:true } );
     
     $.ajax({
-        url: "http://127.0.0.1:25118/demodata/createdbyAISAtool/labelsOutput.json",
+        url: "http://127.0.0.1:25118/data/output/labelsOutput.json",
         type: 'GET',
         dataType: 'json', 
         success: function(res) {
             var status = res[0][0];
             console.log(status)
             if(status == 'trainingdata'){
-                JSZipUtils.getBinaryContent("http://127.0.0.1:25118/demodata/createdbyAISAtool/modelOutput.RDS", function( err, data5 ) {
+                JSZipUtils.getBinaryContent("http://127.0.0.1:25118/data/output/modelOutput.RDS", function( err, data5 ) {
                     if ( err ) {
                         throw err;
                     }
@@ -94,5 +102,5 @@ function downloadowndata(){
                     saveAs( blob, "data.zip" );
                     } )
             }
-    }})})})})}
+    }})})}}})})})}
 
