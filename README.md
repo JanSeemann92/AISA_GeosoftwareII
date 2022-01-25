@@ -18,13 +18,18 @@ Start:
 docker-compose up
 ```
 
-Open `http://44.234.41.163:8081` in your browser.
+Open `http://44.234.41.163:8781` in your browser.
 
-The frontend and backend are available on Docker Hub:
+The frontend and backend are available in the aisa_vision_cloud repository on Docker Hub:
 
-- `aisageosoft2/frontend`
-- `aisageosoft2/backend`
-
+- `antonia123/aisa`
+- `antonia123/aisabackend`
+ 
+ To pull the images from Docker Hub enter:
+ ````sh
+ docker pull antonia123/aisa_cloud_vision
+ ````
+ 
 ### Frontend
 
 Install and run:
