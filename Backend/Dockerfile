@@ -51,11 +51,11 @@ RUN R -e "install.packages('RJSONIO')"
 COPY . .
 
 # Expose port on container. --> anpassen?!
-EXPOSE 9000 
+EXPOSE 8783 
 
-ENTRYPOINT [ "npm", "start" ]
+# ENTRYPOINT [ "npm", "start" ]
 
-CMD ["Rscript", "Backend/run.R"]
+CMD ["Rscript", "/Backend/run.R"]
 # Start the app
 # CMD ["Rscript", "myscript.R"] 
 # oder: CMD R -e "source('/app/myscript.R')"

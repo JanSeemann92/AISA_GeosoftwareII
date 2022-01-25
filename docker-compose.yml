@@ -2,7 +2,7 @@ version: "3.9"
 services:
   frontend:
     image: aisagesoft2/frontend:latest
-    build: .docker/frontend    
+    build: .    
     environment:
       - NODE_ENV=production
     container_name: aisa-app
@@ -15,7 +15,7 @@ services:
 
   backend: 
     image: aisageosoft2/backend:latest
-    build: ./docker/backend    
+    build: ./Backend
     environment:
       - NODE_ENV=production #evtl. weitere ergänzen
     container_name: aisa-data
