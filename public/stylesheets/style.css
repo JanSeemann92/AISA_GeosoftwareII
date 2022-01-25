@@ -64,7 +64,7 @@ main {
 
 /* Map layout */
 #map {
-    height: 103vh;
+    height: 100%;
     max-width: 100%;
     margin: 5px;
 }
@@ -105,8 +105,14 @@ main {
     font-style: italic;
     font-size: 17pt;
     text-align: center;
+    margin-bottom: 0px;
 }
 
+#link{
+  text-align: center;
+  margin-top: 0px;
+  margin-bottom: 20px;
+}
 #textcenter{
     font-size: 14pt;
     text-align: center;
@@ -206,6 +212,4 @@ h5{
     background-size: 18px;
     background-color: rgba(255, 255, 255, 1);
   }
-  
-
   

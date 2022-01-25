@@ -4,13 +4,13 @@ block content
   //- heading
   br
   h2.text-center Demo
-  
   //- step-by-step tutorial
   //- headline & step 1
   .row
     #introduction 
       p Step-by-Step Tutorial 
-      br
+    #link 
+      a(href='#loadingdemo' style= 'color: black; text-align: center') (You want to run a demo? Click here!)
     .col-1 
       #heading 
         p Step 1
@@ -90,7 +90,6 @@ block content
       br
       br
       br
-      br
 
   //- demo
   .a
@@ -100,9 +99,10 @@ block content
       p Try out our one-click-demo! With just one click a demoversion will start and calculate an example AOA.
   //- start-demo-button
   .d-grid.gap-2.col-4.mx-auto
-    a.btn.btn-outline-light(style='background-color: rgb(69, 167, 212); color: black; font-weight: bold' onclick= 'startDemoCalculation()') Start the demo!
+    a.btn.btn-outline-light(id = 'startdemo' style='background-color: rgb(69, 167, 212); color: black; font-weight: bold' onclick= 'startDemoCalculation()') Start the demo!
+  p.text-center(id='msgstartdemo' style='color: rgb(69, 167, 212); display: none; margin-buttom: 0') The calculation is now executed. This may take a few minutes. Please do not abort the process! After the process is finished you will be redirected to the results page.
+  #loadingdemo.text-center
   br
-  #loading
 
   block scripts
       //- required javascruots
