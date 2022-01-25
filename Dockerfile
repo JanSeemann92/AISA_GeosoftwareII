@@ -7,16 +7,17 @@ RUN mkdir -p /app
 WORKDIR /app
 
 # Install frontend dependencies
-COPY frontend/package*.json ./
+COPY /package*.json ./
 
 # Install node packages
 RUN npm ci
 
 # Copy or project directory (locally) in the current directory of our docker image (/app)
-COPY frontend/ ./
+COPY . .
+#frontend/ ./
 
 # Build the app 
-RUN npm run build 
+# RUN npm run build 
 
 # Start the app
 CMD [ "npm", "start" ]
