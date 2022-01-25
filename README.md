@@ -45,4 +45,4 @@ The model is trained by random forest with ntree=200 using the Labels (which sto
 
 
 ### Suggesting New Sampling Locations
-New sampling locations are chosen randomly, but only from those areas outside the AOA.
+New sampling locations are chosen randomly, but only from those areas outside the AOA. The default number of newly suggested sampling locations it 50, but it can be less or even 0 for very small or no areas outside the AOA.
