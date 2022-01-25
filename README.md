@@ -7,6 +7,57 @@ Cloud Vision offers a simple tool for estimating the applicability of models for
 
 ## Installation
 
+### Requirements
+Node >= 14 & R >= 4.1.2
+
+### Docker
+
+Start:
+
+```sh
+docker-compose up
+```
+
+Open `http://44.234.41.163:8081` in your browser.
+
+The frontend and backend are available on Docker Hub:
+
+- `aisageosoft2/frontend`
+- `aisageosoft2/backend`
+
+### Frontend
+
+Install and run:
+
+```sh
+cd frontend
+npm install
+```
+
+```sh
+npm run start
+```
+
+Test:
+
+```sh
+npm run test
+```
+
+### Backend
+
+Install and run:
+
+```sh
+cd backend
+npm install
+```
+
+```sh
+npm run start
+```
+
+
 ## Getting Started
 
 ## Requirements on Input Data
@@ -48,53 +99,3 @@ The model is trained by random forest with ntree=200 using the Labels (which sto
 
 ### Suggesting New Sampling Locations
 New sampling locations are chosen randomly, but only from those areas outside the AOA. The default number of newly suggested sampling locations it 50, but it can be less or even 0 for very small or no areas outside the AOA.
-# aisa 
-
-Requirements: Node >= 14 & R >= 4.1.2
-
-## Docker
-
-Start:
-
-```sh
-docker-compose up
-```
-
-Open `http://44.234.41.163:8081` in your browser.
-
-The frontend and backend are available on Docker Hub:
-
-- `aisageosoft2/frontend`
-- `aisageosoft2/backend`
-
-## Frontend
-
-Install and run:
-
-```sh
-cd frontend
-npm install
-```
-
-```sh
-npm run start
-```
-
-Test:
-
-```sh
-npm run test
-```
-
-## Backend
-
-Install and run:
-
-```sh
-cd backend
-npm install
-```
-
-```sh
-npm run start
-```
