@@ -1,27 +1,24 @@
-version: "3"
-
+version: "3.9"
 services:
-
-  webserver:
-    image: frontend
-    restart: always
-    ports:
-      - "8081:8780" # forward webserver on standard-http port -> abrufbar über 8080   
-  #  volumes:
-  #    - ./frontend:/usr/
+  frontend:
+    image: aisagesoft2/frontend:latest
+    build: .docker/frontend    
+    environment:
+      - NODE_ENV=production
     container_name: aisa-app
-    build: .
+    ports:
+      - "8081:8780"     # Ports anpassen!
     depends_on:
-      - rscripts # wird erst gestartet, wenn auch backend erfolgreich gestartet werden könnte
+      - backend # wird erst gestartet, wenn auch backend erfolgreich gestartet werden könnte
     links: 
-      - rscripts
+      - backend
 
-  rscripts: 
-    image: backend
-    restart: always
-    #volumes:
-    #  - r_vol:/var/lib/...
-
-volumes:
- r_vol:
+  backend: 
+    image: aisageosoft2/backend:latest
+    build: ./docker/backend    
+    environment:
+      - NODE_ENV=production #evtl. weitere ergänzen
+    container_name: aisa-data
+    ports:
+      - "9000:9000"
 
