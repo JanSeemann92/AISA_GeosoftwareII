@@ -46,5 +46,68 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
+const multer = require('multer'); 
+const fs = require('fs');
+
+const handleError = (err, res) => {
+    res
+      .status(500)
+      .contentType("text/plain")
+      .end("Oops! Something went wrong!");
+  };
+
+  const upload = multer({
+    dest: "/home/ubuntu/AISA_GeosoftwareII"
+    //"C:/Users/katha/Documents/GitHub/AISA_GeosoftwareII/"
+    // you might also want to set some limits: https://github.com/expressjs/multer#limits
+  });
+
+  app.post(
+    "/upload",
+    upload.single("upload" /* name attribute of <file> element in your form */),
+    (req, res) => {
+      const tempPath = req.file.path;
+      const targetPath1 = path.join(__dirname, "./Backend/data/upload/upload.geojson");
+      const targetPath2 = path.join(__dirname, "./Backend/data/upload/upload.gpkg");
+      const targetPath3 = path.join(__dirname, "./Backend/data/upload/upload.rds");
+
+      if (path.extname(req.file.originalname).toLowerCase() === ".geojson" || path.extname(req.file.originalname).toLowerCase() === ".gpkg" || path.extname(req.file.originalname).toLowerCase() === ".rds"){
+      if (path.extname(req.file.originalname).toLowerCase() === ".geojson") {
+        fs.rename(tempPath, targetPath1, err => {
+          if (err) return handleError(err, res);
+  
+          res
+            .status(200)
+            .end
+        })};
+      if (path.extname(req.file.originalname).toLowerCase() === ".gpkg") {
+        fs.rename(tempPath, targetPath2, err => {
+          if (err) return handleError(err, res);
+  
+          res
+            .status(200)
+            .end
+        })};
+      if (path.extname(req.file.originalname).toLowerCase() === ".rds") {
+        fs.rename(tempPath, targetPath3, err => {
+          if (err) return handleError(err, res);
+  
+          res
+            .status(200)
+            .end
+        })};    
+      } else {
+        fs.unlink(tempPath, err => {
+          if (err) return handleError(err, res);
+  
+          res
+            .status(403)
+            .contentType("text/plain")
+            .end("Only .geojson, .gpkg & .rds files are allowed!");
+        });
+      }
+    }
+  ); 
+
 module.exports = app;
 

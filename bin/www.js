@@ -7,12 +7,13 @@
  var app = require('../app');
  var debug = require('debug')('geosoftware2:server');
  var http = require('http');
+ const fs = require('fs');
  
  /**
   * Get port from environment and store in Express.
   */
  
- var port = normalizePort(process.env.PORT || '25117');
+ var port = normalizePort(process.env.PORT || '8081');
  app.set('port', port);
 
  
