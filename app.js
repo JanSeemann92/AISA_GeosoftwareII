@@ -57,7 +57,8 @@ const handleError = (err, res) => {
   };
 
   const upload = multer({
-    dest: "C:/Users/katha/Documents/GitHub/AISA_GeosoftwareII/"
+    dest: "/home/ubuntu/AISA_GeosoftwareII"
+    //"C:/Users/katha/Documents/GitHub/AISA_GeosoftwareII/"
     // you might also want to set some limits: https://github.com/expressjs/multer#limits
   });
 
