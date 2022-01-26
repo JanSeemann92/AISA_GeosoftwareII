@@ -2,17 +2,28 @@
 FROM rocker/r-base:4.1.2
 
 # Create an application directory
-RUN mkdir -p /app
+# RUN mkdir -p /app
 
 # The /app directory should act as the main application directory
-WORKDIR /app
+# WORKDIR /app
 
 # Install package dependencies
 # RUN R -e "install.packages(c('raster', 'CAST', 'caret', 'sf', 'beakr', 'rgdal', 'testthat', 'stars', 'magick', 'ncdf4', 'Rcpp', 'jsonlite', \
 #                            'RcppProgress', 'rstac', 'tmap', 'gdalcubes', 'RJSONIO') dependencies=TRUE, repos='http://cran.rstudio.com/')"
 
-# ?? RUN R -e "install.packages('Rcpp')"
-RUN R -e "install.packages('sp')" 
+# install GDAL---> for latest version do: 
+# RUN add-apt-repository ppa:ubuntugis/ppa
+RUN apt-get update && apt-get install -y gdal-bin libgdal-dev
+
+RUN apt-get install -y libudunits2-dev
+
+RUN apt-get install -y libjq-dev
+
+RUN apt-get install -y libprotobuf-dev
+
+RUN apt-get install -y protobuf-compiler
+
+RUN R -e "install.packages('Rcpp')"
 RUN R -e "install.packages('CAST')"
 RUN R -e "install.packages('caret')" 
 RUN R -e "install.packages('doParallel')"
