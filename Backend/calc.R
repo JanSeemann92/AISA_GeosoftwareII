@@ -40,12 +40,13 @@ rm(list=ls())
   # library(RcppProgress)
   # library(tmap)
 
+getwd()
 # set working directory: directory which includes needed data
 #### needs to be changed later on to the hosting server
-setwd("/home/ubuntu/AISA_GeosoftwareII/Backend")
-#setwd("C:/Users/katha/Documents/GitHub/AISA_GeosoftwareII/Backend/")
-#setwd("D:/Studium/Geosoftware1/AISA_GeosoftwareII/Backend/")
-#setwd("C:/Users/lgits/Documents/GitHub/AISA_GeosoftwareII/Backend/")
+#setwd("/home/ubuntu/AISA_GeosoftwareII/Backend")
+  #setwd("C:/Users/katha/Documents/GitHub/AISA_GeosoftwareII/Backend/")
+  #setwd("D:/Studium/Geosoftware1/AISA_GeosoftwareII/Backend/")
+  #setwd("C:/Users/lgits/Documents/GitHub/AISA_GeosoftwareII/Backend/")
 
 #######################################################################
 
