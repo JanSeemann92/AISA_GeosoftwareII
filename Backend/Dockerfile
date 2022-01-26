@@ -8,9 +8,10 @@ FROM rocker/r-base:4.1.2
 # WORKDIR /app
 
 # Install package dependencies
-# RUN R -e "install.packages(c('raster', 'CAST', 'caret', 'sf', 'beakr', 'rgdal', 'testthat', 'stars', 'magick', 'ncdf4', 'Rcpp', 'jsonlite', \
-#                            'RcppProgress', 'rstac', 'tmap', 'gdalcubes', 'RJSONIO') dependencies=TRUE, repos='http://cran.rstudio.com/')"
 
+RUN getwd()
+RUN setwd("/home/ubuntu/AISA_GeosoftwareII/Backend")
+RUN getwd()
 # install GDAL---> for latest version do: 
     # RUN add-apt-repository ppa:ubuntugis/ppa
 #RUN apt-get update && apt-get install -y gdal-bin libgdal-dev
