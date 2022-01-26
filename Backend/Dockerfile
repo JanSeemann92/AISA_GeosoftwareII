@@ -7,14 +7,14 @@ FROM rocker/r-base:4.1.2
 # The /app directory should act as the main application directory
 # WORKDIR /app
 
-# Install package dependencies
 
 
-#RUN sudo setwd("/home/ubuntu/AISA_GeosoftwareII/Backend")
-RUN echo "setwd(\"/home/ubuntu/AISA_GeosoftwareII/Backend\")" 
-#> ~/../home/rstudio/.Rprofile 
+
 #set up working diretory
+#RUN sudo setwd("/home/ubuntu/AISA_GeosoftwareII/Backend")
+#RUN echo "setwd(\"/home/ubuntu/AISA_GeosoftwareII/Backend\")" 
 
+# Install package dependencies
 # install GDAL---> for latest version do: 
     # RUN add-apt-repository ppa:ubuntugis/ppa
 #RUN apt-get update && apt-get install -y gdal-bin libgdal-dev
@@ -27,6 +27,7 @@ RUN echo "setwd(\"/home/ubuntu/AISA_GeosoftwareII/Backend\")"
 
 #RUN apt-get install -y protobuf-compiler
 
+RUN R -e "install.packages("tidyverse")"
 #RUN R -e "install.packages('Rcpp')"
 #RUN R -e "install.packages('CAST')"
 #RUN R -e "install.packages('caret')" 
