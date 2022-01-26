@@ -1,10 +1,10 @@
 FROM node:14
 
 # Create an application directory
-# RUN mkdir -p /app
+RUN mkdir -p /app
 
 # The /app directory should act as the main application directory
-# WORKDIR /app
+WORKDIR /app
 
 RUN npm install
 
