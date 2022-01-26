@@ -41,7 +41,7 @@ rm(list=ls())
   # library(tmap)
 
 getwd()
-setwd('/Backend')
+setwd("/home/ubuntu/AISA_GeosoftwareII/Backend")
 getwd()
 # set working directory: directory which includes needed data
 #### needs to be changed later on to the hosting server
