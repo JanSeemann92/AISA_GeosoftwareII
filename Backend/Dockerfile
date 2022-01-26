@@ -27,7 +27,7 @@ FROM rocker/r-base:4.1.2
 
 #RUN apt-get install -y protobuf-compiler
 
-RUN R -e "install.packages("tidyverse")"
+RUN R -e "install.packages('tidyverse')"
 #RUN R -e "install.packages('Rcpp')"
 #RUN R -e "install.packages('CAST')"
 #RUN R -e "install.packages('caret')" 
