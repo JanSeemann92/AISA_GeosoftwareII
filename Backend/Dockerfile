@@ -9,9 +9,9 @@ FROM rocker/r-base:4.1.2
 
 # Install package dependencies
 
-RUN getwd()
-RUN setwd("/home/ubuntu/AISA_GeosoftwareII/Backend")
-RUN getwd()
+
+RUN sudo setwd("/home/ubuntu/AISA_GeosoftwareII/Backend")
+
 # install GDAL---> for latest version do: 
     # RUN add-apt-repository ppa:ubuntugis/ppa
 #RUN apt-get update && apt-get install -y gdal-bin libgdal-dev
