@@ -6,7 +6,7 @@ RUN mkdir -p /app
 # The /app directory should act as the main application directory
 WORKDIR /app
 
-RUN npm install
+# RUN npm install
 
 # Install frontend dependencies
 COPY /package*.json ./
