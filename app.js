@@ -57,7 +57,7 @@ const handleError = (err, res) => {
   };
 
   const upload = multer({
-    dest: "/home/ubuntu/AISA_GeosoftwareII"
+    dest: "/home/ubuntu"
     //"C:/Users/katha/Documents/GitHub/AISA_GeosoftwareII/"
     // you might also want to set some limits: https://github.com/expressjs/multer#limits
   });
@@ -67,9 +67,9 @@ const handleError = (err, res) => {
     upload.single("upload" /* name attribute of <file> element in your form */),
     (req, res) => {
       const tempPath = req.file.path;
-      const targetPath1 = path.join(__dirname, "./Backend/data/upload/upload.geojson");
-      const targetPath2 = path.join(__dirname, "./Backend/data/upload/upload.gpkg");
-      const targetPath3 = path.join(__dirname, "./Backend/data/upload/upload.rds");
+      const targetPath1 = path.join(__dirname, "./data/upload/upload.geojson");
+      const targetPath2 = path.join(__dirname, "./data/upload/upload.gpkg");
+      const targetPath3 = path.join(__dirname, "./data/upload/upload.rds");
 
       if (path.extname(req.file.originalname).toLowerCase() === ".geojson" || path.extname(req.file.originalname).toLowerCase() === ".gpkg" || path.extname(req.file.originalname).toLowerCase() === ".rds"){
       if (path.extname(req.file.originalname).toLowerCase() === ".geojson") {

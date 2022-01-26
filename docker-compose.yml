@@ -1,24 +1,24 @@
 version: "3.9"
 services:
   frontend:
-    image: aisagesoft2/frontend:latest
-    build: .docker/frontend    
+    image: antonia123/aisafrontend:latest
+    build: .    
     environment:
       - NODE_ENV=production
     container_name: aisa-app
     ports:
-      - "8081:8780"     # Ports anpassen!
+      - "8781:8781"     # Ports anpassen!
     depends_on:
       - backend # wird erst gestartet, wenn auch backend erfolgreich gestartet werden könnte
     links: 
       - backend
 
   backend: 
-    image: aisageosoft2/backend:latest
-    build: ./docker/backend    
-    environment:
-      - NODE_ENV=production #evtl. weitere ergänzen
+    image: antonia123/aisabackend:latest
+    build: ./Backend
+    #environment:
+    #  - NODE_ENV=production #evtl. weitere ergänzen
     container_name: aisa-data
     ports:
-      - "9000:9000"
+      - "8782:8782"
 
