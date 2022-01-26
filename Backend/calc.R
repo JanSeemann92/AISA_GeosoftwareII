@@ -17,6 +17,7 @@
 rm(list=ls())
 
 # load packages for training and AOA
+library(sp) # Antonia add
 library(raster)
 library(sf)
 library(caret)

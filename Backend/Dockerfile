@@ -11,23 +11,23 @@ WORKDIR /app
 # RUN R -e "install.packages(c('raster', 'CAST', 'caret', 'sf', 'beakr', 'rgdal', 'testthat', 'stars', 'magick', 'ncdf4', 'Rcpp', 'jsonlite', \
 #                            'RcppProgress', 'rstac', 'tmap', 'gdalcubes', 'RJSONIO') dependencies=TRUE, repos='http://cran.rstudio.com/')"
 
-RUN R -e "install.packages('Rcpp')"
-RUN R -e "install.packages('raster')"
+# ?? RUN R -e "install.packages('Rcpp')"
+RUN R -e "install.packages('sp')" 
 RUN R -e "install.packages('CAST')"
 RUN R -e "install.packages('caret')" 
+RUN R -e "install.packages('doParallel')"
 RUN R -e "install.packages('sf')"
 RUN R -e "install.packages('beakr')" 
 RUN R -e "install.packages('rgdal')"
+RUN R -e "install.packages('geojson')"
 RUN R -e "install.packages('testthat')"
-RUN R -e "install.packages('stars')"
-RUN R -e "install.packages('magick')"
 RUN R -e "install.packages('ncdf4')"
 RUN R -e "install.packages('jsonlite')"
 RUN R -e "install.packages('RcppProgress')"
 RUN R -e "install.packages('rstac')"
-RUN R -e "install.packages('tmap')"
 RUN R -e "install.packages('gdalcubes')"
 RUN R -e "install.packages('RJSONIO')"
+RUN R -e "install.packages('raster', type = 'source')"
 
 # Copy or project directory (locally) in the current directory of our docker image (/app)
 # COPY apis.R /backend
