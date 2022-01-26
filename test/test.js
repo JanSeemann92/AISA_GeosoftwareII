@@ -27,7 +27,7 @@ describe ("our Unittests", () =>
     })
     it ("ymax > 90", () =>
     {
-        expect(checkcoordsformat(52.25, 7.4, 100, 7.5)).to.equal(false)
+        expect(checkcoordsformat(52.25, 7.4, 100, 7.5),t).to.be.false
     })
     it ("ymin < -90", () =>
     {
