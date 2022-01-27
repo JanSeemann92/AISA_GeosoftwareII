@@ -306,28 +306,29 @@ NewSamplingLocations <- function(areaOA) {
 #   trainData - trainingsites
 #
 # Output:
-#   checked - boolean (TRUE for valid)
+#   boolean (TRUE for valid)
 #
 ########################################################################
 
 checkTrainData <- function(trainData) {
-  checked <- TRUE
   # check if data has property "Label" and "Label" is not empty
   if (length(trainData) <= 0) {
-    checked <- FALSE
+    return(FALSE)
   }
   # check if data has CRS
-  if (is.na(crs(trainData))) {
-    checked <- FALSE
-  }
-  # check if at least 2 entries per Label
-  counts <- as.data.frame(table(trainData_Label$Label))
-  for (i in 1:(length(counts$Freq))) {
-    if (counts$Freq < 2) {
-      checked <- FALSE
+  else if (is.na(crs(trainData))) {
+    return(FALSE)
+  } 
+  else {
+    # check if at least 2 entries per Label
+    counts <- as.data.frame(table(trainData_Label$Label))
+    for (i in 1:(length(counts$Freq))) {
+      if (counts$Freq < 2) {
+        return(FALSE)
+      }
     }
   }
-  return(checked)
+  return (TRUE)
 }
 
 
@@ -350,16 +351,17 @@ checkTrainData <- function(trainData) {
 ########################################################################
 
 checkModel <- function(model) {
-  checked <- TRUE
   # check if model only contains allowed bandnames
   modelnames <- model$finalModel$xNames
   bandnames <- c("B02","B03","B04","B05","B06","B07","B08","B11","B12","B8A")
   MnamesNotInBnames <- subset(modelnames, !(modelnames %in% bandnames))
   if (length(MnamesNotInBnames) > 0) {
-    checked <- FALSE
+    return (FALSE)
   }
-  return(checked)
+  return(TRUE)
 }
+
+
 
 
 
