@@ -580,7 +580,7 @@ httpGET(path = '/runDemo', function(req,res,err) {
   handleErrors() %>%
   
 #listen(host = "127.0.0.1", port = 25118) #for local testing
- listen(host = "44.234.41.163", port =  8081) #for AWS
+ listen(host = "44.234.41.163", port =  8782) #for AWS
 
 
 

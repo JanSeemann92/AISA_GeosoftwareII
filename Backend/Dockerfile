@@ -45,7 +45,7 @@ RUN R -e "install.packages('raster', type = 'source')"
 COPY . .
 
 # Expose port on container
-EXPOSE 8783 
+# EXPOSE 8783 
 
 # Start the app
 CMD ["Rscript", "calc.R"]

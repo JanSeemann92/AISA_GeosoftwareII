@@ -895,7 +895,7 @@ function sendValuesTrainingdata(format, ymin, xmin, ymax, xmax, cloudcover, reso
   document.getElementById('start').style.display = 'none';
   document.getElementById('msgstart').style.display = 'block';
       $.ajax({
-        url: `http://44.234.41.163:8081/noModel?format=${format}&lat1=${ymax}&long1=${xmin}&lat2=${ymin}&long2=${xmax}&cov=${cloudcover}&reso=${resolution}`,
+        url: `http://44.234.41.163:8782/noModel?format=${format}&lat1=${ymax}&long1=${xmin}&lat2=${ymin}&long2=${xmax}&cov=${cloudcover}&reso=${resolution}`,
         type: 'POST',
         beforeSend: function(){$('#loading').html("<img src= 'https://media.giphy.com/media/lPcbCcPfACi3ncc3cv/giphy.gif' width ='150' />")},
         success: function(){
@@ -916,7 +916,7 @@ function sendValuesModel(ymin, xmin, ymax, xmax, cloudcover, resolution){
   document.getElementById('start').style.display = 'none';
   document.getElementById('msgstart').style.display = 'block';
     $.ajax({
-        url: `http://44.234.41.163:8081/withModel?lat1=${ymax}&long1=${xmin}&lat2=${ymin}&long2=${xmax}&cov=${cloudcover}&reso=${resolution}`,
+        url: `http://44.234.41.163:8782/withModel?lat1=${ymax}&long1=${xmin}&lat2=${ymin}&long2=${xmax}&cov=${cloudcover}&reso=${resolution}`,
         type: 'POST',
         beforeSend: function(){$('#loading').html("<img src= 'https://media.giphy.com/media/lPcbCcPfACi3ncc3cv/giphy.gif' width ='150' />")},
         success: function(){
