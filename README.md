@@ -79,6 +79,7 @@ The AOI can either be entered by drawing a rectangle on a given leaflet map or b
 - The LULC classes must be stored under the name "Label".
 - Training data should consist of polygons.
 - At least two polygons must be given for each LULC class (as spatial cross validation based on the polygons is used).
+- A CRS must be given but without further requirements.
 
 ### Model
 - Models must come as single R objects (.RDS).
