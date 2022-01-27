@@ -17,38 +17,37 @@
 rm(list=ls())
 
 # load packages for training and AOA
-#library(raster)
-#library(sf)
-#library(caret)
-#library(CAST)
-#library(doParallel) # loads dependencies too
-  # load packages for API
-#library(beakr)
-#library(rgdal)
-  # load packages for exporting geojson and JSON
-#library(geojson)
-#library(RJSONIO)
-  # load packages for image generation from AWS
-#library(rstac) 
-#library(gdalcubes)
-  # library(stars)
-  # library(magick)
-  # library(rmarkdown) 
-  # library(ncdf4)
-  # library(Rcpp)
-  # library(jsonlite)
-  # library(RcppProgress)
-  # library(tmap)
+library(raster)
+library(sf)
+library(caret)
+library(CAST)
+library(doParallel) # loads dependencies too
+# load packages for API
+library(beakr)
+library(rgdal)
+# load packages for exporting geojson and JSON
+library(geojson)
+library(RJSONIO)
+# load packages for image generation from AWS
+library(rstac)
+library(gdalcubes)
+# library(stars)
+# library(magick)
+# library(rmarkdown)
+# library(ncdf4)
+# library(Rcpp)
+# library(jsonlite)
+# library(RcppProgress)
+# library(tmap)
 
-getwd()
-setwd("/home/ubuntu/AISA_GeosoftwareII/Backend")
-#getwd()
 # set working directory: directory which includes needed data
 #### needs to be changed later on to the hosting server
 #setwd("/home/ubuntu/AISA_GeosoftwareII/Backend")
   #setwd("C:/Users/katha/Documents/GitHub/AISA_GeosoftwareII/Backend/")
   #setwd("D:/Studium/Geosoftware1/AISA_GeosoftwareII/Backend/")
-  #setwd("C:/Users/lgits/Documents/GitHub/AISA_GeosoftwareII/Backend/")
+  setwd("C:/Users/lgits/Documents/GitHub/AISA_GeosoftwareII/Backend/")
+#getwd()
+#setwd("/home/ubuntu/AISA_GeosoftwareII/Backend")
 
 #######################################################################
 
@@ -147,14 +146,14 @@ generateImage <- function (cloudcover, resolution, left, right, top, bottom, typ
                   "median(B11)",
                   "median(B12)",
                   "median(B8A)")) %>%
-    write_tif(dir="/home/ubuntu/AISA_GeosoftwareII/Backend/data/sentinel", prefix = filename) %>%     # set correct directory
+    write_tif(dir="C:/Users/lgits/Documents/GitHub/AISA_GeosoftwareII/Backend/data/sentinel", prefix = filename) %>%     # set correct directory
     # plot(rgb = 3:1, zlim=c(0,1800)) %>%
     # system.time()
     
     return()
 }
 
-
+  # "C:/Users/lgits/Documents/GitHub/AISA_GeosoftwareII/Backend/data/sentinel"
 
 
 #######################################################################
@@ -323,7 +322,7 @@ checkTrainData <- function(trainData) {
     # check if at least 2 entries per Label
     counts <- as.data.frame(table(trainData$Label))
     for (i in 1:(length(counts$Freq))) {
-      if (counts$Freq < 2) {
+      if (counts$Freq[i] < 2) {
         return(FALSE)
       }
     }
@@ -406,8 +405,11 @@ httpPOST(path = '/withModel', function(req,res,err) {
   # check for correct requirements on input data
   if (checkModel(model) == TRUE) {
     output_string <- "ok"
+    print(output_string)
+    # return((output_string))
   } else {
     output_string <- "invalid model"
+    print(output_string)
     return(output_string) # abort calculation
   }
   
@@ -500,8 +502,11 @@ httpPOST(path = '/noModel', function(req,res,err) {
   # check for correct requirements on input data
   if (checkTrainData(trainingsites) == TRUE) {
     output_string <- "ok"
+    print(output_string)
+    # return((output_string))
   } else {
     output_string <- "invalid trainingdata"
+    print(output_string)
     return(output_string) # abort calculation
   }
   
@@ -659,14 +664,14 @@ httpGET(path = '/runDemo', function(req,res,err) {
   
   ########################################
 # Host the directory of static files  
-#serveStaticFiles("/verzeichnisdemodaten", "C:/Users/lgits/Documents/GitHub/AISA_GeosoftwareII/Backend/", verbose = TRUE) %>%
+serveStaticFiles("/verzeichnisdemodaten", "C:/Users/lgits/Documents/GitHub/AISA_GeosoftwareII/Backend/", verbose = TRUE) %>%
 #serveStaticFiles("/verzeichnisdemodaten", "D:/Studium/Geosoftware1/AISA_GeosoftwareII/Backend/", verbose = TRUE) %>%
-serveStaticFiles("/verzeichnisdemodaten", "/home/ubuntu/AISA_GeosoftwareII/Backend/", verbose = TRUE) %>%
+#serveStaticFiles("/verzeichnisdemodaten", "/home/ubuntu/AISA_GeosoftwareII/Backend/", verbose = TRUE) %>%
   
   handleErrors() %>%
   
-#listen(host = "127.0.0.1", port = 25118) #for local testing
- listen(host = "44.234.41.163", port =  8081) #for AWS
+listen(host = "127.0.0.1", port = 25118) #for local testing
+# listen(host = "44.234.41.163", port =  8081) #for AWS
 
 
 
