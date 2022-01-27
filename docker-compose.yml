@@ -21,4 +21,7 @@ services:
     container_name: aisa-data
     ports:
       - "8782:8782"
-
+    volumes:
+      -type: bind
+      source: /home/ubuntu/AISA_GeosoftwareII/Backend
+      target: /home/ubuntu/AISA_GeosoftwareII/Backend 
