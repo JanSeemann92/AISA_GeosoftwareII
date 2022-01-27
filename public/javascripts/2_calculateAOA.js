@@ -83,6 +83,9 @@ slider.oninput = function() {
  * whereupon after a little calculation time the redirection to the result page takes place.
  */
 function startCalculation(){
+  // Hide error mesage
+  document.getElementById('msgtrainingdataR').style.display = 'none';
+  document.getElementById('msgmodelR').style.display = 'none';
   // Coordinate input or draw rectangle?
   var state = document.querySelector("#choose2").options.selectedIndex;
   console.log(state)
@@ -898,9 +901,14 @@ function sendValuesTrainingdata(format, ymin, xmin, ymax, xmax, cloudcover, reso
         url: `http://44.234.41.163:8081/noModel?format=${format}&lat1=${ymax}&long1=${xmin}&lat2=${ymin}&long2=${xmax}&cov=${cloudcover}&reso=${resolution}`,
         type: 'POST',
         beforeSend: function(){$('#loading').html("<img src= 'https://media.giphy.com/media/lPcbCcPfACi3ncc3cv/giphy.gif' width ='150' />")},
-        success: function(){
+        success: function(res){
+          if (res == "ok") {
         ($('#loading').hide("<img src= 'https://media.giphy.com/media/lPcbCcPfACi3ncc3cv/giphy.gif' width ='150'/>")),
         window.location.href= '/ownresultAOA'
+          } else if (res == "invalid trainingdata") {
+            document.getElementById('msgtrainingdataR').style.display = 'block';
+            return false
+          }
     }})}
 
 /** 
@@ -919,7 +927,12 @@ function sendValuesModel(ymin, xmin, ymax, xmax, cloudcover, resolution){
         url: `http://44.234.41.163:8081/withModel?lat1=${ymax}&long1=${xmin}&lat2=${ymin}&long2=${xmax}&cov=${cloudcover}&reso=${resolution}`,
         type: 'POST',
         beforeSend: function(){$('#loading').html("<img src= 'https://media.giphy.com/media/lPcbCcPfACi3ncc3cv/giphy.gif' width ='150' />")},
-        success: function(){
+        success: function(res){
+          if (res == "ok") {
         ($('#loading').hide("<img src= 'https://media.giphy.com/media/lPcbCcPfACi3ncc3cv/giphy.gif' width ='150'/>")),
         window.location.href= '/ownresultAOA'
+          } else if (res == "invalid model") {
+            document.getElementById('msgmodelR').style.display = 'block';
+            return false
+          }
     }})}
