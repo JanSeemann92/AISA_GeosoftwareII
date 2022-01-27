@@ -351,8 +351,12 @@ checkTrainData <- function(trainData) {
 ########################################################################
 
 checkModel <- function(model) {
-  # check if model only contains allowed bandnames
+  # check if there are any predictor names
   modelnames <- model$finalModel$xNames
+  if (length(modelnames) == 0) {
+    return(FALSE)
+  }
+  # check if model only contains allowed predictor names
   bandnames <- c("B02","B03","B04","B05","B06","B07","B08","B11","B12","B8A")
   MnamesNotInBnames <- subset(modelnames, !(modelnames %in% bandnames))
   if (length(MnamesNotInBnames) > 0) {
@@ -488,18 +492,17 @@ httpPOST(path = '/noModel', function(req,res,err) {
   dataformat <- req$parameters$format   # variables names must be checked with frontend
   if (dataformat == "geopackage") {
     trainingsites <- st_read("data/upload/upload.gpkg")
-    
-    # check for correct requirements on input data
-    if (checkTrainData(trainingsites) == TRUE) {
-      output_string <- "ok"
-    } else {
-      output_string <- "invalid gpkg"
-      return(output_string) # abort calculation
-    }
-    
   } else {
     trainingsites <- st_read("data/upload/upload.geojson")
     # no checking needed as already done in frontend
+  }
+  
+  # check for correct requirements on input data
+  if (checkTrainData(trainingsites) == TRUE) {
+    output_string <- "ok"
+  } else {
+    output_string <- "invalid trainingdata"
+    return(output_string) # abort calculation
   }
   
   
