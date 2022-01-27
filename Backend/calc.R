@@ -312,7 +312,7 @@ NewSamplingLocations <- function(areaOA) {
 
 checkTrainData <- function(trainData) {
   # check if data has property "Label" and "Label" is not empty
-  if (length(trainData) <= 0) {
+  if (length(trainData$Label) <= 0) {
     return(FALSE)
   }
   # check if data has CRS
@@ -321,7 +321,7 @@ checkTrainData <- function(trainData) {
   } 
   else {
     # check if at least 2 entries per Label
-    counts <- as.data.frame(table(trainData_Label$Label))
+    counts <- as.data.frame(table(trainData$Label))
     for (i in 1:(length(counts$Freq))) {
       if (counts$Freq < 2) {
         return(FALSE)
@@ -512,6 +512,13 @@ httpPOST(path = '/noModel', function(req,res,err) {
   # for reference see: https://spatialreference.org/ref/sr-org/6627/
   trainingsites <- st_transform(trainingsites, crs = "+proj=longlat +datum=WGS84 +no_defs")
   
+  #testing
+  print(req$parameters$lat1)
+  print(req$parameters$long1)
+  print(req$parameters$lat2)
+  print(req$parameters$long2)
+  print(req$parameters$cov)
+  print(req$parameters$reso)
   
   # parameters for training
   right <- st_bbox(trainingsites)[3]    #xmax
@@ -525,14 +532,6 @@ httpPOST(path = '/noModel', function(req,res,err) {
   # generate sentinel images from AWS for training
   generateImage(cov, reso, left, right, top, bottom, type)
   
-  
-  #testing
-  print(req$parameters$lat1)
-  print(req$parameters$long1)
-  print(req$parameters$lat2)
-  print(req$parameters$long2)
-  print(req$parameters$cov)
-  print(req$parameters$reso)
   
   # parameters for AOI
   top <- as.numeric(req$parameters$lat1)
