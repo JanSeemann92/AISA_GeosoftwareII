@@ -157,6 +157,7 @@ function startCalculation(){
                       document.getElementById('uploadbutton').click();
                       // Call function to send the entered data to the backend 
                       sendValuesTrainingdata(format, ymin, xmin, ymax, xmax, cloudcover, resolution)
+                      return
                     }
                     // Show message if format is invalid
                     else{
@@ -186,6 +187,7 @@ function startCalculation(){
                   document.getElementById('uploadbutton').click();
                   // Call function to send the entered data to the backend 
                   sendValuesTrainingdata(format, ymin, xmin, ymax, xmax, cloudcover, resolution)
+                  return
                 }
                 // Show message when file is empty
                 else{
@@ -211,6 +213,7 @@ function startCalculation(){
                   document.getElementById('uploadbutton').click();
                   // Call function to send the entered data to the backend 
                   sendValuesModel(ymin, xmin, ymax, xmax, cloudcover, resolution)
+                  return
                 }
                 // Show message when file is empty
                 else{
@@ -287,6 +290,7 @@ function startCalculation(){
                       document.getElementById('uploadbutton').click();
                       // Call function to send the entered data to the backend 
                       sendValuesTrainingdata(format, ymin, xmin, ymax, xmax, cloudcover, resolution)
+                      return
                     }
                     // Show message if format is invalid
                     else{
@@ -316,6 +320,7 @@ function startCalculation(){
                     document.getElementById('uploadbutton').click();
                     // Call function to send the entered data to the backend 
                     sendValuesTrainingdata(format, ymin, xmin, ymax, xmax, cloudcover, resolution)
+                    return
                   }
                   // Show message when file is empty
                   else{
@@ -341,6 +346,7 @@ function startCalculation(){
                     document.getElementById('uploadbutton').click();
                     // Call function to send the entered data to the backend 
                     sendValuesModel(ymin, xmin, ymax, xmax, cloudcover, resolution)
+                    return
                   }
                   // Show message when file is empty
                   else{
@@ -452,6 +458,7 @@ function startCalculation(){
                       document.getElementById('uploadbutton').click();
                       // Call function to send the entered data to the backend 
                       sendValuesTrainingdata(format, ymin, xmin, ymax, xmax, cloudcover, resolution)
+                      return
                     }
                     // Show message if format is invalid
                     else{
@@ -481,6 +488,7 @@ function startCalculation(){
                     document.getElementById('uploadbutton').click();
                     // Call function to send the entered data to the backend 
                     sendValuesTrainingdata(format, ymin, xmin, ymax, xmax, cloudcover, resolution)
+                    return
                   }
                   // Show message when file is empty
                   else{
@@ -595,6 +603,7 @@ function startCalculation(){
                       document.getElementById('uploadbutton').click();
                       // Call function to send the entered data to the backend 
                       sendValuesTrainingdata(format, ymin, xmin, ymax, xmax, cloudcover, resolution)
+                      return
                     }
                     // Show message if format is invalid
                     else{
@@ -624,6 +633,7 @@ function startCalculation(){
                     document.getElementById('uploadbutton').click();
                     // Call function to send the entered data to the backend 
                     sendValuesTrainingdata(format, ymin, xmin, ymax, xmax, cloudcover, resolution)
+                    return
                   }
                   // Show message when file is empty
                   else{
@@ -649,6 +659,7 @@ function startCalculation(){
                     document.getElementById('uploadbutton').click();
                     // Call function to send the entered data to the backend 
                     sendValuesModel(ymin, xmin, ymax, xmax, cloudcover, resolution)
+                    return
                   }
                   // Show message when file is empty
                   else{
@@ -901,7 +912,11 @@ function sendValuesTrainingdata(format, ymin, xmin, ymax, xmax, cloudcover, reso
         success: function(){
         ($('#loading').hide("<img src= 'https://media.giphy.com/media/lPcbCcPfACi3ncc3cv/giphy.gif' width ='150'/>")),
         window.location.href= '/ownresultAOA'
-    }})}
+        },
+        error: function (thrownError) {
+          alert(thrownError);
+        }
+    })}
 
 /** 
  * Case: model: Sends data via AJAX to the backend, meanwhile shows a loading gif and then redirects to the results page
@@ -922,4 +937,8 @@ function sendValuesModel(ymin, xmin, ymax, xmax, cloudcover, resolution){
         success: function(){
         ($('#loading').hide("<img src= 'https://media.giphy.com/media/lPcbCcPfACi3ncc3cv/giphy.gif' width ='150'/>")),
         window.location.href= '/ownresultAOA'
-    }})}
+        },
+        error: function (thrownError) {
+          alert(xhr.status);
+          alert(thrownError);
+        }})}
