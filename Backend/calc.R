@@ -575,7 +575,7 @@ httpGET(path = '/runDemo', function(req,res,err) {
 # Host the directory of static files  
 #serveStaticFiles("/verzeichnisdemodaten", "C:/Users/lgits/Documents/GitHub/AISA_GeosoftwareII/Backend/", verbose = TRUE) %>%
 #serveStaticFiles("/verzeichnisdemodaten", "D:/Studium/Geosoftware1/AISA_GeosoftwareII/Backend/", verbose = TRUE) %>%
-serveStaticFiles("/verzeichnisdemodaten", "/home/ubuntu/AISA_GeosoftwareII/Backend/", verbose = TRUE) %>%
+#serveStaticFiles("/verzeichnisdemodaten", "/home/ubuntu/AISA_GeosoftwareII/Backend/", verbose = TRUE) %>%
   
   handleErrors() %>%
   
