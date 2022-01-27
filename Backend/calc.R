@@ -17,20 +17,20 @@
 rm(list=ls())
 
 # load packages for training and AOA
-#library(raster)
-#library(sf)
-#library(caret)
-#library(CAST)
-#library(doParallel) # loads dependencies too
+library(raster)
+library(sf)
+library(caret)
+library(CAST)
+library(doParallel) # loads dependencies too
   # load packages for API
-#library(beakr)
-#library(rgdal)
+library(beakr)
+library(rgdal)
   # load packages for exporting geojson and JSON
-#library(geojson)
-#library(RJSONIO)
+library(geojson)
+library(RJSONIO)
   # load packages for image generation from AWS
-#library(rstac) 
-#library(gdalcubes)
+library(rstac) 
+library(gdalcubes)
   # library(stars)
   # library(magick)
   # library(rmarkdown) 
@@ -40,7 +40,7 @@ rm(list=ls())
   # library(RcppProgress)
   # library(tmap)
 
-getwd()
+#getwd()
 setwd("/home/ubuntu/AISA_GeosoftwareII/Backend")
 #getwd()
 # set working directory: directory which includes needed data
