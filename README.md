@@ -69,8 +69,9 @@ npm run start
 
 ### Area of Interest (AOI)
 
-- One out of two options can be chosen: Draw a rectangle on a given leaflet map or manually enter coordinates.
+The AOI can either be entered by drawing a rectangle on a given leaflet map or by manually entering coordinates. With the second options some specifications must be followed:
 - Manually entered coordinates must be given in EPSG4326.
+- Manually entering coordinates does not work for areas crossing 180° E/W. In this case please draw a bounding box on leaflet.
 
 ### Training Data
 
