@@ -158,7 +158,9 @@ function startCalculation(){
                       // Access to upload file
                       document.getElementById('uploadbutton').click();
                       // Call function to send the entered data to the backend 
-                      sendValuesTrainingdata(format, ymin, xmin, ymax, xmax, cloudcover, resolution)
+                      $('#loading').html("<img src= 'https://media.giphy.com/media/lPcbCcPfACi3ncc3cv/giphy.gif' width ='150' />")
+                      window.setTimeout(sendValuesTrainingdata, 1000, format, ymin, xmin, ymax, xmax, cloudcover, resolution);
+                      return
                     }
                     // Show message if format is invalid
                     else{
@@ -187,7 +189,9 @@ function startCalculation(){
                   // Access to upload file
                   document.getElementById('uploadbutton').click();
                   // Call function to send the entered data to the backend 
-                  sendValuesTrainingdata(format, ymin, xmin, ymax, xmax, cloudcover, resolution)
+                  $('#loading').html("<img src= 'https://media.giphy.com/media/lPcbCcPfACi3ncc3cv/giphy.gif' width ='150' />")
+                  window.setTimeout(sendValuesTrainingdata, 1000, format, ymin, xmin, ymax, xmax, cloudcover, resolution);
+                  return
                 }
                 // Show message when file is empty
                 else{
@@ -212,7 +216,9 @@ function startCalculation(){
                   // Access to upload file
                   document.getElementById('uploadbutton').click();
                   // Call function to send the entered data to the backend 
-                  sendValuesModel(ymin, xmin, ymax, xmax, cloudcover, resolution)
+                  $('#loading').html("<img src= 'https://media.giphy.com/media/lPcbCcPfACi3ncc3cv/giphy.gif' width ='150' />")
+                  window.setTimeout(sendValuesModel, 1000, format, ymin, xmin, ymax, xmax, cloudcover, resolution);
+                  return
                 }
                 // Show message when file is empty
                 else{
@@ -288,7 +294,9 @@ function startCalculation(){
                       // Access to upload file
                       document.getElementById('uploadbutton').click();
                       // Call function to send the entered data to the backend 
-                      sendValuesTrainingdata(format, ymin, xmin, ymax, xmax, cloudcover, resolution)
+                      $('#loading').html("<img src= 'https://media.giphy.com/media/lPcbCcPfACi3ncc3cv/giphy.gif' width ='150' />")
+                      window.setTimeout(sendValuesTrainingdata, 1000, format, ymin, xmin, ymax, xmax, cloudcover, resolution);
+                      return
                     }
                     // Show message if format is invalid
                     else{
@@ -317,7 +325,9 @@ function startCalculation(){
                     // Access to upload file
                     document.getElementById('uploadbutton').click();
                     // Call function to send the entered data to the backend 
-                    sendValuesTrainingdata(format, ymin, xmin, ymax, xmax, cloudcover, resolution)
+                    $('#loading').html("<img src= 'https://media.giphy.com/media/lPcbCcPfACi3ncc3cv/giphy.gif' width ='150' />")
+                    window.setTimeout(sendValuesTrainingdata, 1000, format, ymin, xmin, ymax, xmax, cloudcover, resolution);
+                    return
                   }
                   // Show message when file is empty
                   else{
@@ -342,7 +352,9 @@ function startCalculation(){
                     // Access to upload file
                     document.getElementById('uploadbutton').click();
                     // Call function to send the entered data to the backend 
-                    sendValuesModel(ymin, xmin, ymax, xmax, cloudcover, resolution)
+                    $('#loading').html("<img src= 'https://media.giphy.com/media/lPcbCcPfACi3ncc3cv/giphy.gif' width ='150' />")
+                    window.setTimeout(sendValuesModel, 1000, format, ymin, xmin, ymax, xmax, cloudcover, resolution);
+                    return
                   }
                   // Show message when file is empty
                   else{
@@ -453,7 +465,9 @@ function startCalculation(){
                       // Access to upload file
                       document.getElementById('uploadbutton').click();
                       // Call function to send the entered data to the backend 
-                      sendValuesTrainingdata(format, ymin, xmin, ymax, xmax, cloudcover, resolution)
+                      $('#loading').html("<img src= 'https://media.giphy.com/media/lPcbCcPfACi3ncc3cv/giphy.gif' width ='150' />")
+                      window.setTimeout(sendValuesTrainingdata, 1000, format, ymin, xmin, ymax, xmax, cloudcover, resolution);
+                      return
                     }
                     // Show message if format is invalid
                     else{
@@ -482,7 +496,9 @@ function startCalculation(){
                     // Access to upload file
                     document.getElementById('uploadbutton').click();
                     // Call function to send the entered data to the backend 
-                    sendValuesTrainingdata(format, ymin, xmin, ymax, xmax, cloudcover, resolution)
+                    $('#loading').html("<img src= 'https://media.giphy.com/media/lPcbCcPfACi3ncc3cv/giphy.gif' width ='150' />")
+                    window.setTimeout(sendValuesTrainingdata, 1000, format, ymin, xmin, ymax, xmax, cloudcover, resolution);
+                    return
                   }
                   // Show message when file is empty
                   else{
@@ -507,7 +523,8 @@ function startCalculation(){
                     // Access to upload file
                     document.getElementById('uploadbutton').click();
                     // Call function to send the entered data to the backend 
-                    sendValuesModel(ymin, xmin, ymax, xmax, cloudcover, resolution)
+                    $('#loading').html("<img src= 'https://media.giphy.com/media/lPcbCcPfACi3ncc3cv/giphy.gif' width ='150' />")
+                    window.setTimeout(sendValuesModel, 1000, format, ymin, xmin, ymax, xmax, cloudcover, resolution);
                   }
                   // Show message when file is empty
                   else{
@@ -596,8 +613,9 @@ function startCalculation(){
                       // Access to upload file
                       document.getElementById('uploadbutton').click();
                       // Call function to send the entered data to the backend 
-                      let timeoutID = window.setTimeout(sendValuesModel, 1000, format, ymin, xmin, ymax, xmax, cloudcover, resolution);
-                      return false
+                      $('#loading').html("<img src= 'https://media.giphy.com/media/lPcbCcPfACi3ncc3cv/giphy.gif' width ='150' />")
+                      window.setTimeout(sendValuesTrainingdata, 1000, format, ymin, xmin, ymax, xmax, cloudcover, resolution);
+                      return
                     }
                     // Show message if format is invalid
                     else{
@@ -627,7 +645,7 @@ function startCalculation(){
                     document.getElementById('uploadbutton').click();
                     // Call function to send the entered data to the backend 
                     $('#loading').html("<img src= 'https://media.giphy.com/media/lPcbCcPfACi3ncc3cv/giphy.gif' width ='150' />")
-                    let timeoutID = window.setTimeout(sendValuesTrainingdata, 1000, format, ymin, xmin, ymax, xmax, cloudcover, resolution);
+                    window.setTimeout(sendValuesTrainingdata, 1000, format, ymin, xmin, ymax, xmax, cloudcover, resolution);
                     return
                   }
                   // Show message when file is empty
@@ -653,7 +671,8 @@ function startCalculation(){
                     // Access to upload file
                     document.getElementById('uploadbutton').click();
                     // Call function to send the entered data to the backend 
-                    sendValuesModel(ymin, xmin, ymax, xmax, cloudcover, resolution)
+                    $('#loading').html("<img src= 'https://media.giphy.com/media/lPcbCcPfACi3ncc3cv/giphy.gif' width ='150' />")
+                    window.setTimeout(sendValuesModel, 1000, format, ymin, xmin, ymax, xmax, cloudcover, resolution);
                     return
                   }
                   // Show message when file is empty
@@ -897,7 +916,7 @@ function checkformatgeojson(fileAsGeojson){
  * @param {*} cloudcover 
  * @param {*} resolution 
  */
-function sendValuesTrainingdata(format, ymin, xmin, ymax, xmax, cloudcover, resolution){
+ function sendValuesTrainingdata(format, ymin, xmin, ymax, xmax, cloudcover, resolution){
   document.getElementById('start').style.display = 'none';
   document.getElementById('msgstart').style.display = 'block';
       $.ajax({
@@ -916,7 +935,12 @@ function sendValuesTrainingdata(format, ymin, xmin, ymax, xmax, cloudcover, reso
               window.stop();
               return;
             }
-    }})}
+    
+          },
+        error: function () {
+          alert("Unfortunately, an error has occurred.");
+          location.reload()
+          }})}
 
 /** 
  * Case: model: Sends data via AJAX to the backend, meanwhile shows a loading gif and then redirects to the results page
@@ -946,4 +970,65 @@ function sendValuesModel(ymin, xmin, ymax, xmax, cloudcover, resolution){
           window.stop();
           return;
           }
-    }})}
+        },
+        error: function () {
+          alert("Unfortunately, an error has occurred.");
+          location.reload()
+  }})}
+
+
+
+/**
+ * Case: trainingdata: Sends data via AJAX to the backend, meanwhile shows a loading gif and then redirects to the results page
+ * @param {*} ymin 
+ * @param {*} xmin 
+ * @param {*} ymax 
+ * @param {*} xmax 
+ * @param {*} cloudcover 
+ * @param {*} resolution 
+ */
+/** 
+ * function sendValuesTrainingdata(format, ymin, xmin, ymax, xmax, cloudcover, resolution){
+  document.getElementById('start').style.display = 'none';
+  document.getElementById('msgstart').style.display = 'block';
+      $.ajax({
+        url: `http://127.0.0.1:25118/noModel?format=${format}&lat1=${ymax}&long1=${xmin}&lat2=${ymin}&long2=${xmax}&cov=${cloudcover}&reso=${resolution}`,
+        type: 'POST',
+        beforeSend: function(){$('#loading').html("<img src= 'https://media.giphy.com/media/lPcbCcPfACi3ncc3cv/giphy.gif' width ='150' />")},
+        success: function(){
+        ($('#loading').hide("<img src= 'https://media.giphy.com/media/lPcbCcPfACi3ncc3cv/giphy.gif' width ='150'/>")),
+        window.location.href= '/ownresultAOA'
+        },
+        error: function () {
+          alert("Unfortunately, an error has occurred. You may have uploaded an incorrect geopackage. Please check the format of your input (check our Github page for more information) and try again.");
+          location.reload()
+        }
+    })}
+*/
+/** 
+ * Case: model: Sends data via AJAX to the backend, meanwhile shows a loading gif and then redirects to the results page
+ * @param {*} ymin 
+ * @param {*} xmin 
+ * @param {*} ymax 
+ * @param {*} xmax 
+ * @param {*} cloudcover 
+ * @param {*} resolution 
+ */
+/** 
+function sendValuesModel(ymin, xmin, ymax, xmax, cloudcover, resolution){
+  document.getElementById('start').style.display = 'none';
+  document.getElementById('msgstart').style.display = 'block';
+    $.ajax({
+        url: `http://127.0.0.1:25118/withModel?lat1=${ymax}&long1=${xmin}&lat2=${ymin}&long2=${xmax}&cov=${cloudcover}&reso=${resolution}`,
+        type: 'POST',
+        beforeSend: function(){$('#loading').html("<img src= 'https://media.giphy.com/media/lPcbCcPfACi3ncc3cv/giphy.gif' width ='150' />")},
+        success: function(){
+        ($('#loading').hide("<img src= 'https://media.giphy.com/media/lPcbCcPfACi3ncc3cv/giphy.gif' width ='150'/>")),
+        window.location.href= '/ownresultAOA'
+        },
+        error: function () {
+          alert("Unfortunately, an error has occurred. You may have uploaded an incorrect model. Please check the format of your input (check our Github page for more information) and try again.");
+          location.reload()
+        }})}
+        */
+
