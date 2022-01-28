@@ -11,14 +11,12 @@ services:
     network_mode: "host"
     depends_on:
       - backend # wird erst gestartet, wenn auch backend erfolgreich gestartet werden könnte
-    links: 
-      - backend
+    #links: 
+    #  - backend
 
   backend: 
     image: antonia123/aisabackend:latest
     build: ./Backend
-    #environment:
-    #  - NODE_ENV=production #evtl. weitere ergänzen
     container_name: aisa-data
     ports:
       - "8782:8782"
