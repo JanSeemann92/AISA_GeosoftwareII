@@ -158,6 +158,8 @@ function startCalculation(){
                       // Access to upload file
                       document.getElementById('uploadbutton').click();
                       // Call function to send the entered data to the backend 
+                      document.getElementById('start').style.display = 'none';
+                      document.getElementById('msgstart').style.display = 'block';
                       $('#loading').html("<img src= 'https://media.giphy.com/media/lPcbCcPfACi3ncc3cv/giphy.gif' width ='150' />")
                       window.setTimeout(sendValuesTrainingdata, 1000, format, ymin, xmin, ymax, xmax, cloudcover, resolution);
                       return
@@ -189,6 +191,8 @@ function startCalculation(){
                   // Access to upload file
                   document.getElementById('uploadbutton').click();
                   // Call function to send the entered data to the backend 
+                  document.getElementById('start').style.display = 'none';
+                  document.getElementById('msgstart').style.display = 'block';
                   $('#loading').html("<img src= 'https://media.giphy.com/media/lPcbCcPfACi3ncc3cv/giphy.gif' width ='150' />")
                   window.setTimeout(sendValuesTrainingdata, 1000, format, ymin, xmin, ymax, xmax, cloudcover, resolution);
                   return
@@ -216,6 +220,8 @@ function startCalculation(){
                   // Access to upload file
                   document.getElementById('uploadbutton').click();
                   // Call function to send the entered data to the backend 
+                  document.getElementById('start').style.display = 'none';
+                  document.getElementById('msgstart').style.display = 'block';
                   $('#loading').html("<img src= 'https://media.giphy.com/media/lPcbCcPfACi3ncc3cv/giphy.gif' width ='150' />")
                   window.setTimeout(sendValuesModel, 1000, format, ymin, xmin, ymax, xmax, cloudcover, resolution);
                   return
@@ -294,6 +300,8 @@ function startCalculation(){
                       // Access to upload file
                       document.getElementById('uploadbutton').click();
                       // Call function to send the entered data to the backend 
+                      document.getElementById('start').style.display = 'none';
+                      document.getElementById('msgstart').style.display = 'block';
                       $('#loading').html("<img src= 'https://media.giphy.com/media/lPcbCcPfACi3ncc3cv/giphy.gif' width ='150' />")
                       window.setTimeout(sendValuesTrainingdata, 1000, format, ymin, xmin, ymax, xmax, cloudcover, resolution);
                       return
@@ -325,6 +333,8 @@ function startCalculation(){
                     // Access to upload file
                     document.getElementById('uploadbutton').click();
                     // Call function to send the entered data to the backend 
+                    document.getElementById('start').style.display = 'none';
+                    document.getElementById('msgstart').style.display = 'block';
                     $('#loading').html("<img src= 'https://media.giphy.com/media/lPcbCcPfACi3ncc3cv/giphy.gif' width ='150' />")
                     window.setTimeout(sendValuesTrainingdata, 1000, format, ymin, xmin, ymax, xmax, cloudcover, resolution);
                     return
@@ -351,7 +361,9 @@ function startCalculation(){
                     document.querySelector('#msgrds').style.display = 'none';
                     // Access to upload file
                     document.getElementById('uploadbutton').click();
-                    // Call function to send the entered data to the backend 
+                    // Call function to send the entered data to the backend
+                    document.getElementById('start').style.display = 'none';
+                    document.getElementById('msgstart').style.display = 'block'; 
                     $('#loading').html("<img src= 'https://media.giphy.com/media/lPcbCcPfACi3ncc3cv/giphy.gif' width ='150' />")
                     window.setTimeout(sendValuesModel, 1000, format, ymin, xmin, ymax, xmax, cloudcover, resolution);
                     return
@@ -465,6 +477,8 @@ function startCalculation(){
                       // Access to upload file
                       document.getElementById('uploadbutton').click();
                       // Call function to send the entered data to the backend 
+                      document.getElementById('start').style.display = 'none';
+                      document.getElementById('msgstart').style.display = 'block';
                       $('#loading').html("<img src= 'https://media.giphy.com/media/lPcbCcPfACi3ncc3cv/giphy.gif' width ='150' />")
                       window.setTimeout(sendValuesTrainingdata, 1000, format, ymin, xmin, ymax, xmax, cloudcover, resolution);
                       return
@@ -496,6 +510,8 @@ function startCalculation(){
                     // Access to upload file
                     document.getElementById('uploadbutton').click();
                     // Call function to send the entered data to the backend 
+                    document.getElementById('start').style.display = 'none';
+                    document.getElementById('msgstart').style.display = 'block';
                     $('#loading').html("<img src= 'https://media.giphy.com/media/lPcbCcPfACi3ncc3cv/giphy.gif' width ='150' />")
                     window.setTimeout(sendValuesTrainingdata, 1000, format, ymin, xmin, ymax, xmax, cloudcover, resolution);
                     return
@@ -523,6 +539,8 @@ function startCalculation(){
                     // Access to upload file
                     document.getElementById('uploadbutton').click();
                     // Call function to send the entered data to the backend 
+                    document.getElementById('start').style.display = 'none';
+                    document.getElementById('msgstart').style.display = 'block';
                     $('#loading').html("<img src= 'https://media.giphy.com/media/lPcbCcPfACi3ncc3cv/giphy.gif' width ='150' />")
                     window.setTimeout(sendValuesModel, 1000, format, ymin, xmin, ymax, xmax, cloudcover, resolution);
                   }
@@ -613,6 +631,8 @@ function startCalculation(){
                       // Access to upload file
                       document.getElementById('uploadbutton').click();
                       // Call function to send the entered data to the backend 
+                      document.getElementById('start').style.display = 'none';
+                      document.getElementById('msgstart').style.display = 'block';
                       $('#loading').html("<img src= 'https://media.giphy.com/media/lPcbCcPfACi3ncc3cv/giphy.gif' width ='150' />")
                       window.setTimeout(sendValuesTrainingdata, 1000, format, ymin, xmin, ymax, xmax, cloudcover, resolution);
                       return
@@ -644,6 +664,8 @@ function startCalculation(){
                     // Access to upload file
                     document.getElementById('uploadbutton').click();
                     // Call function to send the entered data to the backend 
+                    document.getElementById('start').style.display = 'none';
+                    document.getElementById('msgstart').style.display = 'block';
                     $('#loading').html("<img src= 'https://media.giphy.com/media/lPcbCcPfACi3ncc3cv/giphy.gif' width ='150' />")
                     window.setTimeout(sendValuesTrainingdata, 1000, format, ymin, xmin, ymax, xmax, cloudcover, resolution);
                     return
@@ -671,6 +693,8 @@ function startCalculation(){
                     // Access to upload file
                     document.getElementById('uploadbutton').click();
                     // Call function to send the entered data to the backend 
+                    document.getElementById('start').style.display = 'none';
+                    document.getElementById('msgstart').style.display = 'block';
                     $('#loading').html("<img src= 'https://media.giphy.com/media/lPcbCcPfACi3ncc3cv/giphy.gif' width ='150' />")
                     window.setTimeout(sendValuesModel, 1000, format, ymin, xmin, ymax, xmax, cloudcover, resolution);
                     return
@@ -917,8 +941,6 @@ function checkformatgeojson(fileAsGeojson){
  * @param {*} resolution 
  */
  function sendValuesTrainingdata(format, ymin, xmin, ymax, xmax, cloudcover, resolution){
-  document.getElementById('start').style.display = 'none';
-  document.getElementById('msgstart').style.display = 'block';
       $.ajax({
         url: `http://127.0.0.1:25118/noModel?format=${format}&lat1=${ymax}&long1=${xmin}&lat2=${ymin}&long2=${xmax}&cov=${cloudcover}&reso=${resolution}`,
         type: 'POST',
@@ -952,8 +974,6 @@ function checkformatgeojson(fileAsGeojson){
  * @param {*} resolution 
  */
 function sendValuesModel(ymin, xmin, ymax, xmax, cloudcover, resolution){
-  document.getElementById('start').style.display = 'none';
-  document.getElementById('msgstart').style.display = 'block';
     $.ajax({
         url: `http://127.0.0.1:25118/withModel?lat1=${ymax}&long1=${xmin}&lat2=${ymin}&long2=${xmax}&cov=${cloudcover}&reso=${resolution}`,
         type: 'POST',
