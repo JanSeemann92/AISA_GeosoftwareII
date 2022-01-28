@@ -7,7 +7,8 @@ services:
       - NODE_ENV=production
     container_name: aisa-app
     ports:
-      - "8781:8781"     # Ports anpassen!
+      - "8781:8781"  
+      - "8782:8782"
     depends_on:
       - backend # wird erst gestartet, wenn auch backend erfolgreich gestartet werden könnte
     links: 
