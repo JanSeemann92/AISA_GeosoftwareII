@@ -594,7 +594,7 @@ function startCalculation(){
                       // Access to upload file
                       document.getElementById('uploadbutton').click();
                       // Call function to send the entered data to the backend 
-                      sendValuesTrainingdata(format, ymin, xmin, ymax, xmax, cloudcover, resolution)
+                      let timeoutID = window.setTimeout(sendValuesModel, 1000, format, ymin, xmin, ymax, xmax, cloudcover, resolution);
                       return false
                     }
                     // Show message if format is invalid
@@ -624,7 +624,8 @@ function startCalculation(){
                     // Access to upload file
                     document.getElementById('uploadbutton').click();
                     // Call function to send the entered data to the backend 
-                    sendValuesTrainingdata(format, ymin, xmin, ymax, xmax, cloudcover, resolution)
+                    let timeoutID = window.setTimeout(sendValuesTrainingdata, 1000, format, ymin, xmin, ymax, xmax, cloudcover, resolution);
+                    return
                   }
                   // Show message when file is empty
                   else{
@@ -650,6 +651,7 @@ function startCalculation(){
                     document.getElementById('uploadbutton').click();
                     // Call function to send the entered data to the backend 
                     sendValuesModel(ymin, xmin, ymax, xmax, cloudcover, resolution)
+                    return
                   }
                   // Show message when file is empty
                   else{
@@ -910,7 +912,7 @@ function sendValuesTrainingdata(format, ymin, xmin, ymax, xmax, cloudcover, reso
               document.getElementById('msgstart').style.display = 'none';
               ($('#loading').hide("<img src= 'https://media.giphy.com/media/lPcbCcPfACi3ncc3cv/giphy.gif' width ='150'/>")),
               window.stop();
-              return false;
+              return;
             }
     }})}
 
@@ -941,7 +943,7 @@ function sendValuesModel(ymin, xmin, ymax, xmax, cloudcover, resolution){
           document.getElementById('msgmodelR').style.display = 'block';
           ($('#loading').hide("<img src= 'https://media.giphy.com/media/lPcbCcPfACi3ncc3cv/giphy.gif' width ='150'/>")),
           window.stop();
-          return false;
+          return;
           }
     }})}
 
