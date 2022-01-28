@@ -14,6 +14,7 @@ var icon = L.icon({
  * Loading the demo AOA:
  * Accesses the demo AOA, saves it as a GeoRasterLayer in a leaflet layerGroup, adjusts the colors, and then calls the createAOALayer(layerAOA) 
  * function to display the layer on the map.
+ * Source used for function: https://github.com/GeoTIFF/georaster-layer-for-leaflet, Copyright 2019 Daniel J. Dufour
  */
 
  var url_to_geotiff_file = "http://127.0.0.1:25118/Backend/demodata/createdbyAISAtool/aoaOutput.tif";
@@ -92,6 +93,7 @@ var icon = L.icon({
  * Loading the demo prediction:
  * Accesses the demo prediction, saves it as a GeoRasterLayer in a leaflet layerGroup, adjusts the colors, and then calls the 
  * createPredictionLayer(layerPrediction) function to display the layer on the map.
+ * Source used for function: https://github.com/GeoTIFF/georaster-layer-for-leaflet, Copyright 2019 Daniel J. Dufour
  */
 
  $.ajax({
