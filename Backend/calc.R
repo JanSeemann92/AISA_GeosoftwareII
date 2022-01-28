@@ -406,7 +406,7 @@ httpPOST(path = '/withModel', function(req,res,err) {
   if (checkModel(model) == TRUE) {
     output_string <- "ok"
     print(output_string)
-    return((output_string))
+    # return((output_string))
   } else {
     output_string <- "invalid model"
     print(output_string)
@@ -535,7 +535,7 @@ httpPOST(path = '/noModel', function(req,res,err) {
   reso <- as.numeric(req$parameters$reso)
   type <- "training"
   
-  return(output_string)
+  # return(output_string)
   
   # generate sentinel images from AWS for training
   generateImage(cov, reso, left, right, top, bottom, type)
