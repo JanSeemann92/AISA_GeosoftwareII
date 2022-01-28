@@ -40,9 +40,8 @@ block content
     .col-2
       #textarea
         p
-          | Next you need to choose whether you want to upload an already trained model 
-          | or some training data. Afterwards you need to use the direct file upload to 
-          | upload your model/data.
+          | Next, you need to upload a model in .rds format or training data in .geojson/.gpkg format. 
+          | You can find more detailed format information on our #[a(href = 'https://github.com/JanSeemann92/AISA_GeosoftwareII') Github page.]
     .col-6
       img.img-fluid(src='/stylesheets/step2.jpg') 
       br
@@ -59,11 +58,7 @@ block content
     .col-2
       #textarea
         p
-          | Great! Now you can start the calculation with "Start calculation". 
-          | The calculation process will take a little time, so please be patient! 
-          | When the calculation is finished, you will be redirected to the results 
-          | and can view the calculated AOA, the prediction, the training polygons 
-          | and the suggested sampling points on a map using LayerControls.
+          | Optionally you can change the settings for the cloud cover and the resolution.
     .col-6
       img.img-fluid(src='/stylesheets/step3.jpg') 
       br
@@ -80,12 +75,34 @@ block content
     .col-2
       #textarea
         p
+          | Great! Now you can start the calculation with "Start calculation". 
+          | The calculation process will take a little time, so please be patient! 
+          | When the calculation is finished, you will be redirected to the results 
+          | and can view the calculated AOA, the prediction, the training polygons (depending on the input case) 
+          | and the suggested sampling points (depends on whether there are areas outside the AOA in the area under consideration.) 
+          | on a map using LayerControls.
+    .col-6
+      img.img-fluid(src='/stylesheets/step4.jpg') 
+      br
+      br
+      br
+      br
+      br
+
+  //- step 5
+  .row
+    .col-1 
+      #heading 
+        p Step 5
+    .col-2
+      #textarea
+        p
           | Finally, you have the possibility to download the data as a 
           | bundled .zip file by clicking on one of the download buttons. 
           | Besides your own calculated data we also offer you the demo data 
           | of our demo calculation (see below).
     .col-6
-      img.img-fluid(src='/stylesheets/step4.jpg') 
+      img.img-fluid(src='/stylesheets/step5.jpg') 
       br
       br
       br

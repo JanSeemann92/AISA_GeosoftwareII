@@ -913,8 +913,9 @@ function sendValuesTrainingdata(format, ymin, xmin, ymax, xmax, cloudcover, reso
         ($('#loading').hide("<img src= 'https://media.giphy.com/media/lPcbCcPfACi3ncc3cv/giphy.gif' width ='150'/>")),
         window.location.href= '/ownresultAOA'
         },
-        error: function (thrownError) {
-          alert(thrownError);
+        error: function () {
+          alert("Unfortunately, an error has occurred. You may have uploaded an incorrect geopackage. Please check the format of your input (check our Github page for more information) and try again.");
+          location.reload()
         }
     })}
 
@@ -938,7 +939,7 @@ function sendValuesModel(ymin, xmin, ymax, xmax, cloudcover, resolution){
         ($('#loading').hide("<img src= 'https://media.giphy.com/media/lPcbCcPfACi3ncc3cv/giphy.gif' width ='150'/>")),
         window.location.href= '/ownresultAOA'
         },
-        error: function (thrownError) {
-          alert(xhr.status);
-          alert(thrownError);
+        error: function () {
+          alert("Unfortunately, an error has occurred. You may have uploaded an incorrect model. Please check the format of your input (check our Github page for more information) and try again.");
+          location.reload()
         }})}
