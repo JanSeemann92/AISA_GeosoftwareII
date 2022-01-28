@@ -935,7 +935,12 @@ function checkformatgeojson(fileAsGeojson){
               window.stop();
               return;
             }
-    }})}
+    
+          },
+        error: function () {
+          alert("Unfortunately, an error has occurred.");
+          location.reload()
+          }})}
 
 /** 
  * Case: model: Sends data via AJAX to the backend, meanwhile shows a loading gif and then redirects to the results page
@@ -965,7 +970,12 @@ function sendValuesModel(ymin, xmin, ymax, xmax, cloudcover, resolution){
           window.stop();
           return;
           }
-    }})}
+        },
+        error: function () {
+          alert("Unfortunately, an error has occurred.");
+          location.reload()
+  }})}
+
 
 
 /**
