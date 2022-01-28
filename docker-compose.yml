@@ -8,7 +8,8 @@ services:
     container_name: aisa-app
     ports:
       - "8781:8781"  
-      - "8782:8782"
+    networks:
+      - default
     depends_on:
       - backend # wird erst gestartet, wenn auch backend erfolgreich gestartet werden könnte
     links: 
@@ -22,7 +23,13 @@ services:
     container_name: aisa-data
     ports:
       - "8782:8782"
+    networks:
+      - default
     volumes:
       - type: bind
         source: /home/ubuntu/AISA_GeosoftwareII/Backend
         target: /home/ubuntu/AISA_GeosoftwareII/Backend 
+
+networks:
+  default:
+    driver: bridge
