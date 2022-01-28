@@ -83,6 +83,8 @@ slider.oninput = function() {
  * whereupon after a little calculation time the redirection to the result page takes place.
  */
 function startCalculation(){
+  document.querySelector('#msgtrainingdataR').style.display = 'none';
+  document.querySelector('#msgmodelR').style.display = 'none';
   // Coordinate input or draw rectangle?
   var state = document.querySelector("#choose2").options.selectedIndex;
   console.log(state)
@@ -624,6 +626,7 @@ function startCalculation(){
                     // Access to upload file
                     document.getElementById('uploadbutton').click();
                     // Call function to send the entered data to the backend 
+                    $('#loading').html("<img src= 'https://media.giphy.com/media/lPcbCcPfACi3ncc3cv/giphy.gif' width ='150' />")
                     let timeoutID = window.setTimeout(sendValuesTrainingdata, 1000, format, ymin, xmin, ymax, xmax, cloudcover, resolution);
                     return
                   }
@@ -900,7 +903,6 @@ function sendValuesTrainingdata(format, ymin, xmin, ymax, xmax, cloudcover, reso
       $.ajax({
         url: `http://127.0.0.1:25118/noModel?format=${format}&lat1=${ymax}&long1=${xmin}&lat2=${ymin}&long2=${xmax}&cov=${cloudcover}&reso=${resolution}`,
         type: 'POST',
-        beforeSend: function(){$('#loading').html("<img src= 'https://media.giphy.com/media/lPcbCcPfACi3ncc3cv/giphy.gif' width ='150' />")},
         success: function(res){
             console.log(res)
             if (res == "ok") {
@@ -931,7 +933,6 @@ function sendValuesModel(ymin, xmin, ymax, xmax, cloudcover, resolution){
     $.ajax({
         url: `http://127.0.0.1:25118/withModel?lat1=${ymax}&long1=${xmin}&lat2=${ymin}&long2=${xmax}&cov=${cloudcover}&reso=${resolution}`,
         type: 'POST',
-        beforeSend: function(){$('#loading').html("<img src= 'https://media.giphy.com/media/lPcbCcPfACi3ncc3cv/giphy.gif' width ='150' />")},
         success: function(res){
           console.log(res)
           if (res == "ok") {
@@ -946,24 +947,3 @@ function sendValuesModel(ymin, xmin, ymax, xmax, cloudcover, resolution){
           return;
           }
     }})}
-
-    // success: function(res){
-    //   if (res == "ok") {
-    // ($('#loading').hide("<img src= 'https://media.giphy.com/media/lPcbCcPfACi3ncc3cv/giphy.gif' width ='150'/>")),
-    // window.location.href= '/ownresultAOA'
-    //   } else if (res == "invalid trainingdata") {
-    //     document.getElementById('msgtrainingdataR').style.display = 'block';
-    //     return false
-    //   }
-
-    // success: function(res){
-    //   if (res == "ok") {
-    // ($('#loading').hide("<img src= 'https://media.giphy.com/media/lPcbCcPfACi3ncc3cv/giphy.gif' width ='150'/>")),
-    // window.location.href= '/ownresultAOA'
-    //   } else if (res == "invalid model") {
-    //     document.getElementById('msgmodelR').style.display = 'block';
-    //     return false
-    //   }
-
-    // p(id='msgtrainingdataR' style='color: red; display: none') The format of your training data is not correct. Please check if it has a CRS, if there is the property "Label" and if it has ea least two entries per LULC class. 
-// p(id='msgmodelR' style='color: red; display: none') Your model does not contain any predictor names or contains invalid predictor names .
