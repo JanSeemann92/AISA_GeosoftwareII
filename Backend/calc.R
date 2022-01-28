@@ -406,7 +406,7 @@ httpPOST(path = '/withModel', function(req,res,err) {
   if (checkModel(model) == TRUE) {
     output_string <- "ok"
     print(output_string)
-    # return((output_string))
+    return((output_string))
   } else {
     output_string <- "invalid model"
     print(output_string)
@@ -517,6 +517,7 @@ httpPOST(path = '/noModel', function(req,res,err) {
   # for reference see: https://spatialreference.org/ref/sr-org/6627/
   trainingsites <- st_transform(trainingsites, crs = "+proj=longlat +datum=WGS84 +no_defs")
   
+  
   #testing
   print(req$parameters$lat1)
   print(req$parameters$long1)
@@ -533,6 +534,8 @@ httpPOST(path = '/noModel', function(req,res,err) {
   cov <- as.numeric(req$parameters$cov)
   reso <- as.numeric(req$parameters$reso)
   type <- "training"
+  
+  return(output_string)
   
   # generate sentinel images from AWS for training
   generateImage(cov, reso, left, right, top, bottom, type)
