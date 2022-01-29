@@ -41,6 +41,11 @@ RUN R -e "install.packages('beakr')"
 #RUN R -e "install.packages('RJSONIO')"
 #RUN R -e "install.packages('raster', type = 'source')"
 
+RUN mkdir -p /R
+
+# The /app directory should act as the main application directory
+WORKDIR /R
+
 
 COPY . .
 
