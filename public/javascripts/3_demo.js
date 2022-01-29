@@ -7,7 +7,7 @@ function startDemoCalculation(){
     document.getElementById('startdemo').style.display = 'none';
     document.getElementById('msgstartdemo').style.display = 'block';
     $.ajax({
-        url: "http://backend:8782/runDemo",
+        url: "antonia123/aisabackend://backend:8782/runDemo",
         type: 'GET',
         beforeSend: function(){$('#loadingdemo').html("<img src= 'https://media.giphy.com/media/lPcbCcPfACi3ncc3cv/giphy.gif' width ='150' />")},
         success: function(){
