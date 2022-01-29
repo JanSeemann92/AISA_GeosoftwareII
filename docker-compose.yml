@@ -29,9 +29,8 @@ services:
         ipv4_address: 172.16.238.10
     #network_mode: "host"
     volumes:
-      - type: bind
-        source: /home/ubuntu/AISA_GeosoftwareII/Backend
-        target: /home/ubuntu/AISA_GeosoftwareII/Backend 
+      - /home/ubuntu/data:/
+      - /home/ubuntu/demodata:/demodata
 
 networks:
   default:
