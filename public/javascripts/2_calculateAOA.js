@@ -223,7 +223,7 @@ function startCalculation(){
                   document.getElementById('start').style.display = 'none';
                   document.getElementById('msgstart').style.display = 'block';
                   $('#loading').html("<img src= 'https://media.giphy.com/media/lPcbCcPfACi3ncc3cv/giphy.gif' width ='150' />")
-                  window.setTimeout(sendValuesModel, 1000, format, ymin, xmin, ymax, xmax, cloudcover, resolution);
+                  window.setTimeout(sendValuesModel, 1000, ymin, xmin, ymax, xmax, cloudcover, resolution);
                   return
                 }
                 // Show message when file is empty
@@ -365,7 +365,7 @@ function startCalculation(){
                     document.getElementById('start').style.display = 'none';
                     document.getElementById('msgstart').style.display = 'block'; 
                     $('#loading').html("<img src= 'https://media.giphy.com/media/lPcbCcPfACi3ncc3cv/giphy.gif' width ='150' />")
-                    window.setTimeout(sendValuesModel, 1000, format, ymin, xmin, ymax, xmax, cloudcover, resolution);
+                    window.setTimeout(sendValuesModel, 1000, ymin, xmin, ymax, xmax, cloudcover, resolution);
                     return
                   }
                   // Show message when file is empty
@@ -542,7 +542,7 @@ function startCalculation(){
                     document.getElementById('start').style.display = 'none';
                     document.getElementById('msgstart').style.display = 'block';
                     $('#loading').html("<img src= 'https://media.giphy.com/media/lPcbCcPfACi3ncc3cv/giphy.gif' width ='150' />")
-                    window.setTimeout(sendValuesModel, 1000, format, ymin, xmin, ymax, xmax, cloudcover, resolution);
+                    window.setTimeout(sendValuesModel, 1000, ymin, xmin, ymax, xmax, cloudcover, resolution);
                   }
                   // Show message when file is empty
                   else{
@@ -696,7 +696,7 @@ function startCalculation(){
                     document.getElementById('start').style.display = 'none';
                     document.getElementById('msgstart').style.display = 'block';
                     $('#loading').html("<img src= 'https://media.giphy.com/media/lPcbCcPfACi3ncc3cv/giphy.gif' width ='150' />")
-                    window.setTimeout(sendValuesModel, 1000, format, ymin, xmin, ymax, xmax, cloudcover, resolution);
+                    window.setTimeout(sendValuesModel, 1000, ymin, xmin, ymax, xmax, cloudcover, resolution);
                     return
                   }
                   // Show message when file is empty
