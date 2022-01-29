@@ -65,16 +65,31 @@ npm run start
 
 ## Getting Started
 
+To get an overview of our tool we provide a step-by-step tutorial:
+
+### Step 1
+First of all, you need to select the area you're interested in (AOI). Therefore, we offer you 2 different options you can see in the dropdown bar. Once you've selected your prefered option, you'll be able to either draw a bounding box directly on the map or to enter the coordinates manually (Please pay attention to the correct format and order of the coordinates!).
+
+### Step 2
+Next, you need to upload a model in .rds format or training data in .geojson/.gpkg format. You can find more detailed format information in the next section on requirements on input data.
+
+### Step 3
+Optionally you can change the settings for the cloud cover and the resolution.
+
+### Step 4
+Great! Now you can start the calculation with "Start calculation". The calculation process will take a little time, so please be patient! When the calculation is finished, you will be redirected to the results and can view the calculated AOA, the prediction, the training polygons (depending on the input case) and the suggested sampling points (depends on whether there are areas outside the AOA in the area under consideration.) on a map using LayerControls.
+
+### Step 5
+Finally, you have the possibility to download the data as a bundled .zip file by clicking on one of the download buttons. Besides your own calculated data we also offer you the demo data of our demo calculation (see below).
+
 ## Requirements on Input Data
 
 ### Area of Interest (AOI)
-
 The AOI can either be entered by drawing a rectangle on a given leaflet map or by manually entering coordinates. With the second options some specifications must be followed:
 - Manually entered coordinates must be given in EPSG4326.
 - Manually entering coordinates does not work for areas crossing 180° E/W. In this case please draw a bounding box on leaflet.
 
 ### Training Data
-
 - Supported data formats are Geopackage (.gpkg) and GeoJSON (.geojson).
 - The LULC classes must be stored under the name "Label".
 - Training data should consist of polygons.
@@ -89,7 +104,6 @@ The AOI can either be entered by drawing a rectangle on a given leaflet map or b
 ## Specifications
 
 ### Generating Sentinel-2 images from AWS
-
 The following parameters can be chosen by the user within the webtool:
 - Resolution of requested sentinel-2 images can be 20m (default), 40m or 80m.
 - The maximum cloudcover to filter sentinel-2 images can be between 0% and 100% (default it 20%).
