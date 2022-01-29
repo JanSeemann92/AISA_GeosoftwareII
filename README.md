@@ -1,6 +1,6 @@
 Authors: [@Jan](https://github.com/JanSeemann92) [@Katharina](https://github.com/KatharinaGI) [@Antonia](https://github.com/AntoniaJost) [@Niklas](https://github.com/niiiiikd) [@Liliana](https://github.com/GitLiliana)
 
-# Cloud Vision by AISA <img src="./imagesReadme/Logo.jpg" align="right" alt="" width="120" />
+# Cloud Vision <img src="./public/stylesheets/Logo.jpg" align="right" alt="" width="120" />
 ### Applicability Estimation Tool for Spatial Prediction Models
 
 Cloud Vision offers a simple tool for estimating the applicability of models for land use/land cover (LULC) classifications. Its special focus is on implementing the Area of Applicability (AOA) [Meyer and Pebesma (2021)](https://besjournals.onlinelibrary.wiley.com/doi/10.1111/2041-210X.13650) , a very useful method for assessing and communicating areas a model is applicable for. In addition to this Cloud Vision supports model training, making LULC classifications and suggesting locations for further sampling campaigns.
