@@ -524,7 +524,7 @@ httpPOST(path = '/noModel', function(req,res,err) {
 }) %>%
   
   
-  
+print("unteres Viertel") 
   ########################################
 #GET API runDemo
 httpGET(path = '/runDemo', function(req,res,err) {
@@ -584,7 +584,7 @@ httpGET(path = '/runDemo', function(req,res,err) {
 #serveStaticFiles("/verzeichnisdemodaten", "D:/Studium/Geosoftware1/AISA_GeosoftwareII/Backend/", verbose = TRUE) %>%
 #serveStaticFiles("/verzeichnisdemodaten", "/home/ubuntu/AISA_GeosoftwareII/Backend/", verbose = TRUE) %>%
   
-  #handleErrors() %>%
+  handleErrors() %>%
 
 print("Ende")
 
