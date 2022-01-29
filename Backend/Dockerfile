@@ -38,8 +38,10 @@ COPY . .
 EXPOSE 8782
 
 #ENTRYPOINT [ "Rscript"]
+ENTRYPOINT ["sh", "-c"]
+
 # Start the app
-#CMD ["Rscript", "calc.R"]
+CMD ["Rscript", "calc.R"]
 
 
 
