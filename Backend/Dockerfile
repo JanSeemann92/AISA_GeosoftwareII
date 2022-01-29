@@ -40,7 +40,7 @@ EXPOSE 8782
 #ENTRYPOINT [ "Rscript"]
 
 # Start the app
-CMD ["Rscript", "dockertest.R"]
+CMD ["Rscript", "calc.R"]
 
 
 
