@@ -43,9 +43,9 @@ library(gdalcubes)
 # set working directory: directory which includes needed data
 #### needs to be changed later on to the hosting server
 #setwd("/home/ubuntu/AISA_GeosoftwareII/Backend")
-setwd("C:/Users/katha/Documents/GitHub/AISA_GeosoftwareII/Backend/")
+# setwd("C:/Users/katha/Documents/GitHub/AISA_GeosoftwareII/Backend/")
 #setwd("D:/Studium/Geosoftware1/AISA_GeosoftwareII/Backend/")
-#setwd("C:/Users/lgits/Documents/GitHub/AISA_GeosoftwareII/Backend/")
+setwd("C:/Users/lgits/Documents/GitHub/AISA_GeosoftwareII/Backend/")
 #getwd()
 #setwd("/home/ubuntu/AISA_GeosoftwareII/Backend")
 
@@ -146,7 +146,7 @@ generateImage <- function (cloudcover, resolution, left, right, top, bottom, typ
                   "median(B11)",
                   "median(B12)",
                   "median(B8A)")) %>%
-    write_tif(dir="C:/Users/katha/Documents/GitHub/AISA_GeosoftwareII/Backend/data/sentinel", prefix = filename) %>%     # set correct directory
+    write_tif(dir="C:/Users/lgits/Documents/GitHub/AISA_GeosoftwareII/Backend/data/sentinel", prefix = filename) %>%     # set correct directory
     # plot(rgb = 3:1, zlim=c(0,1800)) %>%
     # system.time()
     
@@ -667,10 +667,10 @@ httpGET(path = '/runDemo', function(req,res,err) {
   
   ########################################
 # Host the directory of static files  
-serveStaticFiles("/verzeichnisdemodaten", "C:/Users/katha/Documents/GitHub/AISA_GeosoftwareII/Backend/", verbose = TRUE) %>%
-# serveStaticFiles("/verzeichnisdemodaten", "C:/Users/lgits/Documents/GitHub/AISA_GeosoftwareII/Backend/", verbose = TRUE) %>%
-  #serveStaticFiles("/verzeichnisdemodaten", "D:/Studium/Geosoftware1/AISA_GeosoftwareII/Backend/", verbose = TRUE) %>%
-  #serveStaticFiles("/verzeichnisdemodaten", "/home/ubuntu/AISA_GeosoftwareII/Backend/", verbose = TRUE) %>%
+# serveStaticFiles("/verzeichnisdemodaten", "C:/Users/katha/Documents/GitHub/AISA_GeosoftwareII/Backend/", verbose = TRUE) %>%
+serveStaticFiles("/verzeichnisdemodaten", "C:/Users/lgits/Documents/GitHub/AISA_GeosoftwareII/Backend/", verbose = TRUE) %>%
+# serveStaticFiles("/verzeichnisdemodaten", "D:/Studium/Geosoftware1/AISA_GeosoftwareII/Backend/", verbose = TRUE) %>%
+# serveStaticFiles("/verzeichnisdemodaten", "/home/ubuntu/AISA_GeosoftwareII/Backend/", verbose = TRUE) %>%
   
   handleErrors() %>%
   
