@@ -14,8 +14,7 @@ FROM rocker/r-base:4.1.2
 # Install package dependencies
 # install GDAL---> for latest version do: 
     # RUN add-apt-repository ppa:ubuntugis/ppa
-RUN apt-get update 
-RUN apt-get install -y gdal-bin libgdal-dev
+RUN apt-get update && apt-get install -y gdal-bin libgdal-dev
 
 RUN apt-get install -y libudunits2-dev
 
