@@ -312,10 +312,17 @@ NewSamplingLocations <- function(areaOA) {
 newBeakr() %>%
   # Host the directory of static files
   
-  # Create and start the beakr instance
-  newBeakr() %>%
+
   
-  cors() %>%
+  cors(
+  path = NULL,
+  methods = c("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"),
+  origin = "*",
+  credentials = NULL,
+  headers = NULL,
+  maxAge = NULL,
+  expose = NULL
+  ) %>%
   
   
   ########################################
@@ -578,8 +585,10 @@ httpGET(path = '/runDemo', function(req,res,err) {
 #serveStaticFiles("/verzeichnisdemodaten", "/home/ubuntu/AISA_GeosoftwareII/Backend/", verbose = TRUE) %>%
   
   handleErrors() %>%
-  
-listen(host = "172.16.238.10", port = 8782) #for local testing
+
+
+
+listen(port = 8782) #for local testing
 #listen(host = "44.234.41.163", port =  8782) #for AWS
 
 
