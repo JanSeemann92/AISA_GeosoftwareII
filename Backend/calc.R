@@ -293,7 +293,7 @@ NewSamplingLocations <- function(areaOA) {
   return(samples_geojson)
 }
 
-
+print("zeile296")
 ############################################################
 ############################################################
 #
@@ -524,7 +524,7 @@ httpPOST(path = '/noModel', function(req,res,err) {
 }) %>%
   
   
-print("unteres Viertel") 
+
   ########################################
 #GET API runDemo
 httpGET(path = '/runDemo', function(req,res,err) {
