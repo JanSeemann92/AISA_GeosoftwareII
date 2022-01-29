@@ -88,7 +88,9 @@ Optionally you can change the settings for the cloud cover and the resolution.
 
 ### Step 4
 Great! Now you can start the calculation with "Start calculation". The calculation process will take a little time, so please be patient! When the calculation is finished, you will be redirected to the results and can view the calculated AOA, the prediction, the training polygons (depending on the input case) and the suggested sampling points (depends on whether there are areas outside the AOA in the area under consideration.) on a map using LayerControls.
-
+<p align="center">
+  <img width="700" src="./public/stylesheets/step4.jpg">
+</p>
 
 ### Step 5
 Finally, you have the possibility to download the data as a bundled .zip file by clicking on one of the download buttons. Besides your own calculated data we also offer you the demo data of our demo calculation.
