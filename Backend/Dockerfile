@@ -47,8 +47,9 @@ COPY . .
 # Expose port on container
 EXPOSE 8782
 
+ENTRYPOINT [ "Rscript"]
 # Start the app
-CMD ["Rscript", "calc.R"]
+CMD ["calc.R"]
 
 
 
