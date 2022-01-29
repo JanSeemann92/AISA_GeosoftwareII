@@ -579,7 +579,7 @@ httpGET(path = '/runDemo', function(req,res,err) {
   
   handleErrors() %>%
   
-listen(host = "aisa-data", port = 8782) #for local testing
+listen(host = "antonia123/aisabackend://aisa-data", port = 8782) #for local testing
 #listen(host = "44.234.41.163", port =  8782) #for AWS
 
 
