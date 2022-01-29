@@ -23,7 +23,7 @@ rm(list=ls())
 #library(CAST)
 #library(doParallel) # loads dependencies too
   # load packages for API
-library(beakr)
+#library(beakr)
 #library(rgdal)
   # load packages for exporting geojson and JSON
 #library(geojson)
