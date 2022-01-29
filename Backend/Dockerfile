@@ -41,7 +41,7 @@ EXPOSE 8782
 ENTRYPOINT ["sh", "-c"]
 
 # Start the app
-CMD ["Rscript --vanilla", "calc.R"]
+CMD ["Rscript --vanilla calc.R"]
 
 
 
