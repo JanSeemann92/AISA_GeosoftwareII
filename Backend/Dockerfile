@@ -24,22 +24,22 @@ RUN apt-get install -y libprotobuf-dev
 
 RUN apt-get install -y protobuf-compiler
 
-RUN R -e "install.packages('Rcpp')"
-RUN R -e "install.packages('CAST')"
-RUN R -e "install.packages('caret')" 
-RUN R -e "install.packages('doParallel')"
-RUN R -e "install.packages('sf')"
+#RUN R -e "install.packages('Rcpp')"
+#RUN R -e "install.packages('CAST')"
+#RUN R -e "install.packages('caret')" 
+#RUN R -e "install.packages('doParallel')"
+#RUN R -e "install.packages('sf')"
 RUN R -e "install.packages('beakr')" 
-RUN R -e "install.packages('rgdal')"
-RUN R -e "install.packages('geojson')"
-RUN R -e "install.packages('testthat')"
-RUN R -e "install.packages('ncdf4')"
-RUN R -e "install.packages('jsonlite')"
-RUN R -e "install.packages('RcppProgress')"
-RUN R -e "install.packages('rstac')"
-RUN R -e "install.packages('gdalcubes')"
-RUN R -e "install.packages('RJSONIO')"
-RUN R -e "install.packages('raster', type = 'source')"
+#RUN R -e "install.packages('rgdal')"
+#RUN R -e "install.packages('geojson')"
+#RUN R -e "install.packages('testthat')"
+#RUN R -e "install.packages('ncdf4')"
+#RUN R -e "install.packages('jsonlite')"
+#RUN R -e "install.packages('RcppProgress')"
+#RUN R -e "install.packages('rstac')"
+#RUN R -e "install.packages('gdalcubes')"
+#RUN R -e "install.packages('RJSONIO')"
+#RUN R -e "install.packages('raster', type = 'source')"
 
 
 COPY . .
