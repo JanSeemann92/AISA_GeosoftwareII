@@ -121,7 +121,7 @@ generateImage <- function (cloudcover, resolution, left, right, top, bottom, typ
                 dt = "P1D",
                 aggregation = "median",
                 resampling = "near")
-  
+  print("test Mitte")
   
   # create datacube and output
   S2.mask = image_mask("SCL", values=c(3,8,9)) # clouds and cloud shadows
