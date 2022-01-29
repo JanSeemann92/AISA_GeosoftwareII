@@ -1,19 +1,10 @@
 # Create a layer from the r-base:4.1.2 Docker image
 FROM rocker/r-base:4.1.2
 
-# Create an application directory
-# RUN mkdir -p /app
-
-# The /app directory should act as the main application directory
-# WORKDIR /app
-
-#set up working diretory
-#RUN sudo setwd("/home/ubuntu/AISA_GeosoftwareII/Backend")
-#RUN echo "setwd(\"/home/ubuntu/AISA_GeosoftwareII/Backend\")" 
+RUN mkdir -p /R
+WORKDIR /R
 
 # Install package dependencies
-# install GDAL---> for latest version do: 
-    # RUN add-apt-repository ppa:ubuntugis/ppa
 RUN apt-get update && apt-get install -y gdal-bin libgdal-dev
 
 RUN apt-get install -y libudunits2-dev
@@ -40,12 +31,6 @@ RUN R -e "install.packages('beakr')"
 #RUN R -e "install.packages('gdalcubes')"
 #RUN R -e "install.packages('RJSONIO')"
 #RUN R -e "install.packages('raster', type = 'source')"
-
-RUN mkdir -p /R
-
-# The /app directory should act as the main application directory
-WORKDIR /R
-
 
 COPY . .
 
