@@ -13,8 +13,9 @@ services:
     #network_mode: "host"
     depends_on:
       - backend # wird erst gestartet, wenn auch backend erfolgreich gestartet werden könnte
-    #links: 
-    #  - backend
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
 
   backend: 
     image: antonia123/aisabackend:latest
