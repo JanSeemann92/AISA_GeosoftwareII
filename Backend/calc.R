@@ -586,7 +586,7 @@ httpGET(path = '/runDemo', function(req,res,err) {
   
   handleErrors() %>%
 
-
+print("Ende")
 
 listen(port = 8782) #for local testing
 #listen(host = "44.234.41.163", port =  8782) #for AWS
