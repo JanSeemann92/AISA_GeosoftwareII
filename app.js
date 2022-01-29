@@ -66,13 +66,13 @@ const handleError = (err, res) => {
     upload.single("upload" /* name attribute of <file> element in your form */),
     (req, res) => {
       const tempPath = req.file.path;
-    /*  const targetPath1 = path.join(__dirname, "./data/upload/upload.geojson");
+      const targetPath1 = path.join(__dirname, "./data/upload/upload.geojson");
       const targetPath2 = path.join(__dirname, "./data/upload/upload.gpkg");
       const targetPath3 = path.join(__dirname, "./data/upload/upload.rds");
 
       if (path.extname(req.file.originalname).toLowerCase() === ".geojson" || path.extname(req.file.originalname).toLowerCase() === ".gpkg" || path.extname(req.file.originalname).toLowerCase() === ".rds"){
       if (path.extname(req.file.originalname).toLowerCase() === ".geojson") {
-        fs.rename(tempPath, targetPath1, err => {
+        fs.copyFile(tempPath, targetPath1, err => {
           if (err) return handleError(err, res);
   
           res
@@ -80,7 +80,7 @@ const handleError = (err, res) => {
             .end
         })};
       if (path.extname(req.file.originalname).toLowerCase() === ".gpkg") {
-        fs.rename(tempPath, targetPath2, err => {
+        fs.copyFile(tempPath, targetPath2, err => {
           if (err) return handleError(err, res);
   
           res
@@ -88,7 +88,7 @@ const handleError = (err, res) => {
             .end
         })};
       if (path.extname(req.file.originalname).toLowerCase() === ".rds") {
-        fs.rename(tempPath, targetPath3, err => {
+        fs.copyFile(tempPath, targetPath3, err => {
           if (err) return handleError(err, res);
   
           res
@@ -104,7 +104,7 @@ const handleError = (err, res) => {
             .contentType("text/plain")
             .end("Only .geojson, .gpkg & .rds files are allowed!");
         });
-      }*/
+      }
     }
   ); 
 

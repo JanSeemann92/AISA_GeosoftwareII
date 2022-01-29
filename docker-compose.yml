@@ -10,15 +10,11 @@ services:
       - "8781:8781"  
     networks:
       - default
-    #network_mode: "host"
     depends_on:
-      - backend # wird erst gestartet, wenn auch backend erfolgreich gestartet werden könnte
-    #extra_hosts:
-    #  - "host.docker.internal:host-gateway"
+      - backend 
     volumes:
-      - type: bind
-        source: /home/ubuntu/AISA_GeosoftwareII/Backend
-        target: /home/ubuntu/AISA_GeosoftwareII/Backend 
+      - /home/ubuntu/data:/app/data
+
 
 
 
