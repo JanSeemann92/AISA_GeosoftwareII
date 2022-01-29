@@ -66,7 +66,7 @@ const handleError = (err, res) => {
     upload.single("upload" /* name attribute of <file> element in your form */),
     (req, res) => {
       const tempPath = req.file.path;
-      const targetPath1 = path.join(__dirname, "./data/upload/upload.geojson");
+    /*  const targetPath1 = path.join(__dirname, "./data/upload/upload.geojson");
       const targetPath2 = path.join(__dirname, "./data/upload/upload.gpkg");
       const targetPath3 = path.join(__dirname, "./data/upload/upload.rds");
 
@@ -104,7 +104,7 @@ const handleError = (err, res) => {
             .contentType("text/plain")
             .end("Only .geojson, .gpkg & .rds files are allowed!");
         });
-      }
+      }*/
     }
   ); 
 
