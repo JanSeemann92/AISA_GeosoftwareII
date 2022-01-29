@@ -8,32 +8,32 @@ function downloaddemodata(){
 
     var zip = new JSZip();
 
-    JSZipUtils.getBinaryContent("http://127.0.0.1:8782/demodata/createdbyAISAtool/aoaOutput.tif", function( err, data1 ) {
+    JSZipUtils.getBinaryContent("http://backend:8782/demodata/createdbyAISAtool/aoaOutput.tif", function( err, data1 ) {
         if ( err ) {
             throw err;
         }
         zip.file("aoaOutput.tif", data1, { binary:true } );
 
-    JSZipUtils.getBinaryContent("http://127.0.0.1:8782/demodata/createdbyAISAtool/predictionOutput.tif", function( err, data2 ) {
+    JSZipUtils.getBinaryContent("http://backend:8782/demodata/createdbyAISAtool/predictionOutput.tif", function( err, data2 ) {
         if ( err ) {
             throw err;
         }
         zip.file("predictionOutput.tif", data2, { binary:true } );
 
-    JSZipUtils.getBinaryContent("http://127.0.0.1:8782/demodata/createdbyAISAtool/samplingLocationsOutput.geojson", function( err, data3 ) {
+    JSZipUtils.getBinaryContent("http://backend:8782/demodata/createdbyAISAtool/samplingLocationsOutput.geojson", function( err, data3 ) {
         if ( err ) {
             throw err;
         }
         zip.file("samplingLocations.geojson", data3, { binary:true } );
 
-    JSZipUtils.getBinaryContent("http://127.0.0.1:8782/demodata/createdbyAISAtool/trainingsitesOutput.geojson", function( err, data4 ) {
+    JSZipUtils.getBinaryContent("http://backend:8782/demodata/createdbyAISAtool/trainingsitesOutput.geojson", function( err, data4 ) {
         if ( err ) {
             throw err;
         }
         zip.file("trainingsites.geojson", data4, { binary:true } );
     
 
-    JSZipUtils.getBinaryContent("http://127.0.0.1:8782/demodata/createdbyAISAtool/modelOutput.RDS", function( err, data5 ) {
+    JSZipUtils.getBinaryContent("http://backend:8782/demodata/createdbyAISAtool/modelOutput.RDS", function( err, data5 ) {
         if ( err ) {
             throw err;
         }
@@ -54,41 +54,41 @@ function downloadowndata(){
 
     var zip = new JSZip();
 
-    JSZipUtils.getBinaryContent("http://127.0.0.1:8782/data/output/aoaOutput.tif", function( err, data1 ) {
+    JSZipUtils.getBinaryContent("http://backend:8782/data/output/aoaOutput.tif", function( err, data1 ) {
         if ( err ) {
             throw err;
         }
         zip.file("aoaOutput.tif", data1, { binary:true } );
 
-    JSZipUtils.getBinaryContent("http://127.0.0.1:8782/data/output/predictionOutput.tif", function( err, data2 ) {
+    JSZipUtils.getBinaryContent("http://backend:8782/data/output/predictionOutput.tif", function( err, data2 ) {
         if ( err ) {
             throw err;
         }
         zip.file("predictionOutput.tif", data2, { binary:true } );
 
     $.ajax({
-        url: "http://127.0.0.1:8782/data/output/labelsOutput.json",
+        url: "http://backend:8782/data/output/labelsOutput.json",
         type: 'GET',
         dataType: 'json', 
         success: function(res) {
             var status = res[0][1];
             console.log(status)
             if(status == 'sampling'){
-                JSZipUtils.getBinaryContent("http://127.0.0.1:8782/data/output/samplingLocationsOutput.geojson", function( err, data3 ) {
+                JSZipUtils.getBinaryContent("http://backend:8782/data/output/samplingLocationsOutput.geojson", function( err, data3 ) {
                     if ( err ) {
                         throw err;
                     }
                     zip.file("samplingLocations.geojson", data3, { binary:true } );
     
     $.ajax({
-        url: "http://127.0.0.1:8782/data/output/labelsOutput.json",
+        url: "http://backend:8782/data/output/labelsOutput.json",
         type: 'GET',
         dataType: 'json', 
         success: function(res) {
             var status = res[0][0];
             console.log(status)
             if(status == 'trainingdata'){
-                JSZipUtils.getBinaryContent("http://127.0.0.1:8782/data/output/modelOutput.RDS", function( err, data5 ) {
+                JSZipUtils.getBinaryContent("http://backend:8782/data/output/modelOutput.RDS", function( err, data5 ) {
                     if ( err ) {
                         throw err;
                     }

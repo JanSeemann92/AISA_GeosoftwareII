@@ -16,7 +16,7 @@ var icon = L.icon({
  * function to display the layer on the map.
  */
 
- var url_to_geotiff_file = "http://127.0.0.1:8782/data/output/aoaOutput.tif";
+ var url_to_geotiff_file = "http://backend:8782/data/output/aoaOutput.tif";
  fetch(url_to_geotiff_file).then(response => response.arrayBuffer()).then(arrayBuffer => {
     parseGeoraster(arrayBuffer).then(georaster => {
         const min = 0;
@@ -95,7 +95,7 @@ var icon = L.icon({
  */
 
  $.ajax({
-    url: "http://127.0.0.1:8782/data/output/labelsOutput.json",
+    url: "http://backend:8782/data/output/labelsOutput.json",
     type: 'GET',
     dataType: 'json', 
     success: function(res) {
@@ -103,7 +103,7 @@ var icon = L.icon({
         console.log(status)
         if(status == 'trainingdata'){
             var xhr = new XMLHttpRequest();
-            xhr.open('GET', "http://127.0.0.1:25118/data/output/trainingsitesOutput.geojson");
+            xhr.open('GET', "http://backend:8782/data/output/trainingsitesOutput.geojson");
             xhr.setRequestHeader('Content-Type', 'application/json');
             xhr.onload = function() {
             if (xhr.status === 200) {
@@ -117,7 +117,7 @@ var icon = L.icon({
         var labels = res;
         labels.splice(0,2)
         console.log(labels)
-        var url_to_geotiff_file = "http://127.0.0.1:8782/data/output/predictionOutput.tif";
+        var url_to_geotiff_file = "http://backend:8782/data/output/predictionOutput.tif";
         fetch(url_to_geotiff_file).then(response => response.arrayBuffer()).then(arrayBuffer => {
             parseGeoraster(arrayBuffer).then(georaster => {
                 const min = 0;
@@ -228,7 +228,7 @@ var icon = L.icon({
  * and then calls the createSamplingLayer(layertraingspots) function to display the layer on the map.
  */
  $.ajax({
-    url: "http://127.0.0.1:8782/data/output/labelsOutput.json",
+    url: "http://backend:8782/data/output/labelsOutput.json",
     type: 'GET',
     dataType: 'json', 
     success: function(res) {
@@ -236,7 +236,7 @@ var icon = L.icon({
         console.log(status)
         if(status == 'sampling'){
             $.ajax({
-                url: "http://127.0.0.1:8782/data/output/samplingLocationsOutput.geojson",
+                url: "http://backend:8782/data/output/samplingLocationsOutput.geojson",
                 type: 'GET',
                 dataType: 'json', 
                 success: function(res) {
