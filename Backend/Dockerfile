@@ -39,7 +39,7 @@ EXPOSE 8782
 
 #ENTRYPOINT [ "Rscript"]
 # Start the app
-CMD ["Rscript", "calc.R"]
+#CMD ["Rscript", "calc.R"]
 
 
 
