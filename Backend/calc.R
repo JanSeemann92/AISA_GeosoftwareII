@@ -322,7 +322,7 @@ newBeakr() %>%
   headers = NULL,
   maxAge = NULL,
   expose = NULL
-  ) 
+  ) %>%
   
   
   ########################################
