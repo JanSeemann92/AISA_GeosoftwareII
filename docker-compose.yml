@@ -28,7 +28,7 @@ services:
       default: 
         ipv4_address: 172.16.238.10
     #network_mode: "host"
-    volumes:
+    #volumes:
       #- /home/ubuntu/data:/R
       #- /home/ubuntu/demodata:/R/demodaten
 
