@@ -15,6 +15,11 @@ services:
       - backend # wird erst gestartet, wenn auch backend erfolgreich gestartet werden könnte
     #extra_hosts:
     #  - "host.docker.internal:host-gateway"
+    volumes:
+      - type: bind
+        source: /home/ubuntu/AISA_GeosoftwareII/Backend
+        target: /home/ubuntu/AISA_GeosoftwareII/Backend 
+
 
 
   backend: 
@@ -24,7 +29,8 @@ services:
     ports:
       - "8782:8782"
     networks:
-      - default
+      default: 
+        ipv4_address: 172.16.238.10
     #network_mode: "host"
     volumes:
       - type: bind
@@ -34,3 +40,8 @@ services:
 networks:
   default:
     driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.16.238.0/24
+          gateway: 172.16.238.1

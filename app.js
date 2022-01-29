@@ -23,7 +23,6 @@ app.set('view engine', 'pug');
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(express.static(path.join(__dirname, 'public')));
 
 // adding routes
 app.use('/', homeRouter); 
@@ -57,7 +56,7 @@ const handleError = (err, res) => {
   };
 
   const upload = multer({
-    dest: "/home/ubuntu"
+    dest: "/app"
     //"C:/Users/katha/Documents/GitHub/AISA_GeosoftwareII/"
     // you might also want to set some limits: https://github.com/expressjs/multer#limits
   });
