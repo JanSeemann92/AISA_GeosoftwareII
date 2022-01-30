@@ -684,8 +684,7 @@ httpGET(path = '/runDemo', function(req,res,err) {
   handleErrors() %>%
 
 
-listen(host = "172.16.238.10", port = 8782) #for local testing
-#listen(host = "44.234.41.163", port =  8782) #for AWS
+listen(host = "172.16.238.10", port = 8782) #for AWS
 
 
 # URL GET API Call for local testing: http://127.0.0.1:25118/runDemo
