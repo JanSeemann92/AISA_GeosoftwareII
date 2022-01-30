@@ -3,22 +3,41 @@ Authors: [@Jan](https://github.com/JanSeemann92) [@Katharina](https://github.com
 # Cloud Vision <img src="./public/stylesheets/Logo.jpg" align="right" alt="" width="120" />
 ### Applicability Estimation Tool for Spatial Prediction Models
 
-Cloud Vision offers a simple tool for estimating the applicability of models for land use/land cover (LULC) classifications. Its special focus is on implementing the Area of Applicability (AOA) [Meyer and Pebesma (2021)](https://besjournals.onlinelibrary.wiley.com/doi/10.1111/2041-210X.13650) , a very useful method for assessing and communicating areas a model is applicable for. In addition to this Cloud Vision supports model training, making LULC classifications and suggesting locations for further sampling campaigns.
+Cloud Vision offers a simple tool for estimating the applicability of models for land use/land cover (LULC) classifications. Its special focus is on implementing the Area of Applicability (AOA) [Meyer and Pebesma (2021)](https://besjournals.onlinelibrary.wiley.com/doi/10.1111/2041-210X.13650) , a very useful method for assessing and communicating areas a model is applicable for. In addition to that, Cloud Vision supports model training, making LULC classifications and suggesting locations for further sampling campaigns.
 
 ## Installation
 
 ### Requirements
-Node >= 14 & R >= 4.1.2
+Only relevant if installed without docker: Node >= 14 & R >= 4.1.2
 
-### via GitHub
-First of all, you need to download the entire code from the main branch. To start to programm use
+### Start
+To start the programme use `$ docker-compose up`. Now you can open `http://44.234.41.163:8781` in your browser and Cloud Vision is running.
+
+### For testing purposes
+
+#### Frontend 
+
+For testing the frontend on AWS Server use:
+
+`$ cd AISA_GeosoftwareII`
+
+To test the frontend, interactively start the container using `$ docker run -it antonia123/aisafrontend:latest /bin/bash`.
+Once you're at `root@...:/app` enter `#npm run test`
+
+### Backend
+
+We highly recommend only running the backend when using docker!
+Otherwise you'll have to install all the package depencies yourself. If you want to do so, please have a look at the `Backend/Dockerfile` and copy all the required `install.packages("...")` lines into your local RStudio. If you are running the Backend locally on a Linux machine you also have to install further depencies mentioned in lines 8-16 of the Dockerfile.
+
+To run the backend use:
 ```sh
-§ docker-compose up
+$ cd AISA_GeosoftwareII/Backend
+$ Rscript calc.R
 ```
-in your command line. Now you can open `http://44.234.41.163:8781` in your browser and Cloud Vision is running.
+For testing the backend use `§ Rscript test.R` and the results will be logged into your console.
 
-### via Docker Hub
-The frontend and backend image are also available in the aisa_vision_cloud repository on Docker Hub:
+### Docker Hub
+The frontend and backend image are also available in the aisa_vision_cloud repository on [Docker Hub](https://hub.docker.com/repository/docker/antonia123/aisa_cloud_vision):
 
 - `antonia123/aisafrontend`
 - `antonia123/aisabackend`
@@ -35,32 +54,6 @@ The frontend and backend image are also available in the aisa_vision_cloud repos
 Now you can start the programme with `§ docker-compose up`
 
 Please keep in mind that if you run the containers for the first time, it might take about 60 minutes to install all dependencies!
-
-### Frontend 
-
-For installing, running and testing the frontend use:
-
-```sh
-$ cd AISA_GeosoftwareII
-§ npm install
-§ npm start
-```
-
-To test the frontend, interactively start the container using `§ docker run -it antonia123/aisafrontend:latest /bin/bash`.
-Once you're at `root@...:/app` enter `#npm run test`
-
-### Backend
-
-We highly recommend only running the backend when using docker!
-Otherwise you'll have to install all the package depencies yourself. If you want to do so, please have a look at the `Backend/Dockerfile` and copy all the required `install.packages("...")` lines into your local RStudio. If you are running the Backend locally on a Linux machine you also have to install further depencies mentioned in lines 8-16 of the Dockerfile.
-
-To run the backend use:
-```sh
-§ cd AISA_GeosoftwareII/Backend
-§ Rscript calc.R
-```
-For testing the backend use `§ Rscript test.R` and the results will be logged into your console.
-
 
 ## Getting Started with Cloud Vision
 
@@ -120,7 +113,7 @@ The AOI can either be entered by drawing a rectangle on a given leaflet map or b
 
 ### Generating Sentinel-2 images from AWS
 The following parameters can be chosen by the user within the webtool:
-- Resolution of requested sentinel-2 images can be 20m (default), 40m or 80m.
+- Resolution of requested sentinel-2 images can be 20m (default), 40m or 60m.
 - The maximum cloudcover to filter sentinel-2 images can be between 0% and 100% (default it 20%).
 - An area of interest must be chosen (see Requirements on Input Data - Area of Interest).
 
