@@ -15,15 +15,15 @@ First of all, you need to download the entire code from the main branch. To star
 ```sh
 § docker-compose up
 ```
-in you command line. Now you can open `http://44.234.41.163:8781` in your browser and Cloud Vision is running.
+in your command line. Now you can open `http://44.234.41.163:8781` in your browser and Cloud Vision is running.
 
 ### Docker Hub
-The frontend and backend image are available in the aisa_vision_cloud repository on Docker Hub:
+The frontend and backend image are also available in the aisa_vision_cloud repository on Docker Hub:
 
 - `antonia123/aisafrontend`
 - `antonia123/aisabackend`
  
- To pull our Cloud Vision repository from Docker Hub which contains all required images enter:
+ To pull our Cloud Vision repository from Docker Hub which contains all required images and the docker-compose.yml enter:
  ````sh
  $ docker pull --all-tags antonia123/aisa_cloud_vision
  ````
@@ -32,38 +32,30 @@ The frontend and backend image are available in the aisa_vision_cloud repository
  $ docker images antonia123/aisa_cloud_vision
  ````
  -- hier Bild einfügen, wie es aussehen sollte --
-Now you can start
-### Frontend
+Now you can start the programme with `§ docker-compose up`
 
-Install and run:
+Please keep in mind that if you run the containers for the first time, it might take about 60 minutes to install all dependencies!
 
-```sh
-cd frontend
-npm install
-```
+### Frontend 
+
+For installing, running and testing the frontend use:
 
 ```sh
-npm run start
+$ cd AISA_GeosoftwareII
+§ npm install
+§ npm start
 ```
 
-Test:
-
-```sh
-npm run test
-```
+To test the frontend, interactively start the container using `§ docker run -it antonia123/aisafrontend:latest /bin/bash`.
+Once you're at `root@...:/app` enter `#npm run test`
 
 ### Backend
 
-Install and run:
+We highly recommend only running the backend when using docker!
+Otherwise you'll have to install all the package depencies yourself. If you want to do so, please have a look at the `Backend/Dockerfile` and copy all the required `install.packages("...")` lines into your local RStudio. If you are running the Backend locally on a Linux machine you also have to install further depencies 
 
-```sh
-cd backend
-npm install
-```
+§ cd AISA_GeosoftwareII/Backend
 
-```sh
-npm run start
-```
 
 
 ## Getting Started
