@@ -455,6 +455,7 @@ httpPOST(path = '/withModel', function(req,res,err) {
   
   # do calculations
   predictionLULC <- predict(sentinel_combined_prediction, model)
+  print("prediction done")
   areaOA <- AOA (sentinel_combined_prediction,model)
   
   
@@ -577,6 +578,7 @@ httpPOST(path = '/noModel', function(req,res,err) {
   # do calculations
   model <-TrainModel(trainingsites, sentinel_combined_training)
   predictionLULC <- predict(sentinel_combined_prediction, model)
+  print("prediction done")
   areaOA <- AOA (sentinel_combined_prediction,model)
   
   
@@ -645,6 +647,7 @@ httpGET(path = '/runDemo', function(req,res,err) {
   # do calculations
   model <-TrainModel(trainingsites, sentinel_combined)
   predictionLULC <- predict(sentinel_combined,model)
+  print("prediction done")
   areaAOA <- AOA (sentinel_combined,model)
   samplingLocations <- NewSamplingLocations(areaAOA)
   
