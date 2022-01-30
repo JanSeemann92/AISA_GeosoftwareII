@@ -17,24 +17,15 @@ To start the programme use `$ docker-compose up`. Now you can open `http://44.23
 
 #### Frontend 
 
-For testing the frontend on AWS Server use:
+For testing the frontend on AWS Server go to `$ cd AISA_GeosoftwareII`. 
+Now interactively start the container using `$ docker run -it antonia123/aisafrontend:latest /bin/bash`.
+Once you're at `root@...:/app` enter `#npm run test` and all frontend related tests will be exectued.
 
-`$ cd AISA_GeosoftwareII`
+#### Backend
 
-To test the frontend, interactively start the container using `$ docker run -it antonia123/aisafrontend:latest /bin/bash`.
-Once you're at `root@...:/app` enter `#npm run test`
-
-### Backend
-
-We highly recommend only running the backend when using docker!
-Otherwise you'll have to install all the package depencies yourself. If you want to do so, please have a look at the `Backend/Dockerfile` and copy all the required `install.packages("...")` lines into your local RStudio. If you are running the Backend locally on a Linux machine you also have to install further depencies mentioned in lines 8-16 of the Dockerfile.
-
-To run the backend use:
-```sh
-$ cd AISA_GeosoftwareII/Backend
-$ Rscript calc.R
-```
-For testing the backend use `§ Rscript test.R` and the results will be logged into your console.
+For testing the backend on AWS Server go to `$ cd AISA_GeosoftwareII/Backend`. 
+Now interactively start the container using `$ docker run -it antonia123/aisabackend:latest /bin/bash`.
+Once you're at `root@...:/app` enter `#Rscript test.R` and all backend related tests will be exectued.
 
 ### Docker Hub
 The frontend and backend image are also available in the aisa_vision_cloud repository on [Docker Hub](https://hub.docker.com/repository/docker/antonia123/aisa_cloud_vision):
@@ -53,7 +44,7 @@ The frontend and backend image are also available in the aisa_vision_cloud repos
  -- hier Bild einfügen, wie es aussehen sollte --
 Now you can start the programme with `§ docker-compose up`
 
-Please keep in mind that if you run the containers for the first time, it might take about 60 minutes to install all dependencies!
+Please keep in mind that if you run the containers for the first time, it might take about 60 minutes to install all dependencies! If you are running Cloud Vision on your own server or device, you have to update all directory paths within the code. 
 
 ## Getting Started with Cloud Vision
 
@@ -73,7 +64,7 @@ Next, you need to upload a model in .rds format or training data in .geojson/.gp
 </p>
 
 ### Step 3
-Optionally you can change the settings for the cloud cover and the resolution.
+Optionally you can change the settings for the cloud cover and the resolution. Please be thoughtful when setting the resolution. It must fit in relation to the traningsdata and AOI. Otherwise the calculation might not succeed.
 <p align="center">
   <img width="700" src="./public/stylesheets/step3.jpg">
 </p>
