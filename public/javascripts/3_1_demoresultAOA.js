@@ -1,6 +1,6 @@
 "use strict" 
 
-var path = "44.234.41.163:8782/verzeichnis"
+var path = "http://44.234.41.163:8782/verzeichnis"
 
 /**
  * Add icon for the suggested training points
