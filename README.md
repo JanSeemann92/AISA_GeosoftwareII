@@ -52,13 +52,17 @@ Once you're at `root@...:/app` enter `#npm run test`
 ### Backend
 
 We highly recommend only running the backend when using docker!
-Otherwise you'll have to install all the package depencies yourself. If you want to do so, please have a look at the `Backend/Dockerfile` and copy all the required `install.packages("...")` lines into your local RStudio. If you are running the Backend locally on a Linux machine you also have to install further depencies 
+Otherwise you'll have to install all the package depencies yourself. If you want to do so, please have a look at the `Backend/Dockerfile` and copy all the required `install.packages("...")` lines into your local RStudio. If you are running the Backend locally on a Linux machine you also have to install further depencies mentioned in lines 8-16 of the Dockerfile.
 
+To run the backend use:
+```sh
 § cd AISA_GeosoftwareII/Backend
+§ Rscript calc.R
+```
+For testing the backend use `§ Rscript test.R` and the results will be logged into your console.
 
 
-
-## Getting Started
+## Getting Started with Cloud Vision
 
 To get an overview of our tool we provide a step-by-step tutorial:
 
