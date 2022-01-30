@@ -10,26 +10,29 @@ Cloud Vision offers a simple tool for estimating the applicability of models for
 ### Requirements
 Node >= 14 & R >= 4.1.2
 
-### Docker
-
-Start:
-
+### GitHub
+First of all, you need to download the entire code from the main branch. To start to programm use
 ```sh
-docker-compose up
+§ docker-compose up
 ```
+in you command line. Now you can open `http://44.234.41.163:8781` in your browser and Cloud Vision is running.
 
-Open `http://44.234.41.163:8781` in your browser.
-
-The frontend and backend are available in the aisa_vision_cloud repository on Docker Hub:
+### Docker Hub
+The frontend and backend image are available in the aisa_vision_cloud repository on Docker Hub:
 
 - `antonia123/aisafrontend`
 - `antonia123/aisabackend`
  
- To pull our aisa_cloud-vision repository from Docker Hub enter:
+ To pull our Cloud Vision repository from Docker Hub which contains all required images enter:
  ````sh
- docker pull antonia123/aisa_cloud_vision
+ $ docker pull --all-tags antonia123/aisa_cloud_vision
  ````
- 
+ To check if all images have been pulled correctly use 
+ ````sh
+ $ docker images antonia123/aisa_cloud_vision
+ ````
+ -- hier Bild einfügen, wie es aussehen sollte --
+Now you can start
 ### Frontend
 
 Install and run:
