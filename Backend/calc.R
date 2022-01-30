@@ -40,7 +40,7 @@ library(gdalcubes)
   # library(RcppProgress)
   # library(tmap)
 
-#getwd()
+getwd()
 setwd("/R")
 #getwd()
 # set working directory: directory which includes needed data
