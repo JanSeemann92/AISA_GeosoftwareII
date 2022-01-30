@@ -1,26 +1,22 @@
+# Create a layer from the node:14 Docker image
 FROM node:14
 
 # Create an application directory
 RUN mkdir -p /app
 
-# The /app directory should act as the main application directory
+# Set /app directory as working directory
 WORKDIR /app
 
-# RUN npm install
-
-# Install frontend dependencies
+# Install required frontend dependencies
 COPY /package*.json ./
 
-# Install node packages
+# Install node packages (in automated environment)
 RUN npm ci
 
-# Copy or project directory (locally) in the current directory of our docker image (/app)
+# Copy all files into current WORKDIR of docker image (/app)
 COPY . .
-#frontend/ ./
 
-# Build the app 
-# RUN npm run build 
-
+#Expose port on container
 EXPOSE 8781
 
 # Start the app
