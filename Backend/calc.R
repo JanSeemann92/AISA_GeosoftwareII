@@ -40,8 +40,8 @@ library(gdalcubes)
   # library(RcppProgress)
   # library(tmap)
 
-getwd()
-setwd("/R")
+#getwd()
+#setwd("/R")
 #getwd()
 # set working directory: directory which includes needed data
 #### needs to be changed later on to the hosting server

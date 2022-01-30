@@ -30,7 +30,7 @@ services:
     #network_mode: "host"
     volumes:
       - /home/ubuntu/data:/R/data
-      - /home/ubuntu/demodata:/R/demodaten
+      - /home/ubuntu/demodata:/R/demodata
 
 networks:
   default:
