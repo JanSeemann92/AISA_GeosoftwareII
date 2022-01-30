@@ -629,7 +629,7 @@ httpGET(path = '/runDemo', function(req,res,err) {
   # The data is kept in directory for demodata.
   # As predictor variables a raster data set with sentinel-2 data is used.
   # load and build stack with data of predictor variables (=sentinel-2 images)
-  sentinel_combined <- stack("/R/demodata/demodata_rheine_sentinel_combined.grd")
+  sentinel_combined <- stack("./demodata/demodata_rheine_sentinel_combined.grd")
   # load training polygons
   trainingsites <- st_read("demodata/demodata_rheine_trainingspolygone.gpkg")
   
