@@ -31,6 +31,7 @@ library(RJSONIO)
   # load packages for image generation from AWS
 library(rstac) 
 library(gdalcubes)
+library(randomForest)
   # library(stars)
   # library(magick)
   # library(rmarkdown) 

@@ -31,6 +31,7 @@ RUN R -e "install.packages('rstac')"
 RUN R -e "install.packages('gdalcubes')"
 RUN R -e "install.packages('RJSONIO')"
 RUN R -e "install.packages('raster', type = 'source')"
+RUN R -e "install.packages('randomForest')"
 
 COPY . .
 
