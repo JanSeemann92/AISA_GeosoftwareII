@@ -22,10 +22,10 @@ Open `http://44.234.41.163:8781` in your browser.
 
 The frontend and backend are available in the aisa_vision_cloud repository on Docker Hub:
 
-- `antonia123/aisa`
+- `antonia123/aisafrontend`
 - `antonia123/aisabackend`
  
- To pull the images from Docker Hub enter:
+ To pull our aisa_cloud-vision repository from Docker Hub enter:
  ````sh
  docker pull antonia123/aisa_cloud_vision
  ````
