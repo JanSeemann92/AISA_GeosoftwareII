@@ -45,6 +45,7 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
+// multer
 const multer = require('multer'); 
 const fs = require('fs');
 
@@ -57,8 +58,6 @@ const handleError = (err, res) => {
 
   const upload = multer({
     dest: "/app"
-    //"C:/Users/katha/Documents/GitHub/AISA_GeosoftwareII/"
-   
   });
 
   // Saving the upload file

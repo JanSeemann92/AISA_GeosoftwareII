@@ -63,6 +63,7 @@ block content
         p(id='msgmodelR' style='color: red; display: none') Your model does not contain any predictor names or contains invalid predictor names.
         br
         br
+        //- optional settings (cloud coverage & resolution)
         h5.text-left OPTIONAL SETTINGS
         p.text-left
           | You can optionally set the cloud coverage and the resolution of the satellite images.
@@ -81,6 +82,7 @@ block content
           option 60
         br
         br
+        //- checkbox
         .form-group.form-check(id='validate1' style='display: block')
           input#validate.form-check-input(type='checkbox')
           label.form-check-label(for='exampleCheck1') Everything correct?
