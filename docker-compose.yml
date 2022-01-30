@@ -14,6 +14,7 @@ services:
       - backend 
     volumes:
       - /home/ubuntu/data:/app/data
+      - /home/ubuntu/demodata:/app/demodata   
 
 
 
