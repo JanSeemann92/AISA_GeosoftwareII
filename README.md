@@ -25,7 +25,7 @@ Once you're at `root@...:/app` enter `#npm run test` and all frontend related te
 
 For testing the backend on AWS Server go to `$ cd AISA_GeosoftwareII/Backend`. 
 Now interactively start the container using `$ docker run -it antonia123/aisabackend:latest /bin/bash`.
-Once you're at `root@...:/app` enter `#Rscript test.R` and all backend related tests will be exectued.
+Once you're at `root@...:/R` enter `#Rscript test.R` and all backend related tests will be exectued.
 
 ### Docker Hub
 The frontend and backend image are also available in the aisa_vision_cloud repository on [Docker Hub](https://hub.docker.com/repository/docker/antonia123/aisa_cloud_vision):
@@ -37,7 +37,7 @@ The frontend and backend image are also available in the aisa_vision_cloud repos
  ````sh
  $ docker pull --all-tags antonia123/aisa_cloud_vision
  ````
- To check if all images have been pulled correctly use 
+ To check if all images have been pulled correctly use:
  ````sh
  $ docker images antonia123/aisa_cloud_vision
  ````
@@ -64,7 +64,7 @@ Next, you need to upload a model in .rds format or training data in .geojson/.gp
 </p>
 
 ### Step 3
-Optionally you can change the settings for the cloud cover and the resolution. Please be thoughtful when setting the resolution. It must fit in relation to the traningsdata and AOI. Otherwise the calculation might not succeed.
+Optionally you can change the settings for the cloud cover and the resolution. Please be thoughtful when setting the resolution. It should be reasonable in relation to the traningsdata and AOI. Otherwise the calculation might not succeed.
 <p align="center">
   <img width="700" src="./public/stylesheets/step3.jpg">
 </p>
