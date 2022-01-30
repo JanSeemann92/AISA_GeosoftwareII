@@ -10,14 +10,14 @@ Cloud Vision offers a simple tool for estimating the applicability of models for
 ### Requirements
 Node >= 14 & R >= 4.1.2
 
-### GitHub
+### via GitHub
 First of all, you need to download the entire code from the main branch. To start to programm use
 ```sh
 § docker-compose up
 ```
 in your command line. Now you can open `http://44.234.41.163:8781` in your browser and Cloud Vision is running.
 
-### Docker Hub
+### via Docker Hub
 The frontend and backend image are also available in the aisa_vision_cloud repository on Docker Hub:
 
 - `antonia123/aisafrontend`
