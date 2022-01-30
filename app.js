@@ -58,12 +58,13 @@ const handleError = (err, res) => {
   const upload = multer({
     dest: "/app"
     //"C:/Users/katha/Documents/GitHub/AISA_GeosoftwareII/"
-    // you might also want to set some limits: https://github.com/expressjs/multer#limits
+   
   });
 
+  // Saving the upload file
   app.post(
     "/upload",
-    upload.single("upload" /* name attribute of <file> element in your form */),
+    upload.single("upload" ),
     (req, res) => {
       const tempPath = req.file.path;
       const targetPath1 = path.join(__dirname, "./data/upload/upload.geojson");

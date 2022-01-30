@@ -104,7 +104,7 @@ var icon = L.icon({
         if(status == 'trainingdata'){
             var xhr = new XMLHttpRequest();
             xhr.open('GET', "http://host.docker.internal:8782/data/output/trainingsitesOutput.geojson");
-            xhr.setRequestHeader('Content-Type', 'application/json');
+            //xhr.setRequestHeader('Content-Type', 'application/json');
             xhr.onload = function() {
             if (xhr.status === 200) {
             var polygons = L.geoJSON(JSON.parse(xhr.responseText))

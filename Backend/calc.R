@@ -157,6 +157,7 @@ generateImage <- function (cloudcover, resolution, left, right, top, bottom, typ
 
   print("test Mitte")
 
+
 #######################################################################
 # Name of function: TrainModel
 # Author: Liliana Gitschel
@@ -294,6 +295,79 @@ NewSamplingLocations <- function(areaOA) {
 }
 
 print("zeile296")
+
+
+#######################################################################
+# Title: checkTrainData
+# Author: Liliana Gitschel
+# Latest Update: 27.01.2022
+# 
+# Purpose:
+#   Checks if requirements on trainingsites input are valid
+#
+# Input:
+#   trainData - trainingsites
+#
+# Output:
+#   boolean (TRUE for valid)
+#
+########################################################################
+
+checkTrainData <- function(trainData) {
+  # check if data has property "Label" and "Label" is not empty
+  if (length(trainData$Label) <= 0) {
+    return(FALSE)
+  }
+  # check if data has CRS
+  else if (is.na(crs(trainData))) {
+    return(FALSE)
+  } 
+  else {
+    # check if at least 2 entries per Label
+    counts <- as.data.frame(table(trainData$Label))
+    for (i in 1:(length(counts$Freq))) {
+      if (counts$Freq[i] < 2) {
+        return(FALSE)
+      }
+    }
+  }
+  return (TRUE)
+}
+
+
+#######################################################################
+# Title: checkModel
+# Author: Liliana Gitschel
+# Latest Update: 27.01.2022
+# 
+# Purpose:
+#   Checks if requirements on model input are valid
+#
+# Input:
+#   model - model
+#
+# Output:
+#   checked - boolean (TRUE for valid)
+#
+########################################################################
+
+checkModel <- function(model) {
+  # check if there are any predictor names
+  modelnames <- model$finalModel$xNames
+  if (length(modelnames) == 0) {
+    return(FALSE)
+  }
+  # check if model only contains allowed predictor names
+  bandnames <- c("B02","B03","B04","B05","B06","B07","B08","B11","B12","B8A")
+  MnamesNotInBnames <- subset(modelnames, !(modelnames %in% bandnames))
+  if (length(MnamesNotInBnames) > 0) {
+    return (FALSE)
+  }
+  return(TRUE)
+}
+
+
+
 ############################################################
 ############################################################
 #
@@ -330,6 +404,21 @@ newBeakr() %>%
 httpPOST(path = '/withModel', function(req,res,err) {
   
   output_string <- "JobDone"
+
+  # load model
+  model <- readRDS("data/upload/upload.rds")
+
+  # check for correct requirements on input data
+  if (checkModel(model) == TRUE) {
+    output_string <- "ok"
+    print(output_string)
+    # return((output_string))
+  } else {
+    output_string <- "invalid model"
+    print(output_string)
+    return(output_string) # abort calculation
+  }
+
   #testing
   print(req$parameters$lat1)
   print(req$parameters$long1)
@@ -352,9 +441,7 @@ httpPOST(path = '/withModel', function(req,res,err) {
   generateImage(cov, reso, left, right, top, bottom, type)
   
   
-  # load input data
-  # load model
-  model <- readRDS("data/upload/upload.rds")
+  
   # As predictor variables a raster data set with sentinel-2 data is used.
   # The data comes form AWS and is preprocessed internally first (see above).
   # load and build stack with data for area of interest (=sentinel-2 images for prediction)
@@ -410,7 +497,32 @@ httpPOST(path = '/withModel', function(req,res,err) {
 httpPOST(path = '/noModel', function(req,res,err) {
   output_string <- "JobDone"
   
-  
+  # load training data
+  # depends on data format (gpkg or geojson)
+  dataformat <- req$parameters$format   # variables names must be checked with frontend
+  if (dataformat == "geopackage") {
+    trainingsites <- st_read("data/upload/upload.gpkg")
+  } else {
+    trainingsites <- st_read("data/upload/upload.geojson")
+  }
+
+  # check for correct requirements on input data
+    if (checkTrainData(trainingsites) == TRUE) {
+      output_string <- "ok"
+      print(output_string)
+      # return((output_string))
+    } else {
+      output_string <- "invalid trainingdata"
+      print(output_string)
+      return(output_string) # abort calculation
+    }
+
+  # reproject crs of input data to EPSG4326
+  # sentinel images from AWS/stac already come in EPSG4326
+  # ensures that data has same crs and that it can be displayed by leaflet
+  # for reference see: https://spatialreference.org/ref/sr-org/6627/
+  trainingsites <- st_transform(trainingsites, crs = "+proj=longlat +datum=WGS84 +no_defs")
+
   #testing
   print(req$parameters$lat1)
   print(req$parameters$long1)
@@ -419,6 +531,19 @@ httpPOST(path = '/noModel', function(req,res,err) {
   print(req$parameters$cov)
   print(req$parameters$reso)
   
+  # parameters for training
+  right <- st_bbox(trainingsites)[3]    #xmax
+  bottom <- st_bbox(trainingsites)[2]   #ymin
+  left <- st_bbox(trainingsites)[1]  #xmin
+  top <- st_bbox(trainingsites)[4]   #ymax 
+  cov <- as.numeric(req$parameters$cov)
+  reso <- as.numeric(req$parameters$reso)
+  type <- "training"
+
+  # return(output_string)
+
+  # generate sentinel images from AWS for training
+  generateImage(cov, reso, left, right, top, bottom, type)
   
   # parameters for AOI
   top <- as.numeric(req$parameters$lat1)
@@ -431,46 +556,18 @@ httpPOST(path = '/noModel', function(req,res,err) {
   
   # generate sentinel images from AWS for AOI/prediction
   generateImage(cov, reso, left, right, top, bottom, type)
-  
-  
-  # load training data
-  # depends on data format (gpkg or geojson)
-  dataformat <- req$parameters$format   # variables names must be checked with frontend
-  if (dataformat == "geopackage") {
-    trainingsites <- st_read("data/upload/upload.gpkg")
-  } else {
-    trainingsites <- st_read("data/upload/upload.geojson")
-  }
-  
-  # reproject crs of input data to EPSG4326
-  # sentinel images from AWS/stac already come in EPSG4326
-  # ensures that data has same crs and that it can be displayed by leaflet
-  # for reference see: https://spatialreference.org/ref/sr-org/6627/
-  trainingsites <- st_transform(trainingsites, crs = "+proj=longlat +datum=WGS84 +no_defs")
-  
-  
-  # parameters for training
-  right <- st_bbox(trainingsites)[3]    #xmax
-  bottom <- st_bbox(trainingsites)[2]   #ymin
-  left <- st_bbox(trainingsites)[1]  #xmin
-  top <- st_bbox(trainingsites)[4]   #ymax 
-  cov <- as.numeric(req$parameters$cov)
-  reso <- as.numeric(req$parameters$reso)
-  type <- "training"
-  
-  # generate sentinel images from AWS for training
-  generateImage(cov, reso, left, right, top, bottom, type)
-  
-  
-  
+
   # load input data
   # As predictor variables a raster data set with sentinel-2 data is used.
   # The data comes form AWS and is preprocessed internally first.
+  # load generated sentinel data for training and prediction from directory
   # load and build stack with data of predictor variables (=sentinel-2 images for training)
   # load and build stack with data for area of interest (=sentinel-2 images for prediction)
   sentinel_combined_training <- stack("data/sentinel/sentinel_training2020-01-01.tif")  # eventually not needed
   sentinel_combined_prediction <- stack("data/sentinel/sentinel_prediction2020-01-01.tif")  # eventually not needed
-  
+  # no reprojection needed
+  # sentinel images from AWS/stac already come in EPSG4326 which is needed for leaflet
+
   # set names of bands in the sentinel data
   bandnames <- c("B02","B03","B04","B05","B06","B07","B08","B11","B12","B8A")
   names(sentinel_combined_training) <- bandnames
