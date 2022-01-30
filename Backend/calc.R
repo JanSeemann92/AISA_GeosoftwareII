@@ -685,7 +685,7 @@ httpGET(path = '/runDemo', function(req,res,err) {
 
 #print("Ende")
 
-listen(host = "localhost", port = 8782) #for local testing
+listen(host = "172.16.238.10", port = 8782) #for local testing
 #listen(host = "44.234.41.163", port =  8782) #for AWS
 
 
