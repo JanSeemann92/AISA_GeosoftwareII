@@ -103,7 +103,7 @@ var icon = L.icon({
     success: function(res) {
         var status = res[0];
         console.log(status)
-        if(status == 'trainingdata'){
+        if(status == 'demo'){
             var xhr = new XMLHttpRequest();
             xhr.open('GET', path +  "/demodata/createdbyAISAtool/trainingsitesOutput.geojson");
             //xhr.setRequestHeader('Content-Type', 'application/json');
