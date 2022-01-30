@@ -147,7 +147,7 @@ generateImage <- function (cloudcover, resolution, left, right, top, bottom, typ
                   "median(B11)",
                   "median(B12)",
                   "median(B8A)")) %>%
-    write_tif(dir="/home/ubuntu/AISA_GeosoftwareII/Backend/data/sentinel", prefix = filename) %>%     # set correct directory
+    write_tif(dir="./data/sentinel", prefix = filename) %>%     # set correct directory
     # plot(rgb = 3:1, zlim=c(0,1800)) %>%
     # system.time()
     
@@ -406,7 +406,7 @@ httpPOST(path = '/withModel', function(req,res,err) {
   output_string <- "JobDone"
 
   # load model
-  model <- readRDS("data/upload/upload.rds")
+  model <- readRDS("./data/upload/upload.rds")
 
   # check for correct requirements on input data
   if (checkModel(model) == TRUE) {
@@ -445,7 +445,7 @@ httpPOST(path = '/withModel', function(req,res,err) {
   # As predictor variables a raster data set with sentinel-2 data is used.
   # The data comes form AWS and is preprocessed internally first (see above).
   # load and build stack with data for area of interest (=sentinel-2 images for prediction)
-  sentinel_combined_prediction <- stack("data/sentinel/sentinel_prediction2020-01-01.tif")
+  sentinel_combined_prediction <- stack("./data/sentinel/sentinel_prediction2020-01-01.tif")
   # no reprojection needed
   # sentinel images from AWS/stac already come in EPSG4326 which is needed for leaflet
   
@@ -462,7 +462,7 @@ httpPOST(path = '/withModel', function(req,res,err) {
   
   if(0 %in% values(areaOA)){
     samplingLocations <- NewSamplingLocations(areaOA)
-    write(samplingLocations, "data/output/samplingLocationsOutput.geojson")
+    write(samplingLocations, "./data/output/samplingLocationsOutput.geojson")
     print("New sampling locations output geojson written")
     sampling <- "sampling"
   } else {print ("AOA = AOI")
@@ -479,12 +479,12 @@ httpPOST(path = '/withModel', function(req,res,err) {
   labelsJSON <- toJSON(label)
   
   #writing output files
-  writeRaster(predictionLULC, "data/output/predictionOutput.tif", overwrite=T)
+  writeRaster(predictionLULC, "./data/output/predictionOutput.tif", overwrite=T)
   print("LULC output file written")
-  writeRaster(areaOA, "data/output/aoaOutput.tif", overwrite=T)
+  writeRaster(areaOA, "./data/output/aoaOutput.tif", overwrite=T)
   print("AOA output file written")
   
-  write(labelsJSON, "data/output/labelsOutput.json")
+  write(labelsJSON, "./data/output/labelsOutput.json")
   print("Labels output json written")
   
   res$setHeader("Access-Control-Allow-Origin", "*")
@@ -501,9 +501,9 @@ httpPOST(path = '/noModel', function(req,res,err) {
   # depends on data format (gpkg or geojson)
   dataformat <- req$parameters$format   # variables names must be checked with frontend
   if (dataformat == "geopackage") {
-    trainingsites <- st_read("data/upload/upload.gpkg")
+    trainingsites <- st_read("./data/upload/upload.gpkg")
   } else {
-    trainingsites <- st_read("data/upload/upload.geojson")
+    trainingsites <- st_read("./data/upload/upload.geojson")
   }
 
   # check for correct requirements on input data
@@ -563,8 +563,8 @@ httpPOST(path = '/noModel', function(req,res,err) {
   # load generated sentinel data for training and prediction from directory
   # load and build stack with data of predictor variables (=sentinel-2 images for training)
   # load and build stack with data for area of interest (=sentinel-2 images for prediction)
-  sentinel_combined_training <- stack("data/sentinel/sentinel_training2020-01-01.tif")  # eventually not needed
-  sentinel_combined_prediction <- stack("data/sentinel/sentinel_prediction2020-01-01.tif")  # eventually not needed
+  sentinel_combined_training <- stack("./data/sentinel/sentinel_training2020-01-01.tif")  # eventually not needed
+  sentinel_combined_prediction <- stack("./data/sentinel/sentinel_prediction2020-01-01.tif")  # eventually not needed
   # no reprojection needed
   # sentinel images from AWS/stac already come in EPSG4326 which is needed for leaflet
 
@@ -586,7 +586,7 @@ httpPOST(path = '/noModel', function(req,res,err) {
   if(0 %in% values(areaOA)){
     samplingLocations <- NewSamplingLocations(areaOA)
     sampling <- "sampling"
-    write(samplingLocations, "data/output/samplingLocationsOutput.geojson")
+    write(samplingLocations, "./data/output/samplingLocationsOutput.geojson")
     print("New sampling locations output geojson written")
   } else {print("AOA=AOI") 
     sampling <- "nosampling"
@@ -603,16 +603,16 @@ httpPOST(path = '/noModel', function(req,res,err) {
   labelsJSON <- toJSON(label)
   
   #writing output files
-  saveRDS(model,file="data/output/modelOutput.RDS")
+  saveRDS(model,file="./data/output/modelOutput.RDS")
   print("model output file written")
-  writeRaster(predictionLULC, "data/output/predictionOutput.tif", overwrite=T)
+  writeRaster(predictionLULC, "./data/output/predictionOutput.tif", overwrite=T)
   print("LULC output file written")
-  writeRaster(areaOA, "data/output/aoaOutput.tif", overwrite=T)
+  writeRaster(areaOA, "./data/output/aoaOutput.tif", overwrite=T)
   print("AOA output file written")
-  st_write(trainingsites, "data/output/trainingsitesOutput.geojson",  delete_dsn = TRUE)
+  st_write(trainingsites, "./data/output/trainingsitesOutput.geojson",  delete_dsn = TRUE)
   print("trainingsites geojson output written")
   
-  write(labelsJSON, "data/output/labelsOutput.json")
+  write(labelsJSON, "./data/output/labelsOutput.json")
   print("Labels output json written")
   
   
@@ -631,7 +631,7 @@ httpGET(path = '/runDemo', function(req,res,err) {
   # load and build stack with data of predictor variables (=sentinel-2 images)
   sentinel_combined <- stack("./demodata/demodata_rheine_sentinel_combined.grd")
   # load training polygons
-  trainingsites <- st_read("demodata/demodata_rheine_trainingspolygone.gpkg")
+  trainingsites <- st_read("./demodata/demodata_rheine_trainingspolygone.gpkg")
   
   # reproject crs of input data to EPSG4326
   # ensures that data has same crs and that it can be displayed by leaflet
@@ -656,17 +656,17 @@ httpGET(path = '/runDemo', function(req,res,err) {
   labelsJSON <- toJSON(label)
   
   #writing output files
-  saveRDS(model,file="demodata/createdbyAISAtool/modelOutput.RDS")
+  saveRDS(model,file="./demodata/createdbyAISAtool/modelOutput.RDS")
   print("mtputdel output file written")
-  writeRaster(predictionLULC, "demodata/createdbyAISAtool/predictionOutput.tif", overwrite=T)
+  writeRaster(predictionLULC, "./demodata/createdbyAISAtool/predictionOutput.tif", overwrite=T)
   print("LULC output file written")
-  writeRaster(areaAOA, "demodata/createdbyAISAtool/aoaOutput.tif", overwrite=T)
+  writeRaster(areaAOA, "./demodata/createdbyAISAtool/aoaOutput.tif", overwrite=T)
   print("AOA output file written")
-  st_write(trainingsites, "demodata/createdbyAISAtool/trainingsitesOutput.geojson",  delete_dsn = TRUE)
+  st_write(trainingsites, "./demodata/createdbyAISAtool/trainingsitesOutput.geojson",  delete_dsn = TRUE)
   print("trainingsites geojson output written")
-  write(samplingLocations, "demodata/createdbyAISAtool/samplingLocationsOutput.geojson")
+  write(samplingLocations, "./demodata/createdbyAISAtool/samplingLocationsOutput.geojson")
   print("New sampling locations output geojson written")
-  write(labelsJSON, "demodata/createdbyAISAtool/labelsOutput.json")
+  write(labelsJSON, "./demodata/createdbyAISAtool/labelsOutput.json")
   print("Labels output json written")
   
   
