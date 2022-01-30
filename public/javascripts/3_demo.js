@@ -13,6 +13,10 @@ function startDemoCalculation(){
         success: function(){
         ($('#loadingdemo').hide("<img src= 'https://media.giphy.com/media/lPcbCcPfACi3ncc3cv/giphy.gif' width ='150'/>")),
         window.location.href= '/demoresultAOA'
-    }})
+    },
+    error: function () {
+        alert("Unfortunately, an error has occurred.");
+        location.reload()}
+    })
 }
 
