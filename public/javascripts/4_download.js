@@ -71,7 +71,7 @@ function downloadowndata(){
         type: 'GET',
         dataType: 'json', 
         success: function(res) {
-            var status = res[0][1];
+            var status = res[1];
             console.log(status)
             if(status == 'sampling'){
                 JSZipUtils.getBinaryContent("http://127.0.0.1:25118/verzeichnisdemodaten/data/output/samplingLocationsOutput.geojson", function( err, data3 ) {
@@ -85,7 +85,7 @@ function downloadowndata(){
         type: 'GET',
         dataType: 'json', 
         success: function(res) {
-            var status = res[0][0];
+            var status = res[0];
             console.log(status)
             if(status == 'trainingdata'){
                 JSZipUtils.getBinaryContent("http://127.0.0.1:25118/verzeichnisdemodaten/data/output/modelOutput.RDS", function( err, data5 ) {

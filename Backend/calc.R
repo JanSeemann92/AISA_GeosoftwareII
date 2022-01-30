@@ -76,6 +76,8 @@ setwd("C:/Users/lgits/Documents/GitHub/AISA_GeosoftwareII/Backend/")
 ########################################################################
 
 generateImage <- function (cloudcover, resolution, left, right, top, bottom, type){
+  # convert resolution
+  resolution <- resolution*0.00001
   
   # set filename depending on type
   # type can be "prediction" or "training"
@@ -115,8 +117,8 @@ generateImage <- function (cloudcover, resolution, left, right, top, bottom, typ
                               right = right,
                               top = top,
                               bottom = bottom),
-                dx = 0.001,
-                dy = 0.0001,
+                dx = resolution,
+                dy = resolution,
                 dt = "P1D",
                 aggregation = "median",
                 resampling = "near")
