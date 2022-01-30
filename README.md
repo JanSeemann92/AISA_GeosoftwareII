@@ -11,7 +11,12 @@ Cloud Vision offers a simple tool for estimating the applicability of models for
 Only relevant if installed without docker: Node >= 14 & R >= 4.1.2
 
 ### Start
-To start the programme use `$ docker-compose up`. Now you can open `http://44.234.41.163:8781` in your browser and Cloud Vision is running.
+To start the programme use: 
+```sh
+$ cd AISA_GeosoftwareII
+$ docker-compose up
+```
+Now you can open `http://44.234.41.163:8781` in your browser and Cloud Vision is running.
 
 ### For testing purposes
 
