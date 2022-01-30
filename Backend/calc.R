@@ -294,8 +294,6 @@ NewSamplingLocations <- function(areaOA) {
   return(samples_geojson)
 }
 
-print("zeile296")
-
 
 #######################################################################
 # Title: checkTrainData
