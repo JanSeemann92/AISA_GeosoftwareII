@@ -10,7 +10,7 @@
 #
 ############################################################################################
 ############################################################################################
-print("R Skript ist da")
+
 # Prepare environment:
 
 # delete all variables from environment
@@ -78,7 +78,8 @@ library(randomForest)
 ########################################################################
 
 generateImage <- function (cloudcover, resolution, left, right, top, bottom, type){
-  
+
+resolution <- resolution * 0.00001  
   # set filename depending on type
   # type can be "prediction" or "training"
   filename <- "sentinel"
@@ -117,8 +118,8 @@ generateImage <- function (cloudcover, resolution, left, right, top, bottom, typ
                               right = right,
                               top = top,
                               bottom = bottom),
-                dx = 0.001,
-                dy = 0.0001,
+                dx = resolution,
+                dy = resolution,
                 dt = "P1D",
                 aggregation = "median",
                 resampling = "near")
@@ -155,8 +156,6 @@ generateImage <- function (cloudcover, resolution, left, right, top, bottom, typ
     return()
 }
 
-
-  print("test Mitte")
 
 
 #######################################################################
