@@ -102,21 +102,21 @@ The AOI can either be entered by drawing a rectangle on a given leaflet map or b
 
 ### Model
 - Models must come as single R objects (.RDS).
-- Models must have been trained on a selection of the following bands from sentinel-2 images: B02, B03, B04, B05, B06, B07, B08, B11, B12, B8A.
-- Predictors must be named likewise: "B02", "B03", "B04", "B05", "B06", "B07", "B08", "B11", "B12", "B8A".
+- Models must have been trained on a selection of the bands B02, B03, B04, B05, B06, B07, B08, B11, B12 and B8A from sentinel-2 and the NDVI.
+- Predictors must be named likewise: "B02", "B03", "B04", "B05", "B06", "B07", "B08", "B11", "B12", "B8A", "NDVI".
 
 ## Specifications
 
 ### Generating Sentinel-2 images from AWS
 The following parameters can be chosen by the user within the webtool:
 - Resolution of requested sentinel-2 images can be 20m (default), 40m or 60m.
-- The maximum cloudcover to filter sentinel-2 images can be between 0% and 100% (default it 20%).
+- The maximum cloud cover to filter sentinel-2 images can be between 0% and 100% (default is 20%).
 - An area of interest must be chosen (see Requirements on Input Data - Area of Interest).
 
-The images contain the bands B02, B03, B04, B05, B06, B07, B08, B11, B12 and B8A and are filtered by the given cloudcover, given AOI (and if needed the bounding box of training data) and by time. The time filter is set to 01.01.2020 till 31.12.2020 ba default. Normally there will be several images (up to max. 500) fitting these parameters. Therefore images will be subsampled by using mean values of all images for every pixel using the method median.
+The images contain the bands B02, B03, B04, B05, B06, B07, B08, B11, B12 and B8A and are filtered by the given cloud cover, given AOI (and if needed the bounding box of training data) and by time. The time filter is set to 01.01.2020 till 31.12.2020 by default. Supplementary to the bands the NDVI (B08-B04/B08+B04) is added as a predictor. Normally there will be several images (up to max. 500) fitting these parameters. Therefore images will be subsampled by using mean values of all images for every pixel using the method median.
 
 ### Preprocessing Training Data and Model Training
-First only those pixel which are located within the training polygons are extracted from the sentinel-2 images and the information on LULC from the labels is added. Then the data is reduced to only 10% of each polygon. In the next step the model is trained by random forest with ntree=200 using the Labels (which store the LULC classes) and the sentinel bands as predictors. The model is validated by spatial cross validation with three folds and the polygons as spatial units. The final model is chosen by best value for kappa. 
+First only those pixel which are located within the training polygons are extracted from the sentinel-2 images and the information on LULC from the labels is added. Then the data is reduced to only 10% of each polygon. In the next step the model is trained by random forest with 200 trees using the Labels (which store the LULC classes) and the sentinel bands as predictors. The model is validated by spatial cross validation with three folds and the polygons as spatial units. The final model is chosen by best value for kappa. 
 
 ### Prediction and Estimating AOA
 The prediction is made for the AOI by using the appropriate sentinel-2 image and a model. The model used is either the one uploaded or the one trained before (depending on user input). Likewise the AOA is estimated for the AOI using the image and the model.
