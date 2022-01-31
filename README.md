@@ -3,7 +3,7 @@ Authors: [@Jan](https://github.com/JanSeemann92) [@Katharina](https://github.com
 # Cloud Vision <img src="./public/stylesheets/Logo.jpg" align="right" alt="" width="120" />
 ### Applicability Estimation Tool for Spatial Prediction Models
 
-Cloud Vision offers a simple tool for estimating the applicability of models for land use/land cover (LULC) classifications. Its special focus is on implementing the Area of Applicability (AOA) [Meyer and Pebesma (2021)](https://besjournals.onlinelibrary.wiley.com/doi/10.1111/2041-210X.13650) , a very useful method for assessing and communicating areas a model is applicable for. In addition to that, Cloud Vision supports model training, making LULC classifications and suggesting locations for further sampling campaigns.
+Cloud Vision offers a simple tool for estimating the applicability of models for land use/land cover (LULC) classifications. Its special focus is on implementing the Area of Applicability (AOA) by [Meyer and Pebesma (2021)](https://besjournals.onlinelibrary.wiley.com/doi/10.1111/2041-210X.13650) , a very useful method for assessing and communicating areas a model is applicable for. In addition to that, Cloud Vision supports model training, making LULC classifications and suggesting locations for further sampling campaigns.
 
 ## Installation
 
@@ -11,7 +11,7 @@ Cloud Vision offers a simple tool for estimating the applicability of models for
 Only relevant if installed without docker: Node >= 14 & R >= 4.1.2
 
 ### Start
-To start the programme use: 
+To start the programme on AWS Server use: 
 ```sh
 $ cd AISA_GeosoftwareII
 $ docker-compose up
@@ -58,8 +58,8 @@ To get an overview of our tool we provide a step-by-step tutorial:
 ### Step 1
 First of all, you need to select the area you're interested in (AOI). Therefore, we offer you 2 different options you can see in the dropdown bar. Once you've selected your prefered option, you'll be able to either draw a bounding box directly on the map or to enter the coordinates manually (Please pay attention to the correct format and order of the coordinates!).
 <p align="center">
-  <img width="470" src="./public/stylesheets/step1_1.jpg">
-  <img width="470" src="./public/stylesheets/step1_2.jpg">
+  <img width="460" src="./public/stylesheets/step1_1.jpg">
+  <img width="460" src="./public/stylesheets/step1_2.jpg">
 </p>
 
 ### Step 2
