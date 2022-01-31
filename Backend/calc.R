@@ -642,6 +642,8 @@ newBeakr() %>%
       
       sentinel_combined <- projectRaster(sentinel_combined,crs=crs(trainingsites))
       expect_s4_class(sentinel_combined,"RasterBrick")
+        
+      names(trainingsites)[2] <- 'Label'
       
       model <-TrainModel(trainingsites, sentinel_combined)
       expect_type(model, "list")
