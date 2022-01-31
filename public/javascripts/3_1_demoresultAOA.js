@@ -1,9 +1,10 @@
 "use strict" 
 
+// Path to the backend directory
 var path = "http://44.234.41.163:8782/verzeichnis"
 
 /**
- * Add icon for the suggested training points
+ * Add icon for sampling areas
  * Icon-source: Icons erstellt von "https://www.flaticon.com/de/autoren/hasim-safii" hasim safii from "https://www.flaticon.com/de/" 
  * Code source: https://leafletjs.com/examples/custom-icons/
  **/
@@ -31,12 +32,10 @@ var icon = L.icon({
             georaster: georaster,
             opacity: 0.7,
             pixelValuesToColorFn: function(pixelValues) {
-                var pixelValue = pixelValues[0]; // there's just one band in this raster
+                var pixelValue = pixelValues[0];
 
-                // if there's zero wind, don't return a color
                 if (pixelValue === 0) return '#01665e';
 
-                // scale to 0 - 1 used by chroma
                 var scaledPixelValue = (pixelValue - min) / range;
 
                 var color = scale(scaledPixelValue).hex();
@@ -48,14 +47,12 @@ var icon = L.icon({
         var layerAOA = L.layerGroup([AOAlayer])
         createAOALayer(layerAOA);
 
-        var classBreaks = []
-
+        // create legend 
+        var classBreaks = [];
         for(let i = 0; i < 2; i++){
             var count = i + 1;
             classBreaks.push(count);
         }
-
-        console.log(classBreaks);
         
         var categories = ['Inside AOA', 'Outside AOA'];
         
@@ -69,8 +66,8 @@ var icon = L.icon({
             }
             return regionColor
         }
+
         var legend = L.control({position: 'topleft'});
-        
         legend.onAdd = function (demoresultmap) {
             var div = L.DomUtil.create('div', 'legend');
             div.innerHTML += "<h4> AOA </h4>";
@@ -106,16 +103,15 @@ var icon = L.icon({
         if(status == 'demo'){
             var xhr = new XMLHttpRequest();
             xhr.open('GET', path +  "/demodata/createdbyAISAtool/trainingsitesOutput.geojson");
-            //xhr.setRequestHeader('Content-Type', 'application/json');
             xhr.onload = function() {
             if (xhr.status === 200) {
             var polygons = L.geoJSON(JSON.parse(xhr.responseText))
             var layerpolygons = L.layerGroup([polygons])
             createPolygonLayer(layerpolygons);
-            console.log(polygons)
             }}
             xhr.send();
         }
+        // set labels
         var labels = res
         labels.splice(0,1)
         console.log(labels)
@@ -161,13 +157,10 @@ var icon = L.icon({
                 createPredictionLayer(layerPrediction);
 
                 var classBreaks = []
-
                 for(let i = 0; i < labels.length; i++){
                     var count = i + 1;
                     classBreaks.push(count);
                 }
-
-                console.log(classBreaks);
                 
                 var categories = labels;
 
@@ -210,7 +203,7 @@ var icon = L.icon({
                     return div;
                 };
                 legend.addTo(demoresultmap);
-                console.log(georaster.xmax)
+
                 // add AOI to the map
                 var coordinates = [[georaster.ymin, georaster.xmin],[georaster.ymax,georaster.xmax]]
                 L.rectangle(coordinates, {
@@ -238,8 +231,6 @@ var icon = L.icon({
         var samplingareas = L.geoJson(res, {
             pointToLayer: function(feature, latlng) {            
                 return L.marker(latlng, {icon: icon})}})
-
-            console.log(samplingareas)
             var layertrainingspots = L.layerGroup([samplingareas]);
             createSamplingLayer(layertrainingspots);
     }

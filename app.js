@@ -60,7 +60,7 @@ const handleError = (err, res) => {
     dest: "/app"
   });
 
-  // Saving the upload file
+  // Saving the upload file and rename it
   app.post(
     "/upload",
     upload.single("upload" ),

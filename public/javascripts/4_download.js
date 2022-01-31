@@ -1,6 +1,8 @@
 "use strict" 
 
+// Path to the backend directory
 var path = "http://44.234.41.163:8782/verzeichnis"
+
 /** 
  * Pulls the demo files from the server, merges them into a zip and then downloads the zip.
  * Source: https://jalara-studio.de/mit-javascript-eine-zip-datei-erstellen

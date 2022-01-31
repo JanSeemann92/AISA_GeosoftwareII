@@ -101,10 +101,9 @@ slider.oninput = function() {
       if(document.querySelector('#validate3').style.display == 'block'){
         // If check mark is still not set
         if(document.querySelector('#validate2').checked == false){  
-          console.log('Test3: false')}
+        }
         // If check mark was set
         else{
-          console.log('Test4: true')
           // Reading in the entered coordinates
           var ymin = document.querySelector("#ymin").value;
           var xmin = document.querySelector("#xmin").value;
@@ -407,7 +406,6 @@ slider.oninput = function() {
       if(document.querySelector('#validate3').style.display == 'block'){
         // If check mark is still not set
         if(document.querySelector('#validate2').checked == false){  
-          console.log('Test3: false')
         }
         // If check mark was set
         else{
@@ -423,7 +421,6 @@ slider.oninput = function() {
             document.querySelector('#validate1').style.display = 'block';
             document.querySelector('#validate3').style.display = 'none';
             document.querySelector('#validate').checked = 'true';
-            console.log('Test4: true')
             // Take over rectangle coordinates
             var coordinates = array[0].layer._latlngs;
             var ymin = coordinates[0][0].lat;
@@ -577,7 +574,6 @@ slider.oninput = function() {
           }
           else{
             document.querySelector('#msgbox').style.display = 'none';
-            console.log('Test4: true')
             // Take over rectangle coordinates
             var coordinates = array[0].layer._latlngs;
             var ymin = coordinates[0][0].lat;

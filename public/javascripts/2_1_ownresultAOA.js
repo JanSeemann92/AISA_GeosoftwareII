@@ -1,10 +1,11 @@
 "use strict" 
 
+// Path to the backend directory
 var path = "http://44.234.41.163:8782/verzeichnis"
 
 
 /**
- * Add icon for the suggested training points
+ * Add icon for the sampling areas
  * Icon-source: Icons erstellt von "https://www.flaticon.com/de/autoren/hasim-safii" hasim safii from "https://www.flaticon.com/de/" 
  * Code source: https://leafletjs.com/examples/custom-icons/
  **/
@@ -25,7 +26,6 @@ var icon = L.icon({
         const min = 0;
         const max = 2;
         const range = max-min;
-        console.log(chroma.brewer);
         var scale = chroma.scale(['#01665e', '#f6e8c3']).classes(2)
         console.log("georaster:", georaster);
         var AOAlayer = new GeoRasterLayer({
@@ -49,14 +49,11 @@ var icon = L.icon({
         var layerAOA = L.layerGroup([AOAlayer])
         createAOALayer(layerAOA);
 
-        var classBreaks = []
-
+        var classBreaks = [];
         for(let i = 0; i < 2; i++){
             var count = i + 1;
             classBreaks.push(count);
         }
-
-        console.log(classBreaks);
         
         var categories = ['Inside AOA', 'Outside AOA'];
         
@@ -107,7 +104,6 @@ var icon = L.icon({
         if(status == 'trainingdata'){
             var xhr = new XMLHttpRequest();
             xhr.open('GET', path + "/data/output/trainingsitesOutput.geojson");
-            //xhr.setRequestHeader('Content-Type', 'application/json');
             xhr.onload = function() {
             if (xhr.status === 200) {
             var polygons = L.geoJSON(JSON.parse(xhr.responseText))
@@ -117,6 +113,7 @@ var icon = L.icon({
             }}
             xhr.send();
         }
+        // set labels
         var labels = res;
         labels.splice(0,2)
         console.log(labels)
@@ -138,18 +135,15 @@ var icon = L.icon({
                 '#74add1',
                 '#4575b4',
                 '#313695']).classes(labels.length)
-                console.log(labels.length)
                 console.log("georaster:", georaster);
                 var Predictionlayer = new GeoRasterLayer({
                     georaster: georaster,
                     opacity: 0.8,
                     pixelValuesToColorFn: function(pixelValues) {
-                        var pixelValue = pixelValues[0]; // there's just one band in this raster
+                        var pixelValue = pixelValues[0]; 
 
-                        // if there's zero wind, don't return a color
                         if (pixelValue === 0) return null;
 
-                        // scale to 0 - 1 used by chroma
                         var scaledPixelValue = (pixelValue - min) / range;
 
                         var color = scale(scaledPixelValue).hex();
@@ -161,14 +155,12 @@ var icon = L.icon({
                 var layerPrediction = L.layerGroup([Predictionlayer])
                 createPredictionLayer(layerPrediction);
 
+                 // create legend
                 var classBreaks = []
-
                 for(let i = 0; i < labels.length; i++){
                     var count = i + 1;
                     classBreaks.push(count);
                 }
-
-                console.log(classBreaks);
                 
                 var categories = labels;
 
@@ -192,6 +184,7 @@ var icon = L.icon({
                     }
                     return regionColor
                 }
+
                 var legend = L.control({position: 'topleft'});
                 
                 legend.onAdd = function (ownresultmap) {
@@ -211,7 +204,7 @@ var icon = L.icon({
                     return div;
                 };
                 legend.addTo(ownresultmap);
-                console.log(georaster.xmax)
+
                 // add AOI to the map
                 var coordinates = [[georaster.ymin, georaster.xmin],[georaster.ymax,georaster.xmax]]
                 L.rectangle(coordinates, {
@@ -247,8 +240,6 @@ var icon = L.icon({
                     var samplingareas = L.geoJson(res, {
                         pointToLayer: function(feature, latlng) {            
                             return L.marker(latlng, {icon: icon})}})
-
-                        console.log(samplingareas)
                         var layertrainingspots = L.layerGroup([samplingareas]);
                         createSamplingLayer(layertrainingspots);
                 }
