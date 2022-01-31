@@ -85,7 +85,7 @@ generateImage <- function (cloudcover, resolution, left, right, top, bottom, typ
     stac_search(collections = "sentinel-s2-l2a-cogs",
                 bbox = c(left,top,right,bottom),
                 datetime = "2020-01-01/2020-12-31",
-                limit = 100) %>%
+                limit = 70) %>%
     post_request() 
   
   # filter by cloud cover
