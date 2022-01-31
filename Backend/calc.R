@@ -1,5 +1,5 @@
 
-# Title: runDemo
+# Title: calc
 # Author: Liliana Gitschel, Jan Seemann, Niklas Daute
 # Latest Update: 31.01.2022
 # 
@@ -349,7 +349,7 @@ checkModel <- function(model) {
 ############################################################
 #
 # Authors: Jan Seemann, Liliana Gitschel
-# Latest update: 21.01.22
+# Latest update: 30.01.22
 #
 # Purpose:
 #   Implements connection to frontend via beakr instance and
