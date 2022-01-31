@@ -1,7 +1,8 @@
 
-# Title: runDemo
+#######################################################################
+# Title: calc
 # Author: Liliana Gitschel, Jan Seemann, Niklas Daute
-# Latest Update: 21.01.2022
+# Latest Update: 31.01.2022
 # 
 # Purpose:
 #   Includes functions for necessary calculations within the AISA tool:
@@ -22,32 +23,23 @@ library(sf)
 library(caret)
 library(CAST)
 library(doParallel) # loads dependencies too
+library(randomForest)
 # load packages for API
 library(beakr)
-library(rgdal)
 # load packages for exporting geojson and JSON
 library(geojson)
 library(RJSONIO)
 # load packages for image generation from AWS
-library(rstac)
+library(rgdal)
+library(rstac) 
 library(gdalcubes)
-# library(stars)
-# library(magick)
-# library(rmarkdown)
-# library(ncdf4)
-# library(Rcpp)
-# library(jsonlite)
-# library(RcppProgress)
-# library(tmap)
 
-# set working directory: directory which includes needed data
-#### needs to be changed later on to the hosting server
-#setwd("/home/ubuntu/AISA_GeosoftwareII/Backend")
+# set working directory for local running: directory which includes needed data
+# setwd("/path")
+
 # setwd("C:/Users/katha/Documents/GitHub/AISA_GeosoftwareII/Backend/")
-#setwd("D:/Studium/Geosoftware1/AISA_GeosoftwareII/Backend/")
+# setwd("D:/Studium/Geosoftware1/AISA_GeosoftwareII/Backend/")
 setwd("C:/Users/lgits/Documents/GitHub/AISA_GeosoftwareII/Backend/")
-#getwd()
-#setwd("/home/ubuntu/AISA_GeosoftwareII/Backend")
 
 #######################################################################
 
@@ -56,7 +48,7 @@ setwd("C:/Users/lgits/Documents/GitHub/AISA_GeosoftwareII/Backend/")
 ########################################################################
 # Name of function: generateImage
 # Author: Niklas Daute
-# Latest Update: 20.01.2022
+# Latest Update: 30.01.2022
 # 
 # Purpose:
 #   Generate sentinel-2-images for a given bounding box from AWS using stac.
@@ -77,37 +69,32 @@ setwd("C:/Users/lgits/Documents/GitHub/AISA_GeosoftwareII/Backend/")
 
 generateImage <- function (cloudcover, resolution, left, right, top, bottom, type){
   # convert resolution
-  resolution <- resolution*0.00001
+  resolution <- resolution * 0.00001
   
   # set filename depending on type
   # type can be "prediction" or "training"
-  filename <- "sentinel"
-  
+  filename <- "sentinel"   # initializing variable
   if (type == "prediction"){
     filename <- "sentinel_prediction"
   } else {
     filename <- "sentinel_training"
   }
   
-  
   # STAC catalog
   s <- stac("https://earth-search.aws.element84.com/v0")
-  
   
   # query STAC
   items <- s %>%
     stac_search(collections = "sentinel-s2-l2a-cogs",
-                bbox = c(left,top,right,bottom), # Geneva
+                bbox = c(left,top,right,bottom),
                 datetime = "2020-01-01/2020-12-31",
                 limit = 500) %>%
     post_request() 
-  
   
   # filter by cloud cover
   system.time(col <- stac_image_collection(items$features,
                                            property_filter = function(x)
                                            {x[["eo:cloud_cover"]] < cloudcover}))
-  
   
   # create cubeview
   v = cube_view(srs = "EPSG:4326",
@@ -122,7 +109,6 @@ generateImage <- function (cloudcover, resolution, left, right, top, bottom, typ
                 dt = "P1D",
                 aggregation = "median",
                 resampling = "near")
-  
   
   # create datacube and output
   S2.mask = image_mask("SCL", values=c(3,8,9)) # clouds and cloud shadows
@@ -148,14 +134,11 @@ generateImage <- function (cloudcover, resolution, left, right, top, bottom, typ
                   "median(B11)",
                   "median(B12)",
                   "median(B8A)")) %>%
-    write_tif(dir="C:/Users/lgits/Documents/GitHub/AISA_GeosoftwareII/Backend/data/sentinel", prefix = filename) %>%     # set correct directory
-    # plot(rgb = 3:1, zlim=c(0,1800)) %>%
-    # system.time()
+    write_tif(dir="./data/sentinel", prefix = filename) %>%     # set correct directory
     
     return()
 }
 
-# "C:/Users/lgits/Documents/GitHub/AISA_GeosoftwareII/Backend/data/sentinel"
 
 
 #######################################################################
@@ -185,27 +168,19 @@ TrainModel <- function (trainingsites, sentinel_resampled) {
   
   # Add information of labels of polygons to data
   trainingsites$PolyID <- 1:nrow(trainingsites)
-  extr <- merge(extr, trainingsites, by.x="ID", by.y
-                ="PolyID")
+  extr <- merge(extr, trainingsites, by.x="ID", by.y="PolyID")
   
   # set predictors (whole data from raster stack)
   predictors <- names(sentinel_resampled)
   
   # limit data
   # Proportion of data from each training polygon should be kept
-  # here:10% of each training polygon (see ?createDataPartition)
+  # here:10% of each training polygon
   trainIDs <- createDataPartition(extr$ID,p=0.1,list = FALSE)
   trainDat <- extr[trainIDs,]
   
   # Make sure no NA is given in predictors:
   trainDat <- trainDat[complete.cases(trainDat[,predictors]),]
-  
-  # train model with random forest and no tuning
-  # model_simple <- train(trainDat[,predictors],
-  #                      trainDat$Label,
-  #                      method="rf",
-  #                      importance=TRUE,
-  #                      ntree=50) # 50 is quite small (default=500). But it runs faster.
   
   # create spatial folds for cross validation; here k=3 folds
   trainids <- CreateSpacetimeFolds(trainDat,spacevar="ID",class="Label",k=3)
@@ -215,16 +190,14 @@ TrainModel <- function (trainingsites, sentinel_resampled) {
                  trainDat$Label,
                  method="rf",
                  importance=TRUE,
-                 metric="Kappa", # Optimaler mtry Wert �ber Kappa
+                 metric="Kappa", # optimum mtry value for kappa
                  tunelength=length(predictors),
-                 ntree=200, # 50 is quite small (default=500). But it runs faster.
+                 ntree=200,
                  trControl=trainControl(method="cv",index=trainids$index,savePredictions="all"))
   
   print("model trained")
   return(model)
 }
-
-
 
 
 
@@ -268,7 +241,7 @@ AOA <- function (sentinel_resampled, model) {
 #######################################################################
 # Title: NewSamplingLocations
 # Author: Liliana Gitschel
-# Latest Update: 20.12.2021
+# Latest Update: 31.01.2021
 # 
 # Purpose:
 #   Suggest new sampling locations based on the areas outside the AOA.
@@ -282,17 +255,20 @@ AOA <- function (sentinel_resampled, model) {
 ########################################################################
 
 NewSamplingLocations <- function(areaOA) {
-  print("start sampling")
+  
+  # get areas outside AOA
   AOA_only_outside <- reclassify(areaOA, cbind(1, NA))
-  print("reduced to aoa_outside")
-  # get new sampling locations (method = random)
+  
+  # get new sampling locations within areas outside AOA (method = random)
   samples <- sampleRandom(AOA_only_outside, size=50, sp=TRUE)
-  print("random samples calculated")
+  
   # convert sampling locations to geojson
   samples_geojson <- as.geojson(samples)
+  
   print("new sampling locations calculated")
   return(samples_geojson)
 }
+
 
 
 #######################################################################
@@ -312,16 +288,19 @@ NewSamplingLocations <- function(areaOA) {
 ########################################################################
 
 checkTrainData <- function(trainData) {
+  
   # check if data has property "Label" and "Label" is not empty
   if (length(trainData$Label) <= 0) {
     return(FALSE)
   }
+  
   # check if data has CRS
   else if (is.na(crs(trainData))) {
     return(FALSE)
   } 
+  
+  # check if at least 2 entries per Label
   else {
-    # check if at least 2 entries per Label
     counts <- as.data.frame(table(trainData$Label))
     for (i in 1:(length(counts$Freq))) {
       if (counts$Freq[i] < 2) {
@@ -329,9 +308,9 @@ checkTrainData <- function(trainData) {
       }
     }
   }
+  
   return (TRUE)
 }
-
 
 
 
@@ -352,23 +331,22 @@ checkTrainData <- function(trainData) {
 ########################################################################
 
 checkModel <- function(model) {
+  
   # check if there are any predictor names
   modelnames <- model$finalModel$xNames
   if (length(modelnames) == 0) {
     return(FALSE)
   }
+  
   # check if model only contains allowed predictor names
   bandnames <- c("B02","B03","B04","B05","B06","B07","B08","B11","B12","B8A")
   MnamesNotInBnames <- subset(modelnames, !(modelnames %in% bandnames))
   if (length(MnamesNotInBnames) > 0) {
     return (FALSE)
   }
+  
   return(TRUE)
 }
-
-
-
-
 
 
 
@@ -376,7 +354,7 @@ checkModel <- function(model) {
 ############################################################
 #
 # Authors: Jan Seemann, Liliana Gitschel
-# Latest update: 27.01.22
+# Latest update: 30.01.22
 #
 # Purpose:
 #   Implements connection to frontend via beakr instance and
@@ -385,315 +363,287 @@ checkModel <- function(model) {
 #
 ###########################################################
 
-
 # Create and start the beakr instance
 newBeakr() %>%
+  
+  # handle cross origin
+  cors(
+    path = NULL,
+    methods = c("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"),
+    origin = "*",
+    credentials = NULL,
+    headers = NULL,
+    maxAge = NULL,
+    expose = NULL
+  ) %>%
+  
+  
+  ########################################
+  #POST API withModel
+  httpPOST(path = '/withModel', function(req,res,err) {
+    
+    # initialize variable
+    output_string <- "JobDone"
+    
+    # load model
+    model <- readRDS("./data/upload/upload.rds")
+    
+    # check for correct requirements on input data
+    if (checkModel(model) == TRUE) {
+      output_string <- "ok"
+      print(output_string)
+    } else {
+      output_string <- "invalid model"
+      print(output_string)
+      return(output_string) # abort calculation
+    }
+    
+    # printing parameters for AOI
+    print(req$parameters$lat1)
+    print(req$parameters$long1)
+    print(req$parameters$lat2)
+    print(req$parameters$long2)
+    print(req$parameters$cov)
+    print(req$parameters$reso)
+    
+    # parameters for AOI
+    top <- as.numeric(req$parameters$lat1)
+    left <- as.numeric(req$parameters$long1)
+    bottom <- as.numeric(req$parameters$lat2)
+    right <- as.numeric(req$parameters$long2)
+    cov <- as.numeric(req$parameters$cov)
+    reso <- as.numeric(req$parameters$reso)
+    type <- "prediction"
+    
+    # generate sentinel images from AWS for AOI/prediction
+    generateImage(cov, reso, left, right, top, bottom, type)
+    
+    # load generated sentinel data for prediction from directory
+    sentinel_combined_prediction <- stack("./data/sentinel/sentinel_prediction2020-01-01.tif")
+    # no reprojection needed
+    # sentinel images from AWS/stac already come in EPSG4326 which is needed for leaflet
+    
+    # set names of bands in the sentinel data
+    bandnames <- c("B02","B03","B04","B05","B06","B07","B08","B11","B12","B8A")
+    names(sentinel_combined_prediction) <- bandnames
+    
+    # do calculations
+    predictionLULC <- predict(sentinel_combined_prediction, model)
+    print("prediction done")
+    areaOA <- AOA (sentinel_combined_prediction,model)
+    
+    # calcualting and writing sampling locations if there are any
+    if(0 %in% values(areaOA)){
+      samplingLocations <- NewSamplingLocations(areaOA)
+      write(samplingLocations, "./data/output/samplingLocationsOutput.geojson")
+      print("New sampling locations output as geojson written")
+      sampling <- "sampling"
+    } else {
+      sampling <- "nosampling"
+      print("No new sampling locations")
+    }
+    
+    # get labels of LULC (needed for legend on map)
+    label <- c(model$levels)
+    # add type of workflow and sampling information
+    label <- c("model", sampling , label)
+    # convert to json for export
+    labelsJSON <- toJSON(label)
+    print("labels extracted")
+    
+    #writing output files
+    writeRaster(predictionLULC, "./data/output/predictionOutput.tif", overwrite=T)
+    writeRaster(areaOA, "./data/output/aoaOutput.tif", overwrite=T)
+    write(labelsJSON, "./data/output/labelsOutput.json")
+    print("Prediction, AOA, Labels output written")
+    
+    res$setHeader("Access-Control-Allow-Origin", "*")
+    return(output_string)
+  }) %>%
+    
+    
+    ########################################
+  #POST API noModel/trainingdata
+  httpPOST(path = '/noModel', function(req,res,err) {
+    
+    # initialize variable
+    output_string <- "JobDone"
+    
+    # load training data
+    # depends on data format (gpkg or geojson)
+    dataformat <- req$parameters$format   # variables names must be checked with frontend
+    if (dataformat == "geopackage") {
+      trainingsites <- st_read("./data/upload/upload.gpkg")
+    } else {
+      trainingsites <- st_read("./data/upload/upload.geojson")
+    }
+    
+    # check for correct requirements on input data
+    if (checkTrainData(trainingsites) == TRUE) {
+      output_string <- "ok"
+      print(output_string)
+    } else {
+      output_string <- "invalid trainingdata"
+      print(output_string)
+      return(output_string) # abort calculation
+    }
+    
+    # reproject crs of input data to EPSG4326
+    # sentinel images from AWS/stac already come in EPSG4326
+    # ensures that data has same crs and that it can be displayed by leaflet
+    # for reference see: https://spatialreference.org/ref/sr-org/6627/
+    trainingsites <- st_transform(trainingsites, crs = "+proj=longlat +datum=WGS84 +no_defs")
+    
+    # printing parameters for training
+    print(st_bbox(trainingsites)[3])   #xmax
+    print(st_bbox(trainingsites)[2])   #ymin
+    print(st_bbox(trainingsites)[1])   #xmin
+    print(st_bbox(trainingsites)[4])   #ymax 
+    print(req$parameters$cov)
+    print(req$parameters$reso)
+    
+    # parameters for training
+    right <- st_bbox(trainingsites)[3]    #xmax
+    bottom <- st_bbox(trainingsites)[2]   #ymin
+    left <- st_bbox(trainingsites)[1]  #xmin
+    top <- st_bbox(trainingsites)[4]   #ymax 
+    cov <- as.numeric(req$parameters$cov)
+    reso <- as.numeric(req$parameters$reso)
+    type <- "training"
+    
+    # generate sentinel images from AWS for training
+    generateImage(cov, reso, left, right, top, bottom, type)
+    
+    # printing parameters for AOI
+    print(req$parameters$lat1)
+    print(req$parameters$long1)
+    print(req$parameters$lat2)
+    print(req$parameters$long2)
+    print(req$parameters$cov)
+    print(req$parameters$reso)
+    
+    # parameters for AOI
+    top <- as.numeric(req$parameters$lat1)
+    left <- as.numeric(req$parameters$long1)
+    bottom <- as.numeric(req$parameters$lat2)
+    right <- as.numeric(req$parameters$long2)
+    cov <- as.numeric(req$parameters$cov)
+    reso <- as.numeric(req$parameters$reso)
+    type <- "prediction"
+    
+    # generate sentinel images from AWS for AOI/prediction
+    generateImage(cov, reso, left, right, top, bottom, type)
+    
+    # load generated sentinel data for training and prediction from directory
+    sentinel_combined_training <- stack("./data/sentinel/sentinel_training2020-01-01.tif")  # eventually not needed
+    sentinel_combined_prediction <- stack("./data/sentinel/sentinel_prediction2020-01-01.tif")  # eventually not needed
+    # no reprojection needed
+    # sentinel images from AWS/stac already come in EPSG4326 which is needed for leaflet
+    
+    # set names of bands in the sentinel data
+    bandnames <- c("B02","B03","B04","B05","B06","B07","B08","B11","B12","B8A")
+    names(sentinel_combined_training) <- bandnames
+    names(sentinel_combined_prediction) <- bandnames
+    
+    # do calculations
+    model <-TrainModel(trainingsites, sentinel_combined_training)
+    predictionLULC <- predict(sentinel_combined_prediction, model)
+    print("prediction done")
+    areaOA <- AOA (sentinel_combined_prediction,model)
+    
+    #calcualting and writing sampling locations
+    if(0 %in% values(areaOA)){
+      samplingLocations <- NewSamplingLocations(areaOA)
+      sampling <- "sampling"
+      write(samplingLocations, "./data/output/samplingLocationsOutput.geojson")
+      print("New sampling locations output as geojson written")
+    } else {
+      sampling <- "nosampling"
+      output_string <- "No Sampling Locations"
+    }
+    
+    # get labels of LULC (needed for legend on map)
+    label <- c(model$levels)
+    # add type of workflow and sampling information
+    label <- c("trainingdata", sampling, label)
+    # convert to json for export
+    labelsJSON <- toJSON(label)
+    print("labels extracted")
+    
+    #writing output files
+    saveRDS(model,file="./data/output/modelOutput.RDS")
+    writeRaster(predictionLULC, "./data/output/predictionOutput.tif", overwrite=T)
+    writeRaster(areaOA, "./data/output/aoaOutput.tif", overwrite=T)
+    write(labelsJSON, "./data/output/labelsOutput.json")
+    print("Model, prediction, AOA and labels output written")
+    
+    res$setHeader("Access-Control-Allow-Origin", "*")
+    return(output_string)
+  }) %>%
+    
+    
+    ########################################
+  #GET API runDemo
+  httpGET(path = '/runDemo', function(req,res,err) {
+    
+    # load input data
+    # The data is kept in directory for demodata.
+    # As predictor variables a raster data set with sentinel-2 data is used.
+    # load and build stack with data of predictor variables (=sentinel-2 images)
+    sentinel_combined <- stack("./demodata/demodata_rheine_sentinel_combined.grd")
+    # load training polygons
+    trainingsites <- st_read("./demodata/demodata_rheine_trainingspolygone.gpkg")
+    
+    # reproject crs of input data to EPSG4326
+    # ensures that data has same crs and that it can be displayed by leaflet
+    # for reference see: https://spatialreference.org/ref/sr-org/6627/
+    trainingsites <- st_transform(trainingsites, crs = "+proj=longlat +datum=WGS84 +no_defs")
+    sentinel_combined <- projectRaster(sentinel_combined,crs=crs(trainingsites))
+    
+    # rename "label" to "Label"
+    names(trainingsites)[2] <- 'Label'
+    
+    # do calculations
+    model <-TrainModel(trainingsites, sentinel_combined)
+    predictionLULC <- predict(sentinel_combined,model)
+    print("prediction done")
+    areaAOA <- AOA (sentinel_combined,model)
+    samplingLocations <- NewSamplingLocations(areaAOA)
+    
+    # get labels of LULC (needed for legend on map)
+    label <- c(model$levels)
+    # add type of workflow
+    label <- c("demo", label)
+    # convert to json for export
+    labelsJSON <- toJSON(label)
+    print ("labels extracted")
+    
+    #writing output files
+    saveRDS(model,file="./demodata/createdbyAISAtool/modelOutput.RDS")
+    writeRaster(predictionLULC, "./demodata/createdbyAISAtool/predictionOutput.tif", overwrite=T)
+    writeRaster(areaAOA, "./demodata/createdbyAISAtool/aoaOutput.tif", overwrite=T)
+    st_write(trainingsites, "./demodata/createdbyAISAtool/trainingsitesOutput.geojson",  delete_dsn = TRUE)
+    write(samplingLocations, "./demodata/createdbyAISAtool/samplingLocationsOutput.geojson")
+    write(labelsJSON, "./demodata/createdbyAISAtool/labelsOutput.json")
+    print("Model, prediction, AOA, trainingsites, sampling locations and labels output written")
+    
+    res$setHeader("Access-Control-Allow-Origin", "*")
+    return("JobDone")
+  }) %>%
+    
+  
+  ########################################
   # Host the directory of static files
+  # change path to working directory for local running
+  # serveStaticFiles("/verzeichnis", "/R", verbose = TRUE) %>%
   
-  # Create and start the beakr instance
-  newBeakr() %>%
-  
-  cors() %>%
-  
-  
-  ########################################
-#POST API withModel
-httpPOST(path = '/withModel', function(req,res,err) {
-  output_string <- "JobDone"
-  
-  # load model
-  model <- readRDS("data/upload/upload.rds")
-  
-  # check for correct requirements on input data
-  if (checkModel(model) == TRUE) {
-    output_string <- "ok"
-    print(output_string)
-    # return((output_string))
-  } else {
-    output_string <- "invalid model"
-    print(output_string)
-    return(output_string) # abort calculation
-  }
-  
-  
-  #testing
-  print(req$parameters$lat1)
-  print(req$parameters$long1)
-  print(req$parameters$lat2)
-  print(req$parameters$long2)
-  print(req$parameters$cov)
-  print(req$parameters$reso)
-  
-  # parameters for AOI
-  top <- as.numeric(req$parameters$lat1)
-  left <- as.numeric(req$parameters$long1)
-  bottom <- as.numeric(req$parameters$lat2)
-  right <- as.numeric(req$parameters$long2)
-  cov <- as.numeric(req$parameters$cov)
-  reso <- as.numeric(req$parameters$reso)
-  type <- "prediction"
-  
-  
-  # generate sentinel images from AWS for AOI/prediction
-  generateImage(cov, reso, left, right, top, bottom, type)
-  
-  
-  # load generated sentinel data for prediction from directory
-  sentinel_combined_prediction <- stack("data/sentinel/sentinel_prediction2020-01-01.tif")
-  # no reprojection needed
-  # sentinel images from AWS/stac already come in EPSG4326 which is needed for leaflet
-  
-  # set names of bands in the sentinel data
-  bandnames <- c("B02","B03","B04","B05","B06","B07","B08","B11","B12","B8A")
-  names(sentinel_combined_prediction) <- bandnames
-  
-  # do calculations
-  predictionLULC <- predict(sentinel_combined_prediction, model)
-  areaOA <- AOA (sentinel_combined_prediction,model)
-  
-  
-  #calcualting and writing sampling locations
-  
-  if(0 %in% values(areaOA)){
-    samplingLocations <- NewSamplingLocations(areaOA)
-    write(samplingLocations, "data/output/samplingLocationsOutput.geojson")
-    print("New sampling locations output geojson written")
-    sampling <- "sampling"
-  } else {print ("AOA = AOI")
-    sampling <- "nosampling"
-    output_string <- "No Sampling Locations"
-  }
-  
-  # get labels of LULC (needed for legend on map)
-  label <- c(model$levels)
-  # add type of workflow
-  label <- c("model",sampling , label)
-  print("labels extracted")
-  # convert to json for export
-  labelsJSON <- toJSON(label)
-  
-  #writing output files
-  writeRaster(predictionLULC, "data/output/predictionOutput.tif", overwrite=T)
-  print("LULC output file written")
-  writeRaster(areaOA, "data/output/aoaOutput.tif", overwrite=T)
-  print("AOA output file written")
-  
-  write(labelsJSON, "data/output/labelsOutput.json")
-  print("Labels output json written")
-  
-  res$setHeader("Access-Control-Allow-Origin", "*")
-  return(output_string)
-}) %>%
-  
-  
-  ########################################
-#POST API noModel
-httpPOST(path = '/noModel', function(req,res,err) {
-  output_string <- "JobDone"
-  
-  # load training data
-  # depends on data format (gpkg or geojson)
-  dataformat <- req$parameters$format   # variables names must be checked with frontend
-  if (dataformat == "geopackage") {
-    trainingsites <- st_read("data/upload/upload.gpkg")
-  } else {
-    trainingsites <- st_read("data/upload/upload.geojson")
-    # no checking needed as already done in frontend
-  }
-  
-  # check for correct requirements on input data
-  if (checkTrainData(trainingsites) == TRUE) {
-    output_string <- "ok"
-    print(output_string)
-    # return((output_string))
-  } else {
-    output_string <- "invalid trainingdata"
-    print(output_string)
-    return(output_string) # abort calculation
-  }
-  
-  
-  # reproject crs of input data to EPSG4326
-  # sentinel images from AWS/stac already come in EPSG4326
-  # ensures that data has same crs and that it can be displayed by leaflet
-  # for reference see: https://spatialreference.org/ref/sr-org/6627/
-  trainingsites <- st_transform(trainingsites, crs = "+proj=longlat +datum=WGS84 +no_defs")
-  
-  
-  #testing
-  print(req$parameters$lat1)
-  print(req$parameters$long1)
-  print(req$parameters$lat2)
-  print(req$parameters$long2)
-  print(req$parameters$cov)
-  print(req$parameters$reso)
-  
-  # parameters for training
-  right <- st_bbox(trainingsites)[3]    #xmax
-  bottom <- st_bbox(trainingsites)[2]   #ymin
-  left <- st_bbox(trainingsites)[1]  #xmin
-  top <- st_bbox(trainingsites)[4]   #ymax 
-  cov <- as.numeric(req$parameters$cov)
-  reso <- as.numeric(req$parameters$reso)
-  type <- "training"
-  
-  # return(output_string)
-  
-  # generate sentinel images from AWS for training
-  generateImage(cov, reso, left, right, top, bottom, type)
-  
-  
-  # parameters for AOI
-  top <- as.numeric(req$parameters$lat1)
-  left <- as.numeric(req$parameters$long1)
-  bottom <- as.numeric(req$parameters$lat2)
-  right <- as.numeric(req$parameters$long2)
-  cov <- as.numeric(req$parameters$cov)
-  reso <- as.numeric(req$parameters$reso)
-  type <- "prediction"
-  
-  # generate sentinel images from AWS for AOI/prediction
-  generateImage(cov, reso, left, right, top, bottom, type)
-  
-  
-  # load generated sentinel data for training and prediction from directory
-  sentinel_combined_training <- stack("data/sentinel/sentinel_training2020-01-01.tif")
-  sentinel_combined_prediction <- stack("data/sentinel/sentinel_prediction2020-01-01.tif")
-  # no reprojection needed
-  # sentinel images from AWS/stac already come in EPSG4326 which is needed for leaflet
-  
-  # set names of bands in the sentinel data
-  bandnames <- c("B02","B03","B04","B05","B06","B07","B08","B11","B12","B8A")
-  names(sentinel_combined_training) <- bandnames
-  names(sentinel_combined_prediction) <- bandnames
-  
-  
-  # do calculations
-  model <-TrainModel(trainingsites, sentinel_combined_training)
-  predictionLULC <- predict(sentinel_combined_prediction, model)
-  areaOA <- AOA (sentinel_combined_prediction,model)
-  
-  
-  # calculating and writing sampling locations
-  if(0 %in% values(areaOA)){
-    samplingLocations <- NewSamplingLocations(areaOA)
-    sampling <- "sampling"
-    write(samplingLocations, "data/output/samplingLocationsOutput.geojson")
-    print("New sampling locations output geojson written")
-  } else {
-    print("AOA=AOI") 
-    sampling <- "nosampling"
-  }
-  
-  
-  # get labels of LULC (needed for legend on map)
-  label <- c(model$levels)
-  # add type of workflow
-  label <- c("trainingdata", sampling, label)
-  print("labels extracted")
-  # convert to json for export
-  labelsJSON <- toJSON(label)
-  
-  #writing output files
-  saveRDS(model,file="data/output/modelOutput.RDS")
-  print("model output file written")
-  writeRaster(predictionLULC, "data/output/predictionOutput.tif", overwrite=T)
-  print("LULC output file written")
-  writeRaster(areaOA, "data/output/aoaOutput.tif", overwrite=T)
-  print("AOA output file written")
-  st_write(trainingsites, "data/output/trainingsitesOutput.geojson",  delete_dsn = TRUE)
-  print("trainingsites geojson output written")
-  
-  write(labelsJSON, "data/output/labelsOutput.json")
-  print("Labels output json written")
-  
-  
-  res$setHeader("Access-Control-Allow-Origin", "*")
-  return(output_string)
-}) %>%
-  
-  
-  
-  ########################################
-#GET API runDemo
-httpGET(path = '/runDemo', function(req,res,err) {
-  # load input data
-  # The data is kept in directory for demodata.
-  # As predictor variables a raster data set with sentinel-2 data is used.
-  # load and build stack with data of predictor variables (=sentinel-2 images)
-  sentinel_combined <- stack("demodata/demodata_rheine_sentinel_combined.grd")
-  # load training polygons
-  trainingsites <- st_read("demodata/demodata_rheine_trainingspolygone.gpkg")
-  
-  # reproject crs of input data to EPSG4326
-  # ensures that data has same crs and that it can be displayed by leaflet
-  # for reference see: https://spatialreference.org/ref/sr-org/6627/
-  trainingsites <- st_transform(trainingsites, crs = "+proj=longlat +datum=WGS84 +no_defs")
-  sentinel_combined <- projectRaster(sentinel_combined,crs=crs(trainingsites))
-  
-  # rename "label" to "Label"
-  names(trainingsites)[2] <- 'Label'
-  
-  # do calculations
-  model <-TrainModel(trainingsites, sentinel_combined)
-  predictionLULC <- predict(sentinel_combined,model)
-  areaAOA <- AOA (sentinel_combined,model)
-  samplingLocations <- NewSamplingLocations(areaAOA)
-  
-  # get labels of LULC (needed for legend on map)
-  label <- c(model$levels)
-  # add type of workflow
-  label <- c("demo", label)
-  # convert to json for export
-  labelsJSON <- toJSON(label)
-  
-  #writing output files
-  saveRDS(model,file="demodata/createdbyAISAtool/modelOutput.RDS")
-  print("mtputdel output file written")
-  writeRaster(predictionLULC, "demodata/createdbyAISAtool/predictionOutput.tif", overwrite=T)
-  print("LULC output file written")
-  writeRaster(areaAOA, "demodata/createdbyAISAtool/aoaOutput.tif", overwrite=T)
-  print("AOA output file written")
-  st_write(trainingsites, "demodata/createdbyAISAtool/trainingsitesOutput.geojson",  delete_dsn = TRUE)
-  print("trainingsites geojson output written")
-  write(samplingLocations, "demodata/createdbyAISAtool/samplingLocationsOutput.geojson")
-  print("New sampling locations output geojson written")
-  write(labelsJSON, "demodata/createdbyAISAtool/labelsOutput.json")
-  print("Labels output json written")
-  
-  
-  res$setHeader("Access-Control-Allow-Origin", "*")
-  return("JobDone")
-}) %>%
-  
-  
-  ########################################
-# Host the directory of static files  
-# serveStaticFiles("/verzeichnisdemodaten", "C:/Users/katha/Documents/GitHub/AISA_GeosoftwareII/Backend/", verbose = TRUE) %>%
-serveStaticFiles("/verzeichnisdemodaten", "C:/Users/lgits/Documents/GitHub/AISA_GeosoftwareII/Backend/", verbose = TRUE) %>%
-# serveStaticFiles("/verzeichnisdemodaten", "D:/Studium/Geosoftware1/AISA_GeosoftwareII/Backend/", verbose = TRUE) %>%
-# serveStaticFiles("/verzeichnisdemodaten", "/home/ubuntu/AISA_GeosoftwareII/Backend/", verbose = TRUE) %>%
-  
+  # serveStaticFiles("/verzeichnisdemodaten", "C:/Users/katha/Documents/GitHub/AISA_GeosoftwareII/Backend/", verbose = TRUE) %>%
+  serveStaticFiles("/verzeichnisdemodaten", "C:/Users/lgits/Documents/GitHub/AISA_GeosoftwareII/Backend/", verbose = TRUE) %>%
+  # serveStaticFiles("/verzeichnisdemodaten", "D:/Studium/Geosoftware1/AISA_GeosoftwareII/Backend/", verbose = TRUE) %>%
+    
   handleErrors() %>%
   
+  # set port (might be changed for local running)
+  # listen(host = "172.16.238.10", port = 8782) # for AWS
+  
   listen(host = "127.0.0.1", port = 25118) #for local testing
-# listen(host = "44.234.41.163", port =  8081) #for AWS
-
-
-
-
-
-
-# URL GET API Call for local testing: http://127.0.0.1:25118/runDemo
-# URL GET API Call for AWS: http://44.234.41.163:8780/runDemo
-
-
-# URL POST API Call for local testing  http://127.0.0.1:25118/withModel?lat1=20&long1=100&lat2=30&long2=105&cov=0.3&reso=600  (the numbers are example values)
-# URL POST API Call for local testing  http://127.0.0.1:25118/noModel?lat1=20&long1=100&lat2=30&long2=105&cov=0.3&reso=600  (the numbers are example values)
-
-
-
-
-# URL GET API Call for local testing: http://127.0.0.1:25118/runDemo
-# URL GET API Call for AWS: http://44.234.41.163:8780/runDemo
-
