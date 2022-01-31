@@ -652,7 +652,7 @@ newBeakr() %>%
       expect_s4_class(predictionLULC,"RasterLayer")
       
       areaOA <- AOA (sentinel_combined,model)
-      expect_s4_class(areaOA,"RasterStack")
+      expect_s4_class(areaOA,"RasterLayer")
       
       
       samplingLocations <- NewSamplingLocations(areaOA)
