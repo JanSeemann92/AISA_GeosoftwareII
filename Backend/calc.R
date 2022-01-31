@@ -124,6 +124,7 @@ generateImage <- function (cloudcover, resolution, left, right, top, bottom, typ
                    "B11",
                    "B12",
                    "B8A")) %>%
+    apply_pixel("(B08-B04)/(B08+B04)", names = "NDVI", keep_bands=TRUE) %>%
     reduce_time(c("median(B02)",
                   "median(B03)",
                   "median(B04)",
@@ -133,7 +134,8 @@ generateImage <- function (cloudcover, resolution, left, right, top, bottom, typ
                   "median(B08)",
                   "median(B11)",
                   "median(B12)",
-                  "median(B8A)")) %>%
+                  "median(B8A)",
+                  "median(NDVI)")) %>%
     write_tif(dir="./data/sentinel", prefix = filename) %>%     # set correct directory
     
     return()
@@ -339,7 +341,7 @@ checkModel <- function(model) {
   }
   
   # check if model only contains allowed predictor names
-  bandnames <- c("B02","B03","B04","B05","B06","B07","B08","B11","B12","B8A")
+  bandnames <- c("B02","B03","B04","B05","B06","B07","B08","B11","B12","B8A", "NDVI")
   MnamesNotInBnames <- subset(modelnames, !(modelnames %in% bandnames))
   if (length(MnamesNotInBnames) > 0) {
     return (FALSE)
@@ -424,7 +426,7 @@ newBeakr() %>%
     # sentinel images from AWS/stac already come in EPSG4326 which is needed for leaflet
     
     # set names of bands in the sentinel data
-    bandnames <- c("B02","B03","B04","B05","B06","B07","B08","B11","B12","B8A")
+    bandnames <- c("B02","B03","B04","B05","B06","B07","B08","B11","B12","B8A", "NDVI")
     names(sentinel_combined_prediction) <- bandnames
     
     # do calculations
@@ -462,7 +464,7 @@ newBeakr() %>%
   }) %>%
     
     
-    ########################################
+  ########################################
   #POST API noModel/trainingdata
   httpPOST(path = '/noModel', function(req,res,err) {
     
@@ -535,13 +537,13 @@ newBeakr() %>%
     generateImage(cov, reso, left, right, top, bottom, type)
     
     # load generated sentinel data for training and prediction from directory
-    sentinel_combined_training <- stack("./data/sentinel/sentinel_training2020-01-01.tif")  # eventually not needed
-    sentinel_combined_prediction <- stack("./data/sentinel/sentinel_prediction2020-01-01.tif")  # eventually not needed
+    sentinel_combined_training <- stack("./data/sentinel/sentinel_training2020-01-01.tif")
+    sentinel_combined_prediction <- stack("./data/sentinel/sentinel_prediction2020-01-01.tif")
     # no reprojection needed
     # sentinel images from AWS/stac already come in EPSG4326 which is needed for leaflet
     
     # set names of bands in the sentinel data
-    bandnames <- c("B02","B03","B04","B05","B06","B07","B08","B11","B12","B8A")
+    bandnames <- c("B02","B03","B04","B05","B06","B07","B08","B11","B12","B8A", "NDVI")
     names(sentinel_combined_training) <- bandnames
     names(sentinel_combined_prediction) <- bandnames
     
@@ -582,7 +584,7 @@ newBeakr() %>%
   }) %>%
     
     
-    ########################################
+  ########################################
   #GET API runDemo
   httpGET(path = '/runDemo', function(req,res,err) {
     
@@ -647,3 +649,4 @@ newBeakr() %>%
   # listen(host = "172.16.238.10", port = 8782) # for AWS
   
   listen(host = "127.0.0.1", port = 25118) #for local testing
+
