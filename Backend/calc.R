@@ -32,6 +32,8 @@ library(RJSONIO)
 library(rgdal)
 library(rstac) 
 library(gdalcubes)
+#load packages for tests
+library(testthat)
 
 # set working directory for local running: directory which includes needed data
 # setwd("/path")
@@ -625,7 +627,38 @@ newBeakr() %>%
     res$setHeader("Access-Control-Allow-Origin", "*")
     return("JobDone")
   }) %>%
+
+#GET API runTests
+  httpGET(path = '/runTests', function(req,res,err) {
   
+      test_that("check data types", {
+      sentinel_combined <- stack("./demodata/demodata_rheine_sentinel_combined.grd")
+      
+      trainingsites <- st_read("./demodata/demodata_rheine_trainingspolygone.gpkg")
+      trainingsites <- st_transform(trainingsites, crs = "+proj=longlat +datum=WGS84 +no_defs")
+      expect_type(trainingsites, "list")
+      
+      sentinel_combined <- projectRaster(sentinel_combined,crs=crs(trainingsites))
+      expect_s4_class(sentinel_combined,"RasterBrick")
+      
+      model <-TrainModel(trainingsites, sentinel_combined)
+      expect_type(model, "list")
+      
+      predictionLULC <- Prediction(sentinel_combined,model)
+      expect_s4_class(predictionLULC,"RasterLayer")
+      
+      areaOA <- AOA (sentinel_combined,model)
+      expect_s4_class(areaOA,"RasterStack")
+      
+      
+      samplingLocations <- NewSamplingLocations(areaOA)
+      expect_type(samplingLocations, "character")
+    })
+    #> Test passed 
+        res$setHeader("Access-Control-Allow-Origin", "*")
+    return("Tests done. See server console for results")
+  }) %>%
+
  
   ########################################
   # Host the directory of static files
