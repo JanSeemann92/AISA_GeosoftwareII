@@ -7,7 +7,10 @@ block content
   //- redirection to demo
   p.text-center
     | Not sure how to use our tool? Check out our 
-    a(href='/demo') demo!
+    a(href='/demo') demo! 
+    br
+    | For additional format instructions and further information, please visit our 
+    a(href='https://github.com/JanSeemann92/AISA_GeosoftwareII') GitHub!
   br
   //- map display and selection of the calculation frame
   .row
@@ -19,6 +22,8 @@ block content
         h5.text-left AREA SELECTION
         p.text-left
           | Please choose if you want to draw a bounding box directly on the map or if you want to enter the coordinates manually.
+        p(style='font-size:12px') 
+          | Note: The examination of a "boundary case" at the edge of the map (coordinates like xmin = 170.0/xmax = -170.0) only works with the bounding box!
         
         //- form select to choose option for area selection
         select#choose2.form-select.form-select-lg.mb-3(name='choose' aria-label='form-select1' style='background-color: black; color: rgb(69, 167, 212); font-size: 16px;')
@@ -54,8 +59,11 @@ block content
         p(id='msggeojson' style='color: red; display: none') You have uploaded an empty .geojson file for the training data.
         p(id='msggpkg' style='color: red; display: none') You have uploaded an empty .gpkg file for the training data.
         p(id='msggeojsonformat' style='color: red; display: none') The format of your geojson is not correct. Please check if your geojson is of type "FeatureCollection", if there is a "label" for each feature, if the geometry is of type "MultiPolygon" or "Polygon", and if there are coordinates for each geometry.
+        p(id='msgtrainingdataR' style='color: red; display: none') The format of your training data is not correct. Please check if it has a CRS, if there is the property "Label" and if it has at least two entries per LULC class. 
+        p(id='msgmodelR' style='color: red; display: none') Your model does not contain any predictor names or contains invalid predictor names.
         br
         br
+        //- optional settings (cloud coverage & resolution)
         h5.text-left OPTIONAL SETTINGS
         p.text-left
           | You can optionally set the cloud coverage and the resolution of the satellite images.
@@ -71,9 +79,10 @@ block content
         select.custom-select.my-select#resolution(name ='resolution')
           option 20
           option 40
-          option 80
+          option 60
         br
         br
+        //- checkbox
         .form-group.form-check(id='validate1' style='display: block')
           input#validate.form-check-input(type='checkbox')
           label.form-check-label(for='exampleCheck1') Everything correct?
@@ -87,4 +96,3 @@ block content
 
       //- required javascripts
       script(src='/javascripts/2_calculateAOA.js', defer)
-

@@ -1,19 +1,24 @@
+# Create a layer from the node:14 Docker image
 FROM node:14
 
-# Create app directory
-WORKDIR /usr/src/app
+# Create an application directory
+RUN mkdir -p /app
 
-# Install app dependencies
-# A wildcard is used to ensure both package.json AND package-lock.json are copied
-# where available (npm@5+)
-COPY package*.json ./
+# Set /app directory as working directory
+WORKDIR /app
 
-RUN npm install
-# If you are building your code for production
-# RUN npm ci --only=production
+# Install required frontend dependencies
+COPY /package*.json ./
 
-# Bundle app source
+# Install node packages (in automated environment)
+RUN npm ci
+
+# Copy all files into current WORKDIR of docker image (/app)
 COPY . .
 
-EXPOSE 8780
+#Expose port on container
+EXPOSE 8781
+
+# Start the app
 CMD [ "npm", "start" ]
+

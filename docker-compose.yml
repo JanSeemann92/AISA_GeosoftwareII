@@ -1,27 +1,39 @@
-version: "3"
-
+version: "3.9"
 services:
-
-  webserver:
-    image: frontend
-    restart: always
-    ports:
-      - "8081:8780" # forward webserver on standard-http port -> abrufbar über 8080   
-  #  volumes:
-  #    - ./frontend:/usr/
+  frontend:
+    image: antonia123/aisafrontend:latest
+    build: .    
+    environment:
+      - NODE_ENV=production
     container_name: aisa-app
-    build: .
+    ports:
+      - "8781:8781"  
+    networks:
+      - default
     depends_on:
-      - rscripts # wird erst gestartet, wenn auch backend erfolgreich gestartet werden könnte
-    links: 
-      - rscripts
+      - backend 
+    volumes:
+      - /home/ubuntu/data:/app/data
+      - /home/ubuntu/demodata:/app/demodata   
 
-  rscripts: 
-    image: backend
-    restart: always
-    #volumes:
-    #  - r_vol:/var/lib/...
+  backend: 
+    image: antonia123/aisabackend:latest
+    build: ./Backend
+    container_name: aisa-data
+    ports:
+      - "8782:8782"
+    networks:
+      default: 
+        ipv4_address: 172.16.238.10
+    volumes:
+      - /home/ubuntu/data:/R/data
+      - /home/ubuntu/demodata:/R/demodata
 
-volumes:
- r_vol:
-
+networks:
+  default:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.16.238.0/24
+          gateway: 172.16.238.1

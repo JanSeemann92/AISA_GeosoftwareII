@@ -23,7 +23,6 @@ app.set('view engine', 'pug');
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(express.static(path.join(__dirname, 'public')));
 
 // adding routes
 app.use('/', homeRouter); 
@@ -46,6 +45,7 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
+// multer
 const multer = require('multer'); 
 const fs = require('fs');
 
@@ -57,22 +57,22 @@ const handleError = (err, res) => {
   };
 
   const upload = multer({
-    dest: "C:/Users/katha/Documents/GitHub/AISA_GeosoftwareII/"
-    // you might also want to set some limits: https://github.com/expressjs/multer#limits
+    dest: "/app"
   });
 
+  // Saving the upload file
   app.post(
     "/upload",
-    upload.single("upload" /* name attribute of <file> element in your form */),
+    upload.single("upload" ),
     (req, res) => {
       const tempPath = req.file.path;
-      const targetPath1 = path.join(__dirname, "./Backend/demodata/upload/upload.geojson");
-      const targetPath2 = path.join(__dirname, "./Backend/demodata/upload/upload.gpkg");
-      const targetPath3 = path.join(__dirname, "./Backend/demodata/upload/upload.rds");
+      const targetPath1 = path.join(__dirname, "./data/upload/upload.geojson");
+      const targetPath2 = path.join(__dirname, "./data/upload/upload.gpkg");
+      const targetPath3 = path.join(__dirname, "./data/upload/upload.rds");
 
       if (path.extname(req.file.originalname).toLowerCase() === ".geojson" || path.extname(req.file.originalname).toLowerCase() === ".gpkg" || path.extname(req.file.originalname).toLowerCase() === ".rds"){
       if (path.extname(req.file.originalname).toLowerCase() === ".geojson") {
-        fs.rename(tempPath, targetPath1, err => {
+        fs.copyFile(tempPath, targetPath1, err => {
           if (err) return handleError(err, res);
   
           res
@@ -80,7 +80,7 @@ const handleError = (err, res) => {
             .end
         })};
       if (path.extname(req.file.originalname).toLowerCase() === ".gpkg") {
-        fs.rename(tempPath, targetPath2, err => {
+        fs.copyFile(tempPath, targetPath2, err => {
           if (err) return handleError(err, res);
   
           res
@@ -88,7 +88,7 @@ const handleError = (err, res) => {
             .end
         })};
       if (path.extname(req.file.originalname).toLowerCase() === ".rds") {
-        fs.rename(tempPath, targetPath3, err => {
+        fs.copyFile(tempPath, targetPath3, err => {
           if (err) return handleError(err, res);
   
           res

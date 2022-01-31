@@ -1,5 +1,7 @@
 "use strict" 
 
+var path = "http://44.234.41.163:8782/verzeichnis"
+
 /**
  * Add icon for the suggested training points
  * Icon-source: Icons erstellt von "https://www.flaticon.com/de/autoren/hasim-safii" hasim safii from "https://www.flaticon.com/de/" 
@@ -16,7 +18,7 @@ var icon = L.icon({
  * function to display the layer on the map.
  */
 
- var url_to_geotiff_file = "http://127.0.0.1:25118/demodata/createdbyAISAtool/aoaOutput.tif";
+ var url_to_geotiff_file = path + "/demodata/createdbyAISAtool/aoaOutput.tif";
  fetch(url_to_geotiff_file).then(response => response.arrayBuffer()).then(arrayBuffer => {
     parseGeoraster(arrayBuffer).then(georaster => {
         const min = 0;
@@ -95,16 +97,16 @@ var icon = L.icon({
  */
 
  $.ajax({
-    url: "http://127.0.0.1:25118/demodata/createdbyAISAtool/labelsOutput.json",
+    url: path +  "/demodata/createdbyAISAtool/labelsOutput.json",
     type: 'GET',
     dataType: 'json', 
     success: function(res) {
         var status = res[0];
         console.log(status)
-        if(status == 'trainingdata'){
+        if(status == 'demo'){
             var xhr = new XMLHttpRequest();
-            xhr.open('GET', "http://127.0.0.1:25118/demodata/createdbyAISAtool/trainingsitesOutput.geojson");
-            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.open('GET', path +  "/demodata/createdbyAISAtool/trainingsitesOutput.geojson");
+            //xhr.setRequestHeader('Content-Type', 'application/json');
             xhr.onload = function() {
             if (xhr.status === 200) {
             var polygons = L.geoJSON(JSON.parse(xhr.responseText))
@@ -117,7 +119,7 @@ var icon = L.icon({
         var labels = res
         labels.splice(0,1)
         console.log(labels)
-        var url_to_geotiff_file = "http://127.0.0.1:25118/demodata/createdbyAISAtool/predictionOutput.tif";
+        var url_to_geotiff_file = path + "/demodata/createdbyAISAtool/predictionOutput.tif";
         fetch(url_to_geotiff_file).then(response => response.arrayBuffer()).then(arrayBuffer => {
             parseGeoraster(arrayBuffer).then(georaster => {
                 const min = 0;
@@ -228,7 +230,7 @@ var icon = L.icon({
  * and then calls the createSamplingLayer(layertraingspots) function to display the layer on the map.
  */
  $.ajax({
-    url: "http://127.0.0.1:25118/demodata/createdbyAISAtool/samplingLocationsOutput.geojson",
+    url: path + "/demodata/createdbyAISAtool/samplingLocationsOutput.geojson",
     type: 'GET',
     dataType: 'json',
     success: function(res) {
