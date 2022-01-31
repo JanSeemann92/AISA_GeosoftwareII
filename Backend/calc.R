@@ -648,7 +648,7 @@ newBeakr() %>%
       model <-TrainModel(trainingsites, sentinel_combined)
       expect_type(model, "list")
       
-      predictionLULC <- Prediction(sentinel_combined,model)
+      predictionLULC <- predict(sentinel_combined,model)
       expect_s4_class(predictionLULC,"RasterLayer")
       
       areaOA <- AOA (sentinel_combined,model)
