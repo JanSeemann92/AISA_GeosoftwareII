@@ -660,7 +660,7 @@ newBeakr() %>%
     })
     #> Test passed 
         res$setHeader("Access-Control-Allow-Origin", "*")
-    return("Tests done. See server console for results")
+    return("Tests successful")
   }) %>%
 
  
