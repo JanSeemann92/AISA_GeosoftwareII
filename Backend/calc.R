@@ -567,6 +567,7 @@ newBeakr() %>%
     label <- model$levels
     labellength <- length(label) # get number of labels
     label <- c(label[labellength], label[1:(labellength-1)]) # to array + change order: last one on first position
+    print(label)
     # add type of workflow and sampling information
     label <- c("trainingdata", sampling, label)
     # convert to json for export
