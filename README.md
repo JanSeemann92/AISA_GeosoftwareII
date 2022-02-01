@@ -54,6 +54,7 @@ Please keep in mind that if you run the containers for the first time, it might 
 ## Getting Started with Cloud Vision
 
 User info: On machines with limited memory big data sets can crash the program! 
+
 To get an overview of our tool we provide a step-by-step tutorial:
 
 ### Step 1
