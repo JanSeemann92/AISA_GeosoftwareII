@@ -31,7 +31,7 @@ Once you're at `root@...:/app` enter `#npm run test` and all frontend related te
 For testing the backend on AWS Server start the program like mentioned above. Open `http://44.234.41.163:8782/runTests` in your browser. The result of the test will be shown after a calculation time comparable to the calculation time of the demo.
 
 ### Docker Hub
-The frontend and backend image are also available in the aisa_vision_cloud repository on [Docker Hub](https://hub.docker.com/repository/docker/antonia123/aisa_cloud_vision):
+The frontend and backend container are also available in the aisa_vision_cloud repository on [Docker Hub](https://hub.docker.com/repository/docker/antonia123/aisa_cloud_vision):
 
 - `antonia123/aisafrontend`
 - `antonia123/aisabackend`
