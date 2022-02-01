@@ -11,7 +11,7 @@ Cloud Vision offers a simple tool for estimating the applicability of models for
 Only relevant if installed without docker: Node >= 14 & R >= 4.1.2
 
 ### Start
-To start the programme on AWS Server use: 
+To start the program on AWS Server use: 
 ```sh
 $ cd AISA_GeosoftwareII
 $ docker-compose up
@@ -45,12 +45,13 @@ The frontend and backend image are also available in the aisa_vision_cloud repos
  $ docker images antonia123/aisa_cloud_vision
  ````
  -- hier Bild einfügen, wie es aussehen sollte --
-Now you can start the programme with `§ docker-compose up`
+Now you can start the program with `§ docker-compose up`
 
 Please keep in mind that if you run the containers for the first time, it might take about 60 minutes to install all dependencies! If you are running Cloud Vision on your own server or device, you have to update all directory paths within the code. 
 
 ## Getting Started with Cloud Vision
 
+User info: On machines with limited memory big data sets can crash the program! 
 To get an overview of our tool we provide a step-by-step tutorial:
 
 ### Step 1
@@ -113,12 +114,16 @@ The following parameters can be chosen by the user within the webtool:
 
 The images contain the bands B02, B03, B04, B05, B06, B07, B08, B11, B12 and B8A and are filtered by the given cloud cover, given AOI (and if needed the bounding box of training data) and by time. The time filter is set to 01.01.2020 till 31.12.2020 by default. Supplementary to the bands the NDVI (B08-B04/B08+B04) is added as a predictor. Normally there will be several images (up to max. 70) fitting these parameters. Therefore images will be subsampled by using mean values of all images for every pixel using the method median.
 
+The number of images is limited to 70 images to enable the program to run on a machine with 16GB memory. 
+If the AOI or the allocation of the training polygons is too widespread, the program may abort. 
+
 ### Preprocessing Training Data and Model Training
 First only those pixel which are located within the training polygons are extracted from the sentinel-2 images and the information on LULC from the labels is added. Then the data is reduced to only 10% of each polygon. In the next step the model is trained by random forest with 200 trees using the Labels (which store the LULC classes) and the sentinel bands as predictors. The model is validated by spatial cross validation with three folds and the polygons as spatial units. The final model is chosen by best value for kappa. 
 
 ### Prediction and Estimating AOA
 The prediction is made for the AOI by using the appropriate sentinel-2 image and a model. The model used is either the one uploaded or the one trained before (depending on user input). Likewise the AOA is estimated for the AOI using the image and the model.
 
+If the datasets are too big for the memory of the machine to handle, the program may abort. 
 
 ### Suggesting New Sampling Locations
 New sampling locations are chosen randomly, but only from those areas outside the AOA. The default number of newly suggested sampling locations is 50, but it can be less or even 0 for very small or no areas outside the AOA. If there are not any areas ouside the AOA, no suggestions for sampling locations will be provided.
