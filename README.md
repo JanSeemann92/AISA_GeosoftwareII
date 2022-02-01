@@ -36,7 +36,7 @@ The frontend and backend image are also available in the aisa_vision_cloud repos
 - `antonia123/aisafrontend`
 - `antonia123/aisabackend`
  
- To pull our Cloud Vision repository from Docker Hub which contains all required images and the docker-compose.yml enter:
+ To pull our Cloud Vision repository from Docker Hub enter:
  ````sh
  $ docker pull --all-tags antonia123/aisa_cloud_vision
  ````
