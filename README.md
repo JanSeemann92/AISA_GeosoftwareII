@@ -45,7 +45,7 @@ The frontend and backend image are also available in the aisa_vision_cloud repos
  $ docker images antonia123/aisa_cloud_vision
  ````
 <p align="center">
-  <img width="460" src="./public/stylesheets/docker images.jpg">
+  <img width="460" src="./public/stylesheets/docker_images.jpg">
 </p>
 Now you can start the program with `$ docker-compose up`
 
