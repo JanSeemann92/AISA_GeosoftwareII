@@ -160,7 +160,7 @@ slider.oninput = function() {
                       document.getElementById('start').style.display = 'none';
                       document.getElementById('msgstart').style.display = 'block';
                       $('#loading').html("<img src= 'https://media.giphy.com/media/lPcbCcPfACi3ncc3cv/giphy.gif' width ='150' />")
-                      window.setTimeout(sendValuesTrainingdata, 1000, format, ymin, xmin, ymax, xmax, cloudcover, resolution);
+                      window.setTimeout(sendValuesTrainingdata, 2000, format, ymin, xmin, ymax, xmax, cloudcover, resolution);
                       return
                     }
                     // Show message if format is invalid
@@ -193,7 +193,7 @@ slider.oninput = function() {
                   document.getElementById('start').style.display = 'none';
                   document.getElementById('msgstart').style.display = 'block';
                   $('#loading').html("<img src= 'https://media.giphy.com/media/lPcbCcPfACi3ncc3cv/giphy.gif' width ='150' />")
-                  window.setTimeout(sendValuesTrainingdata, 1000, format, ymin, xmin, ymax, xmax, cloudcover, resolution);
+                  window.setTimeout(sendValuesTrainingdata, 2000, format, ymin, xmin, ymax, xmax, cloudcover, resolution);
                   return
                 }
                 // Show message when file is empty
@@ -222,7 +222,7 @@ slider.oninput = function() {
                   document.getElementById('start').style.display = 'none';
                   document.getElementById('msgstart').style.display = 'block';
                   $('#loading').html("<img src= 'https://media.giphy.com/media/lPcbCcPfACi3ncc3cv/giphy.gif' width ='150' />")
-                  window.setTimeout(sendValuesModel, 1000, ymin, xmin, ymax, xmax, cloudcover, resolution);
+                  window.setTimeout(sendValuesModel, 2000, ymin, xmin, ymax, xmax, cloudcover, resolution);
                   return
                 }
                 // Show message when file is empty
@@ -302,7 +302,7 @@ slider.oninput = function() {
                       document.getElementById('start').style.display = 'none';
                       document.getElementById('msgstart').style.display = 'block';
                       $('#loading').html("<img src= 'https://media.giphy.com/media/lPcbCcPfACi3ncc3cv/giphy.gif' width ='150' />")
-                      window.setTimeout(sendValuesTrainingdata, 1000, format, ymin, xmin, ymax, xmax, cloudcover, resolution);
+                      window.setTimeout(sendValuesTrainingdata, 2000, format, ymin, xmin, ymax, xmax, cloudcover, resolution);
                       return
                     }
                     // Show message if format is invalid
@@ -335,7 +335,7 @@ slider.oninput = function() {
                     document.getElementById('start').style.display = 'none';
                     document.getElementById('msgstart').style.display = 'block';
                     $('#loading').html("<img src= 'https://media.giphy.com/media/lPcbCcPfACi3ncc3cv/giphy.gif' width ='150' />")
-                    window.setTimeout(sendValuesTrainingdata, 1000, format, ymin, xmin, ymax, xmax, cloudcover, resolution);
+                    window.setTimeout(sendValuesTrainingdata, 2000, format, ymin, xmin, ymax, xmax, cloudcover, resolution);
                     return
                   }
                   // Show message when file is empty
@@ -364,7 +364,7 @@ slider.oninput = function() {
                     document.getElementById('start').style.display = 'none';
                     document.getElementById('msgstart').style.display = 'block'; 
                     $('#loading').html("<img src= 'https://media.giphy.com/media/lPcbCcPfACi3ncc3cv/giphy.gif' width ='150' />")
-                    window.setTimeout(sendValuesModel, 1000, ymin, xmin, ymax, xmax, cloudcover, resolution);
+                    window.setTimeout(sendValuesModel, 2000, ymin, xmin, ymax, xmax, cloudcover, resolution);
                     return
                   }
                   // Show message when file is empty
@@ -477,7 +477,7 @@ slider.oninput = function() {
                       document.getElementById('start').style.display = 'none';
                       document.getElementById('msgstart').style.display = 'block';
                       $('#loading').html("<img src= 'https://media.giphy.com/media/lPcbCcPfACi3ncc3cv/giphy.gif' width ='150' />")
-                      window.setTimeout(sendValuesTrainingdata, 1000, format, ymin, xmin, ymax, xmax, cloudcover, resolution);
+                      window.setTimeout(sendValuesTrainingdata, 2000, format, ymin, xmin, ymax, xmax, cloudcover, resolution);
                       return
                     }
                     // Show message if format is invalid
@@ -510,7 +510,7 @@ slider.oninput = function() {
                     document.getElementById('start').style.display = 'none';
                     document.getElementById('msgstart').style.display = 'block';
                     $('#loading').html("<img src= 'https://media.giphy.com/media/lPcbCcPfACi3ncc3cv/giphy.gif' width ='150' />")
-                    window.setTimeout(sendValuesTrainingdata, 1000, format, ymin, xmin, ymax, xmax, cloudcover, resolution);
+                    window.setTimeout(sendValuesTrainingdata, 2000, format, ymin, xmin, ymax, xmax, cloudcover, resolution);
                     return
                   }
                   // Show message when file is empty
@@ -539,7 +539,7 @@ slider.oninput = function() {
                     document.getElementById('start').style.display = 'none';
                     document.getElementById('msgstart').style.display = 'block';
                     $('#loading').html("<img src= 'https://media.giphy.com/media/lPcbCcPfACi3ncc3cv/giphy.gif' width ='150' />")
-                    window.setTimeout(sendValuesModel, 1000, ymin, xmin, ymax, xmax, cloudcover, resolution);
+                    window.setTimeout(sendValuesModel, 2000, ymin, xmin, ymax, xmax, cloudcover, resolution);
                   }
                   // Show message when file is empty
                   else{
@@ -630,7 +630,7 @@ slider.oninput = function() {
                       document.getElementById('start').style.display = 'none';
                       document.getElementById('msgstart').style.display = 'block';
                       $('#loading').html("<img src= 'https://media.giphy.com/media/lPcbCcPfACi3ncc3cv/giphy.gif' width ='150' />")
-                      window.setTimeout(sendValuesTrainingdata, 1000, format, ymin, xmin, ymax, xmax, cloudcover, resolution);
+                      window.setTimeout(sendValuesTrainingdata, 2000, format, ymin, xmin, ymax, xmax, cloudcover, resolution);
                       return
                     }
                     // Show message if format is invalid
@@ -663,7 +663,7 @@ slider.oninput = function() {
                     document.getElementById('start').style.display = 'none';
                     document.getElementById('msgstart').style.display = 'block';
                     $('#loading').html("<img src= 'https://media.giphy.com/media/lPcbCcPfACi3ncc3cv/giphy.gif' width ='150' />")
-                    window.setTimeout(sendValuesTrainingdata, 1000, format, ymin, xmin, ymax, xmax, cloudcover, resolution);
+                    window.setTimeout(sendValuesTrainingdata, 2000, format, ymin, xmin, ymax, xmax, cloudcover, resolution);
                     return
                   }
                   // Show message when file is empty
@@ -692,7 +692,7 @@ slider.oninput = function() {
                     document.getElementById('start').style.display = 'none';
                     document.getElementById('msgstart').style.display = 'block';
                     $('#loading').html("<img src= 'https://media.giphy.com/media/lPcbCcPfACi3ncc3cv/giphy.gif' width ='150' />")
-                    window.setTimeout(sendValuesModel, 1000, ymin, xmin, ymax, xmax, cloudcover, resolution);
+                    window.setTimeout(sendValuesModel, 2000, ymin, xmin, ymax, xmax, cloudcover, resolution);
                     return
                   }
                   // Show message when file is empty
