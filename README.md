@@ -44,8 +44,10 @@ The frontend and backend image are also available in the aisa_vision_cloud repos
  ````sh
  $ docker images antonia123/aisa_cloud_vision
  ````
- -- hier Bild einfügen, wie es aussehen sollte --
-Now you can start the program with `§ docker-compose up`
+<p align="center">
+  <img width="460" src="./public/stylesheets/docker images.jpg">
+</p>
+Now you can start the program with `$ docker-compose up`
 
 Please keep in mind that if you run the containers for the first time, it might take about 60 minutes to install all dependencies! If you are running Cloud Vision on your own server or device, you have to update all directory paths within the code. 
 
