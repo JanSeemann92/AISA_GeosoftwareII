@@ -121,7 +121,7 @@ var icon = L.icon({
         fetch(url_to_geotiff_file).then(response => response.arrayBuffer()).then(arrayBuffer => {
             parseGeoraster(arrayBuffer).then(georaster => {
                 const min = 0;
-                const max = labels.length;
+                const max = labels.length+1;
                 const range = max-min;
                 console.log(chroma.brewer);
                 var scale = chroma.scale(['#a50026',

@@ -443,9 +443,7 @@ newBeakr() %>%
     }
 
     # get labels of LULC (needed for legend on map)
-    label <- model$levels
-    labellength <- length(label) # get number of labels
-    label <- c(label[labellength], label[1:(labellength-1)]) # to array + change order: last one on first position
+    label <- c(model$levels)
     # add type of workflow and sampling information
     label <- c("model", sampling , label)
     # convert to json for export
@@ -564,10 +562,7 @@ newBeakr() %>%
     }
 
     # get labels of LULC (needed for legend on map)
-    label <- model$levels
-    labellength <- length(label) # get number of labels
-    label <- c(label[labellength], label[1:(labellength-1)]) # to array + change order: last one on first position
-    print(label)
+    label <- c(model$levels)
     # add type of workflow and sampling information
     label <- c("trainingdata", sampling, label)
     # convert to json for export
@@ -615,9 +610,7 @@ newBeakr() %>%
     samplingLocations <- NewSamplingLocations(areaAOA)
 
     # get labels of LULC (needed for legend on map)
-    label <- model$levels
-    labellength <- length(label) # get number of labels
-    label <- c(label[labellength], label[1:(labellength-1)]) # to array + change order: last one on first position
+    label <- c(model$levels)
     # add type of workflow
     label <- c("demo", label)
     # convert to json for export
